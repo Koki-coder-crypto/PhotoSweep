@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "PhotoSweep",
+    "slug": "photosweep",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "photosweep",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.kokicoder.photosweep",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "PhotoSweep uses your photo library only to help you review and remove unwanted photos. Analysis stays on your device.",
+        "NSPhotoLibraryAddUsageDescription": "PhotoSweep needs access to manage photos you choose to keep or remove."
+      },
+      "buildNumber": "1",
+      "deploymentTarget": "15.0",
+      "icon": "./assets/icon.png",
+      "privacyManifests": {
+        "NSPrivacyAccessedAPITypes": []
+      }
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "PhotoSweep uses your photo library only to help you review and remove unwanted photos. Analysis stays on your device.",
+          "savePhotosPermission": "PhotoSweep needs access to manage the photos you choose.",
+          "isAccessMediaLocationEnabled": false
+        }
+      ],
+      "expo-iap"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FFFFFF"
+    }
+  }
+}

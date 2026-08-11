@@ -1,0 +1,37 @@
+{
+  "name": "photosweep",
+  "version": "1.0.0",
+  "private": true,
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start",
+    "ios": "expo start --ios",
+    "android": "expo start --android",
+    "web": "expo start --web",
+    "typecheck": "tsc --noEmit",
+    "build:ios": "eas build --platform ios --profile production",
+    "submit:ios": "eas submit --platform ios --profile production",
+    "doctor": "npx expo-doctor",
+    "check": "npm run typecheck && npm run doctor",
+    "test:logic": "node tests/scanner.logic.test.mjs"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^15.0.3",
+    "@react-native-async-storage/async-storage": "^2.2.0",
+    "expo": "~57.0.0",
+    "expo-haptics": "~57.0.1",
+    "expo-iap": "^4.7.0",
+    "expo-linear-gradient": "~15.0.8",
+    "expo-media-library": "~57.0.3",
+    "expo-router": "~57.0.7",
+    "expo-status-bar": "~57.0.1",
+    "react": "19.2.0",
+    "react-native": "0.86.2",
+    "react-native-safe-area-context": "~5.6.2",
+    "react-native-screens": "~4.20.0"
+  },
+  "devDependencies": {
+    "@types/react": "~19.2.2",
+    "typescript": "~5.9.2"
+  }
+}
