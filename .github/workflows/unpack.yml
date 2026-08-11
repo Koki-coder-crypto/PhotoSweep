@@ -14,19 +14,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Unpack PhotoSweep zip
+      - name: Unpack PhotoSweep
         run: |
           rm -rf /tmp/photosweep
           mkdir -p /tmp/photosweep
 
           unzip -o PhotoSweep-v3.zip -d /tmp/photosweep
 
-          shopt -s dotglob
-          cp -R /tmp/photosweep/PhotoSweep-v3/* .
+          rsync -av \
+            --exclude='.github/workflows/' \
+            /tmp/photosweep/PhotoSweep-v3/ ./
 
           rm -f PhotoSweep-v3.zip
 
-      - name: Commit restored project structure
+      - name: Commit restored project
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
