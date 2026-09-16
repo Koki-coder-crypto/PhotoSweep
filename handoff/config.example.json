@@ -1,0 +1,26 @@
+{
+  "status": "PROPOSAL_ONLY_NOT_PRODUCTION_CONFIGURATION",
+  "bundleIdentifierObserved": "com.kokicoder.photosweep",
+  "iosMonthlyProductIdProposed": "com.kokicoder.photosweep.pro.monthly",
+  "iosAnnualProductIdProposed": "com.kokicoder.photosweep.pro.annual",
+  "legacyLifetimeProductIdObserved": "com.kokicoder.photosweep.pro.lifetime",
+  "subscriptionGroupId": null,
+  "easProjectId": null,
+  "dailyFreeUniqueDecisions": 50,
+  "freeBatchSize": 20,
+  "proBatchChoices": [
+    20,
+    50,
+    100
+  ],
+  "sampleMonthlyPriceJpy": 480,
+  "sampleAnnualPriceJpy": 2400,
+  "proposedIntroDays": 7,
+  "supportEmail": null,
+  "privacyUrl": null,
+  "termsUrl": null,
+  "operatorName": null,
+  "enableRemoteAnalytics": false,
+  "enableProductionDemoFixtures": false,
+  "note": "sample price and period MUST NOT be used as a release fallback; read StoreKit metadata. Secrets do not belong here."
+}

@@ -1,19 +1,15 @@
-# Monetization hypothesis — path toward ¥100k/month
+# 無料・Proの現行仕様
 
-Target, not a revenue guarantee.
+| 機能 | 無料 | Pro |
+|---|---|---|
+| 新しい写真の仕分け | 1日50枚 | 上限なし |
+| 月別・スクショ | 利用可 | 利用可 |
+| 確認・削除・取り消し・保存 | 利用可 | 利用可 |
+| 期間指定・並び替え | 月別へ無料導線 | 利用可 |
+| 区切り | 20枚（残数以下） | 20 / 50 / 100枚 |
 
-Launch offer:
-- Free: full scan + up to 30 deletions
-- Pro lifetime: starting hypothesis ¥2,480 one-time
-- No weekly subscription and no forced trial in v1
+候補の商品IDは `com.kokicoder.photosweep.pro.monthly` と `com.kokicoder.photosweep.pro.annual`。同一サブスクリプショングループに登録します。月480円・年2,400円・対象者7日無料は設定候補であり、実アプリはStoreKitの商品・ローカライズ済み価格・資格だけを表示します。取得失敗や資格不明では無料体験を確約しません。
 
-Rough gross-sales math before Apple's commission/taxes/refunds:
-- ¥2,480 lifetime: 41 purchases/month ≈ ¥101,680 gross booked sales/month.
+無料枠は端末のローカル日付に基づき、同じ写真の取り消し・再判断で二重消費しません。スキップ・確認・削除は消費しません。Pro開始前に使った枠は失効後も同日の台帳として維持します。時計巻戻しやタイムゾーン切替による再付与を抑止します。アプリの削除・再インストールをまたぐ厳密な不正利用防止は、アカウント・サーバーを持たない構成では保証しません。
 
-Initial funnel targets to validate:
-- Product page → install: 25%+
-- Scan started → first cleanup: 65%+
-- Paywall viewed → lifetime purchase: 4–8%+
-- Rating prompt only after a successful cleanup, never before value is delivered.
-
-Do not market “AI duplicate detection” or exact storage savings until implementation supports those claims.
+旧買い切り商品は新規販売しません。既存の正規購入がStoreKitで検証できる場合だけ権利を尊重します。古いローカルisProフラグだけでは解放しません。

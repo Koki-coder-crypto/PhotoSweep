@@ -1,0 +1,567 @@
+{
+  "device": "iPhone 15",
+  "iosVersionReported": "26.61",
+  "iosVersionVerified": null,
+  "buildId": null,
+  "testedAt": null,
+  "tests": [
+    {
+      "id": "UI-S01",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S02",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S03",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S04",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S05",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S06",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S07",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S08",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S09",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S10",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S11",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S12",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S13",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S14",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S15",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S16",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S17",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S18",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S19",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S20",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S21",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S22",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S23",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S24",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S25",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S26",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S27",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S28",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S29",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S30",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S31",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S32",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S33",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S34",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S35",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S36",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S37",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S38",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S39",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S40",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S41",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S42",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S43",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S44",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S45",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S46",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S47",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-S48",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-01",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-02",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-03",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-04",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-05",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-06",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-07",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-08",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-09",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-10",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-11",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-12",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-13",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-14",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-15",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-16",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-17",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "VAR-18",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "PHOTO-01",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "PHOTO-02",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "PHOTO-03",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "PHOTO-04",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "PHOTO-05",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "PHOTO-06",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "QUOTA-01",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "QUOTA-02",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "QUOTA-03",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "QUOTA-04",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "QUOTA-05",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "BILL-01",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "BILL-02",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "BILL-03",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "BILL-04",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "BILL-05",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "BILL-06",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "BILL-07",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "BILL-08",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "BILL-09",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UX-01",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UX-02",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UX-03",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UX-04",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "NOTIFY-01",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "RELEASE-01",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "RELEASE-02",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "target": [
+        "S18",
+        "S19"
+      ],
+      "requires": [
+        "real_product_loaded",
+        "verified_intro_eligible",
+        "actual_free_trial_is_1_week"
+      ],
+      "otherwise": "S48 / S20 / S29"
+    },
+    {
+      "target": [
+        "S20"
+      ],
+      "requires": [
+        "real_product_loaded",
+        "intro_ineligible_or_no_trial_offer"
+      ],
+      "otherwise": "S48 / S29"
+    },
+    {
+      "target": [
+        "S21"
+      ],
+      "requires": [
+        "verified_trial_entitlement"
+      ],
+      "otherwise": "S30 / S31"
+    },
+    {
+      "target": [
+        "S26"
+      ],
+      "requires": [
+        "verified_paid_subscription"
+      ],
+      "otherwise": "S30 / S28"
+    },
+    {
+      "target": [
+        "S16"
+      ],
+      "requires": [
+        "native_deletion_success_confirmed",
+        "deleted_count_greater_than_zero"
+      ],
+      "otherwise": "S40 / S13 / S14"
+    },
+    {
+      "target": [
+        "S08"
+      ],
+      "requires": [
+        "accessible_photo_loaded",
+        "pro_or_free_remaining_or_revising_existing_decision"
+      ],
+      "otherwise": "S17 / S39"
+    },
+    {
+      "target": [
+        "S15"
+      ],
+      "requires": [
+        "explicit_candidate_ids",
+        "native_confirmation_accepted"
+      ],
+      "otherwise": "S13"
+    }
+  ],
+  "notes": "遷移先は条件による候補。画面が存在するだけで条件を飛ばして表示しない。OS管理画面は自作しない。"
+}

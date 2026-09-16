@@ -1,0 +1,48 @@
+{
+  "recordedAt": "2026-09-16T16:09:04.2995671Z",
+  "environment": "Windows / Node 24.13.0 / Expo SDK 57",
+  "automated": {
+    "expoDoctor": "21/21 PASS",
+    "typecheck": "PASS",
+    "domainSqlAndDependencies": {
+      "tests": 37,
+      "status": "PASS"
+    },
+    "npmAudit": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "screensProviderAndStoreAdapter": {
+      "status": "PASS",
+      "tests": 90,
+      "nativeApis": "mocked"
+    }
+  },
+  "web": {
+    "status": "RENDERED",
+    "data": "development demonstration photos and prices only",
+    "nativeGesturePerformance": "NOT_RUN",
+    "responsiveWidths": [
+      360,
+      375,
+      390,
+      430
+    ],
+    "catalogStates": 66,
+    "sequentialDecisionActions": 100
+  },
+  "native": {
+    "storeKitSandbox": "NOT_RUN",
+    "iosVerified": false,
+    "acceptanceStatus": "NOT_RUN",
+    "build": "BLOCKED_EXPO_LOGIN",
+    "device": "iPhone 15",
+    "iosReported": "26.61",
+    "acceptanceCases": 93
+  },
+  "release": "BLOCKED_OWNER_CONFIGURATION_AND_NATIVE_VERIFICATION"
+}

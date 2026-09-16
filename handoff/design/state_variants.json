@@ -1,0 +1,92 @@
+[
+  {
+    "parent": "S03",
+    "name": "list_loading",
+    "rule": "Skeleton。偽の進捗%なし。読めた範囲から表示。"
+  },
+  {
+    "parent": "S06",
+    "name": "pro_filter_edit",
+    "rule": "日付・順序を編集可能。前後日付不正はインラインエラー。"
+  },
+  {
+    "parent": "S08",
+    "name": "free_remaining_lt_20",
+    "rule": "min(20, remainingDaily, remainingAssets)で区切る。全画面の数字を一致。"
+  },
+  {
+    "parent": "S12",
+    "name": "all_kept",
+    "rule": "残すN・候補0。「削除候補の確認」を出さず、続行／終了へ。"
+  },
+  {
+    "parent": "S15",
+    "name": "all_failed_or_unconfirmed",
+    "rule": "成功枚数を推定しない。「結果を確認できませんでした」。写真一覧再読み込みと候補保持。"
+  },
+  {
+    "parent": "S13",
+    "name": "delete_cancelled",
+    "rule": "候補一覧に戻す。仕分け状態・枠そのまま。成功演出なし。"
+  },
+  {
+    "parent": "S28",
+    "name": "daily_quota_previously_used",
+    "rule": "契約切れの瞬間に無料枠を50に再設定しない。台帳の残数を表示。"
+  },
+  {
+    "parent": "S26",
+    "name": "billing_grace",
+    "rule": "確認済みgrace期限内はPro維持、支払更新への穏やかな案内。"
+  },
+  {
+    "parent": "S26",
+    "name": "billing_retry_expired",
+    "rule": "graceでなければ検証済み有効期限までのみ。データ削除不可。"
+  },
+  {
+    "parent": "S30",
+    "name": "ask_to_buy",
+    "rule": "保護者の承認待ち。制限回避や再購入を促さない。"
+  },
+  {
+    "parent": "S38",
+    "name": "restricted",
+    "rule": "端末の制限を説明、無意味な再リクエストなし。"
+  },
+  {
+    "parent": "S20",
+    "name": "purchase_disabled",
+    "rule": "この端末では購入できません。無料導線。制限回避案内なし。"
+  },
+  {
+    "parent": "S25",
+    "name": "verified_lifetime_legacy",
+    "rule": "既存買い切り権利を維持。購入済み（買い切り）を表示。再契約を求めない。"
+  },
+  {
+    "parent": "S35",
+    "name": "notification_denied",
+    "rule": "トグルをオンに偽装しない。端末の設定へ／戻る。"
+  },
+  {
+    "parent": "S36",
+    "name": "reset_history_confirm",
+    "rule": "記録だけリセット。写真、正規契約、当日利用枠は変えない。"
+  },
+  {
+    "parent": "S41",
+    "name": "email_unavailable",
+    "rule": "問い合わせ先をコピー。メールを送信したと表示しない。"
+  },
+  {
+    "parent": "S43",
+    "name": "full_policy_page",
+    "rule": "正規の公開URLまたは確定全文をアプリ内表示。草稿だけで公開しない。"
+  },
+  {
+    "parent": "S44",
+    "name": "full_terms_page",
+    "rule": "運営者情報を確定し公開ページに移動。未設定はリリースブロッカー。"
+  }
+]

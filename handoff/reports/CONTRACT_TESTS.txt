@@ -1,0 +1,346 @@
+TAP version 13
+# Subtest: 未検証isPro相当では解放しない
+ok 1 - 未検証isPro相当では解放しない
+  ---
+  duration_ms: 1.255118
+  type: 'test'
+  ...
+# Subtest: 検証済み有効trialは解放
+ok 2 - 検証済み有効trialは解放
+  ---
+  duration_ms: 0.18262
+  type: 'test'
+  ...
+# Subtest: 期限ちょうどは失効
+ok 3 - 期限ちょうどは失効
+  ---
+  duration_ms: 0.106796
+  type: 'test'
+  ...
+# Subtest: 更新停止でも期限内は有効
+ok 4 - 更新停止でも期限内は有効
+  ---
+  duration_ms: 1.106937
+  type: 'test'
+  ...
+# Subtest: 取消済み権利は無効
+ok 5 - 取消済み権利は無効
+  ---
+  duration_ms: 0.176095
+  type: 'test'
+  ...
+# Subtest: 正当な旧買い切りは保持
+ok 6 - 正当な旧買い切りは保持
+  ---
+  duration_ms: 0.116352
+  type: 'test'
+  ...
+# Subtest: graceは検証済みの期限内だけ
+ok 7 - graceは検証済みの期限内だけ
+  ---
+  duration_ms: 0.108943
+  type: 'test'
+  ...
+# Subtest: 請求再試行だけで無期限Proにしない
+ok 8 - 請求再試行だけで無期限Proにしない
+  ---
+  duration_ms: 0.182811
+  type: 'test'
+  ...
+# Subtest: 49から50枚目は許可
+ok 9 - 49から50枚目は許可
+  ---
+  duration_ms: 0.499236
+  type: 'test'
+  ...
+# Subtest: 51枚目の新規判断は不許可
+ok 10 - 51枚目の新規判断は不許可
+  ---
+  duration_ms: 0.509144
+  type: 'test'
+  ...
+# Subtest: 上限でも同じ写真の再判断は枠不消費
+ok 11 - 上限でも同じ写真の再判断は枠不消費
+  ---
+  duration_ms: 0.18205
+  type: 'test'
+  ...
+# Subtest: keepもcandidateと同じ枠
+ok 12 - keepもcandidateと同じ枠
+  ---
+  duration_ms: 0.093312
+  type: 'test'
+  ...
+# Subtest: 見るだけでは枠不消費
+ok 13 - 見るだけでは枠不消費
+  ---
+  duration_ms: 0.073141
+  type: 'test'
+  ...
+# Subtest: skipは枠不消費
+ok 14 - skipは枠不消費
+  ---
+  duration_ms: 0.151455
+  type: 'test'
+  ...
+# Subtest: undoで利用台帳は消さない
+ok 15 - undoで利用台帳は消さない
+  ---
+  duration_ms: 0.731907
+  type: 'test'
+  ...
+# Subtest: 永続化失敗では枠不消費
+ok 16 - 永続化失敗では枠不消費
+  ---
+  duration_ms: 0.101183
+  type: 'test'
+  ...
+# Subtest: Proは無料台帳を上書きしない
+ok 17 - Proは無料台帳を上書きしない
+  ---
+  duration_ms: 0.160881
+  type: 'test'
+  ...
+# Subtest: 重複asset台帳は重複カウントしない
+ok 18 - 重複asset台帳は重複カウントしない
+  ---
+  duration_ms: 0.085377
+  type: 'test'
+  ...
+# Subtest: 上限でも候補の本削除は無料
+ok 19 - 上限でも候補の本削除は無料
+  ---
+  duration_ms: 0.092632
+  type: 'test'
+  ...
+# Subtest: 上限でも取り消しは無料
+ok 20 - 上限でも取り消しは無料
+  ---
+  duration_ms: 0.065086
+  type: 'test'
+  ...
+# Subtest: 上限でも契約管理は無料
+ok 21 - 上限でも契約管理は無料
+  ---
+  duration_ms: 0.081681
+  type: 'test'
+  ...
+# Subtest: 高度フィルタはPro
+ok 22 - 高度フィルタはPro
+  ---
+  duration_ms: 0.061678
+  type: 'test'
+  ...
+# Subtest: 残枠10なら10枚へ短縮
+ok 23 - 残枠10なら10枚へ短縮
+  ---
+  duration_ms: 0.094277
+  type: 'test'
+  ...
+# Subtest: 無料は要求100でも20枚区切り
+ok 24 - 無料は要求100でも20枚区切り
+  ---
+  duration_ms: 0.062574
+  type: 'test'
+  ...
+# Subtest: Pro100枚より写真少なければ短縮
+ok 25 - Pro100枚より写真少なければ短縮
+  ---
+  duration_ms: 0.065274
+  type: 'test'
+  ...
+# Subtest: 無料枠0なら新規バッチ0
+ok 26 - 無料枠0なら新規バッチ0
+  ---
+  duration_ms: 0.0552
+  type: 'test'
+  ...
+# Subtest: 資格と正規1週offerがあればtrial
+ok 27 - 資格と正規1週offerがあればtrial
+  ---
+  duration_ms: 0.113063
+  type: 'test'
+  ...
+# Subtest: 体験対象外は有料として表示
+ok 28 - 体験対象外は有料として表示
+  ---
+  duration_ms: 0.10976
+  type: 'test'
+  ...
+# Subtest: 資格不明では無料を約束しない
+ok 29 - 資格不明では無料を約束しない
+  ---
+  duration_ms: 0.067147
+  type: 'test'
+  ...
+# Subtest: 価格なしは固定値で代用しない
+ok 30 - 価格なしは固定値で代用しない
+  ---
+  duration_ms: 0.063651
+  type: 'test'
+  ...
+# Subtest: offerなしで7日を作らない
+ok 31 - offerなしで7日を作らない
+  ---
+  duration_ms: 0.065048
+  type: 'test'
+  ...
+# Subtest: 3日offerを7日と表示しない
+ok 32 - 3日offerを7日と表示しない
+  ---
+  duration_ms: 0.097636
+  type: 'test'
+  ...
+# Subtest: 端末購入制限を回避しない
+ok 33 - 端末購入制限を回避しない
+  ---
+  duration_ms: 0.064271
+  type: 'test'
+  ...
+# Subtest: 削除OSキャンセルで候補維持
+ok 34 - 削除OSキャンセルで候補維持
+  ---
+  duration_ms: 0.135703
+  type: 'test'
+  ...
+# Subtest: 確認できた全件成功だけ祝う
+ok 35 - 確認できた全件成功だけ祝う
+  ---
+  duration_ms: 0.215438
+  type: 'test'
+  ...
+# Subtest: 部分成功を全成功にしない
+ok 36 - 部分成功を全成功にしない
+  ---
+  duration_ms: 0.070157
+  type: 'test'
+  ...
+# Subtest: 部分成功は未処理分だけ候補残す
+ok 37 - 部分成功は未処理分だけ候補残す
+  ---
+  duration_ms: 0.068634
+  type: 'test'
+  ...
+# Subtest: 削除結果不明で成功表示しない
+ok 38 - 削除結果不明で成功表示しない
+  ---
+  duration_ms: 0.058017
+  type: 'test'
+  ...
+# Subtest: 0件成功は祝いではない
+ok 39 - 0件成功は祝いではない
+  ---
+  duration_ms: 0.056787
+  type: 'test'
+  ...
+# Subtest: 依頼外assetの削除報告を拒否
+ok 40 - 依頼外assetの削除報告を拒否
+  ---
+  duration_ms: 1.089662
+  type: 'test'
+  ...
+# Subtest: 残すと候補は同じ触覚
+ok 41 - 残すと候補は同じ触覚
+  ---
+  duration_ms: 0.153291
+  type: 'test'
+  ...
+# Subtest: 支払案内だけで成功振動しない
+ok 42 - 支払案内だけで成功振動しない
+  ---
+  duration_ms: 0.061192
+  type: 'test'
+  ...
+# Subtest: 失敗では成功振動しない
+ok 43 - 失敗では成功振動しない
+  ---
+  duration_ms: 0.050915
+  type: 'test'
+  ...
+# Subtest: 触覚オフ設定を守る
+ok 44 - 触覚オフ設定を守る
+  ---
+  duration_ms: 0.053555
+  type: 'test'
+  ...
+# Subtest: 上限は一度区切りを表示
+ok 45 - 上限は一度区切りを表示
+  ---
+  duration_ms: 0.42432
+  type: 'test'
+  ...
+# Subtest: 閉じた日には上限案内を繰り返さない
+ok 46 - 閉じた日には上限案内を繰り返さない
+  ---
+  duration_ms: 0.113116
+  type: 'test'
+  ...
+# Subtest: 本人が機能を選べば料金を開く
+ok 47 - 本人が機能を選べば料金を開く
+  ---
+  duration_ms: 0.320851
+  type: 'test'
+  ...
+# Subtest: 削除処理中は売り込まない
+ok 48 - 削除処理中は売り込まない
+  ---
+  duration_ms: 0.102953
+  type: 'test'
+  ...
+# Subtest: Proには体験案内を出さない
+ok 49 - Proには体験案内を出さない
+  ---
+  duration_ms: 0.089352
+  type: 'test'
+  ...
+# Subtest: 結果画面は非モーダルの案内
+ok 50 - 結果画面は非モーダルの案内
+  ---
+  duration_ms: 0.086135
+  type: 'test'
+  ...
+# Subtest: 通知は検証期限の48時間前
+ok 51 - 通知は検証期限の48時間前
+  ---
+  duration_ms: 0.15352
+  type: 'test'
+  ...
+# Subtest: 通知拒否なら予約しない
+ok 52 - 通知拒否なら予約しない
+  ---
+  duration_ms: 0.093657
+  type: 'test'
+  ...
+# Subtest: optin前に通知しない
+ok 53 - optin前に通知しない
+  ---
+  duration_ms: 0.10339
+  type: 'test'
+  ...
+# Subtest: 更新停止なら更新注意の予約を取り消す
+ok 54 - 更新停止なら更新注意の予約を取り消す
+  ---
+  duration_ms: 0.091974
+  type: 'test'
+  ...
+# Subtest: 短いsandbox期間で過去通知を即送信しない
+ok 55 - 短いsandbox期間で過去通知を即送信しない
+  ---
+  duration_ms: 0.100517
+  type: 'test'
+  ...
+# Subtest: 不正な入力は無言で受け入れない
+ok 56 - 不正な入力は無言で受け入れない
+  ---
+  duration_ms: 0.124153
+  type: 'test'
+  ...
+1..56
+# tests 56
+# suites 0
+# pass 56
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 114.015921

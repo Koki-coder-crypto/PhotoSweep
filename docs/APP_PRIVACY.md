@@ -1,14 +1,7 @@
-# App Store Connect — App Privacy draft
+# App Privacy確認原稿
 
-Based on version 1.0 as implemented:
+実装には広告SDK、外部分析SDK、独自サーバー、写真アップロード、ユーザーアカウントがありません。写真識別子、判断、進行、無料枠、整理履歴、設定は端末内SQLiteに保存します。表示画像のキャッシュはメモリを指定し、原本の独自保存や位置情報の分析を行いません。
 
-- Tracking: No
-- Third-party advertising: No
-- Analytics SDK: No
-- Account creation: No
-- Photo uploads to developer servers: No
-- Developer-operated backend: No
+StoreKitはAppleが購入を処理します。iCloud写真の取得、App Store、ユーザーが開いた公開ページや問い合わせ窓口には、それぞれ通信が発生します。問い合わせ窓口が受け取る情報・ホスティング先が取得する情報は、正式な窓口を決めてから最終ポリシーへ反映してください。
 
-Expected App Privacy selection: **Data Not Collected** by the developer.
-
-Apple processes App Store purchase/payment information independently. Re-check this answer before submission if any analytics, crash reporting, backend receipt validation, support form, or advertising SDK is added.
+App Store Connectの申告候補は「トラッキングなし」「アプリから開発者へのデータ収集なし」。署名済み本番ビルドのPrivacyInfo.xcprivacyと組み込まれた依存ライブラリを確認してから確定します。Expo依存のRequired Reason API情報はネイティブビルドで集約します。Windowsの設定検査だけで集約済みと判断しません。

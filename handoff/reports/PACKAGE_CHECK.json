@@ -1,0 +1,14 @@
+{
+  "scope": "引き継ぎファイルの読み取り整合検査。アプリ・iPhone・StoreKitの検証ではない。",
+  "checkedAt": "2026-09-16T14:18:51.512Z",
+  "status": "PASS",
+  "screens": 48,
+  "screenPngs": 48,
+  "boards": 12,
+  "stateVariants": 18,
+  "acceptanceScenarios": 93,
+  "nativeAcceptanceRun": 0,
+  "htmlFilesChecked": 3,
+  "fontFilesIncluded": 0,
+  "errors": []
+}

@@ -1,0 +1,1011 @@
+[
+  {
+    "id": "S01",
+    "title": "はじめる",
+    "layout": "welcome",
+    "heading": "写真整理、\nちょっと楽しく。",
+    "body": "残す。候補に入れる。\nスワイプで選んで、最後に確認。",
+    "primary": "無料ではじめる",
+    "secondary": "",
+    "links": [
+      "使い方と料金を見る"
+    ],
+    "notes": "初回のみ。1日50枚まで、アカウント登録なし。体験はここでは開始しない。",
+    "transitions": [
+      "S02",
+      "S48"
+    ],
+    "image": "design/screens/S01.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S02",
+    "title": "写真へのアクセス",
+    "layout": "permission",
+    "heading": "整理する写真を選べます。",
+    "body": "選んだ写真だけでも使えます。",
+    "primary": "写真を選ぶ",
+    "secondary": "今はしない",
+    "links": [],
+    "notes": "OSの正規許可画面へ。選択済み写真のみに対応。",
+    "transitions": [
+      "S03",
+      "S37",
+      "S38",
+      "S45"
+    ],
+    "info": "写真を開発者のサーバーへ送りません。\niCloud上の写真を読むときは、通信を使う場合があります。",
+    "image": "design/screens/S02.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S03",
+    "title": "ホーム・無料",
+    "layout": "home",
+    "heading": "まず20枚だけ。",
+    "body": "2026年9月・186枚\n途中でやめても、続きから。",
+    "primary": "20枚を見てみる",
+    "secondary": "",
+    "links": [],
+    "notes": "50枚は仮の無料上限。月別リングは閲覧可能な写真の進捗。偽の未読・期限表示はしない。",
+    "transitions": [
+      "S04",
+      "S05",
+      "S06",
+      "S07",
+      "S08",
+      "S13",
+      "S33",
+      "S48"
+    ],
+    "image": "design/screens/S03.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S04",
+    "title": "月を選ぶ",
+    "layout": "months",
+    "heading": "見たい月から、少しずつ。",
+    "body": "",
+    "primary": "",
+    "secondary": "",
+    "links": [],
+    "notes": "古い月も無料。月を変えても無料枠は増やさない。",
+    "transitions": [
+      "S07",
+      "S08",
+      "S03"
+    ],
+    "image": "design/screens/S04.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S05",
+    "title": "スクショ",
+    "layout": "screenshots",
+    "heading": "あとで見よう、が\nたまっていませんか？",
+    "body": "スクショ 84枚",
+    "primary": "20枚ずつ見てみる",
+    "secondary": "",
+    "links": [],
+    "notes": "すべて／今月は無料。期間指定はPro。スクリーンショットのOSメタデータで絞る。",
+    "transitions": [
+      "S07",
+      "S08",
+      "S06",
+      "S03"
+    ],
+    "image": "design/screens/S05.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S06",
+    "title": "期間・並び順",
+    "layout": "filter",
+    "heading": "見直したいところを、\nピンポイントで。",
+    "body": "期間と並び順を、Proで細かく指定できます。",
+    "primary": "Proの内容と料金を見る",
+    "secondary": "月を選んで整理する",
+    "links": [],
+    "notes": "無料ユーザーのプレビュー。権利がある場合は同じ部品で編集・適用。資格不明で体験を約束しない。",
+    "transitions": [
+      "S48",
+      "S04",
+      "S24"
+    ],
+    "image": "design/screens/S06.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S07",
+    "title": "最初の操作ガイド",
+    "layout": "guide",
+    "heading": "左右に、すいっ。",
+    "body": "候補に入れただけでは消えません。\n最後にまとめて確認できます。",
+    "primary": "1枚目を見てみる",
+    "secondary": "",
+    "links": [],
+    "notes": "初回の最初の仕分けのみ。左右方向は全画面で統一。左＝候補、右＝残す。",
+    "transitions": [
+      "S08"
+    ],
+    "image": "design/screens/S07.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S08",
+    "title": "仕分け・基本",
+    "layout": "swipe",
+    "heading": "",
+    "body": "",
+    "primary": "候補6枚を確認",
+    "secondary": "",
+    "links": [],
+    "notes": "各選択後に永続化。確認と取り消しは無料。写真の内容と仕分け位置は実データに置換。",
+    "transitions": [
+      "S09",
+      "S10",
+      "S11",
+      "S12",
+      "S13",
+      "S17",
+      "S39"
+    ],
+    "image": "design/screens/S08.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S09",
+    "title": "左スワイプ・候補",
+    "layout": "swipe-left",
+    "heading": "",
+    "body": "",
+    "primary": "候補6枚を確認",
+    "secondary": "",
+    "links": [],
+    "notes": "候補へ追加するだけ。削除成功演出なし。確定前は振動しない。",
+    "transitions": [
+      "S08",
+      "S12",
+      "S13",
+      "S17"
+    ],
+    "image": "design/screens/S09.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S10",
+    "title": "右スワイプ・残す",
+    "layout": "swipe-right",
+    "heading": "",
+    "body": "",
+    "primary": "候補6枚を確認",
+    "secondary": "",
+    "links": [],
+    "notes": "「残す」も候補と同じ軽い触覚。お気に入り登録はしない。",
+    "transitions": [
+      "S08",
+      "S12",
+      "S17"
+    ],
+    "image": "design/screens/S10.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S11",
+    "title": "写真の拡大",
+    "layout": "zoom",
+    "heading": "2026年9月12日 14:32",
+    "body": "拡大して、細かいところまで確認。",
+    "primary": "仕分けに戻る",
+    "secondary": "",
+    "links": [],
+    "notes": "選択や削除はしない。拡大・縮小のアクセシブルな代替操作を提供。",
+    "transitions": [
+      "S08",
+      "S13",
+      "S39"
+    ],
+    "image": "design/screens/S11.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S12",
+    "title": "20枚の区切り",
+    "layout": "summary",
+    "heading": "20枚、見直せました。",
+    "body": "候補はまだ削除されていません。\n次の画面で、もう一度確認できます。",
+    "primary": "候補6枚を確認",
+    "secondary": "今日はここまで",
+    "links": [],
+    "notes": "残す14／候補6。区切りは終了可能。20枚未満でも中断可能。削除でなく見直しを評価。",
+    "transitions": [
+      "S13",
+      "S14",
+      "S03",
+      "S17"
+    ],
+    "image": "design/screens/S12.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S13",
+    "title": "削除候補の確認",
+    "layout": "candidates",
+    "heading": "この6枚を削除しますか？",
+    "body": "×で候補から外す・写真をタップで拡大",
+    "primary": "6枚を削除",
+    "secondary": "仕分けに戻る",
+    "links": [],
+    "notes": "iOSの正式な削除確認を挟む。追加の独自二重確認は不要。課金では止めない。",
+    "transitions": [
+      "S11",
+      "S14",
+      "S15",
+      "S40",
+      "S08"
+    ],
+    "info": "iCloud写真を使っている場合は、同期先からも削除されます。通常は「最近削除した項目」で30日間復元できます。",
+    "image": "design/screens/S13.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S14",
+    "title": "候補なし",
+    "layout": "state",
+    "heading": "削除候補はありません。",
+    "body": "全部残すのも、整理のひとつです。\n見直したところまで保存しました。",
+    "primary": "ほかの写真を見てみる",
+    "secondary": "ホームへ",
+    "links": [],
+    "notes": "不必要な削除をすすめない。すべて残した結果としても再利用。",
+    "transitions": [
+      "S03",
+      "S04"
+    ],
+    "icon": "heart",
+    "image": "design/screens/S14.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S15",
+    "title": "削除結果の確認中",
+    "layout": "state",
+    "heading": "削除の結果を確認中",
+    "body": "iPhoneから結果が返るまで、\n少しお待ちください。",
+    "primary": "確認中…",
+    "secondary": "",
+    "links": [],
+    "notes": "連打防止、結果を再照合。タイムアウト後も同じ削除を無条件で再送しない。",
+    "transitions": [
+      "S16",
+      "S40",
+      "S13"
+    ],
+    "icon": "trash",
+    "busy": true,
+    "image": "design/screens/S15.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S16",
+    "title": "削除完了・体験の入口",
+    "layout": "completed",
+    "heading": "6枚を削除しました。",
+    "body": "",
+    "primary": "もう20枚見る（無料）",
+    "secondary": "今日はここまで",
+    "links": [],
+    "notes": "真の結果が確認できた時だけ成功を返す。残枠に応じてCTA表示。試用案内は画面内の任意リンク。",
+    "transitions": [
+      "S08",
+      "S03",
+      "S48",
+      "S42",
+      "S17"
+    ],
+    "image": "design/screens/S16.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S17",
+    "title": "無料50枚の区切り",
+    "layout": "state",
+    "heading": "今日は50枚、見直せました。",
+    "body": "選んだ候補は、このあとも無料で削除できます。\n明日また50枚、無料で使えます。",
+    "primary": "Proの内容と料金を見る",
+    "secondary": "候補6枚を確認する（無料）",
+    "links": [
+      "今日はここまで"
+    ],
+    "notes": "無料枠到達後の新規選択を止める。確認・削除・戻す・中断は有料化しない。自動表示は日1回。",
+    "transitions": [
+      "S48",
+      "S13",
+      "S03"
+    ],
+    "info": "このまま、続きもまとめて。\nProなら仕分け枚数の制限がなくなります。",
+    "image": "design/screens/S17.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S18",
+    "title": "年額・7日間体験",
+    "layout": "paywall-year",
+    "heading": "整理したいときに、\n好きなだけ。",
+    "body": "",
+    "primary": "7日間無料で試す",
+    "secondary": "無料のまま続ける",
+    "links": [],
+    "notes": "年額2,400円は仮価格。StoreKitの現地価格・期間を使用。同じgroup内のtrialは1回。ボタンからOS確認へ。",
+    "transitions": [
+      "S19",
+      "S20",
+      "S21",
+      "S29",
+      "S30",
+      "S31",
+      "S46",
+      "S48",
+      "S44",
+      "S43",
+      "S47"
+    ],
+    "image": "design/screens/S18.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S19",
+    "title": "月額・7日間体験",
+    "layout": "paywall-month",
+    "heading": "整理したいときに、\n好きなだけ。",
+    "body": "",
+    "primary": "7日間無料で試す",
+    "secondary": "無料のまま続ける",
+    "links": [],
+    "notes": "月額480円は仮価格。選択状態と実際に買うproductIDを一致させる。",
+    "transitions": [
+      "S18",
+      "S20",
+      "S21",
+      "S29",
+      "S30",
+      "S31",
+      "S46",
+      "S48"
+    ],
+    "image": "design/screens/S19.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S20",
+    "title": "無料体験の対象外",
+    "layout": "paywall-ineligible",
+    "heading": "整理したいときに、\n好きなだけ。",
+    "body": "",
+    "primary": "年額2,400円で登録する",
+    "secondary": "無料のまま続ける",
+    "links": [],
+    "notes": "資格確認済みで対象外のときのみ。無料・7日後と表示しない。登録時点で請求されると説明。",
+    "transitions": [
+      "S30",
+      "S26",
+      "S29",
+      "S31",
+      "S46"
+    ],
+    "image": "design/screens/S20.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S21",
+    "title": "無料体験スタート",
+    "layout": "state",
+    "heading": "Proが使えるようになりました。",
+    "body": "途中だった写真から、続けましょう。",
+    "primary": "続きから整理する",
+    "secondary": "終了前の通知を設定",
+    "links": [],
+    "notes": "検証されたStoreKit trial終了日時を使用。ローカル時計で7日付与しない。",
+    "transitions": [
+      "S23",
+      "S08",
+      "S22",
+      "S25"
+    ],
+    "icon": "check",
+    "info": "無料体験の終了　9/23 20:30\nその後　年額2,400円で自動更新\n※日時・金額は参照用サンプル",
+    "image": "design/screens/S21.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S22",
+    "title": "体験終了前の通知",
+    "layout": "state",
+    "heading": "体験の終了前にお知らせ",
+    "body": "通知を許可すると、終了予定の2日前に\n確認のお知らせを出します。",
+    "primary": "通知を設定する",
+    "secondary": "今はしない",
+    "links": [],
+    "notes": "任意。許可なしに通知オンと表示しない。変更・解約で再スケジュール。48h前より短ければ案内更新。",
+    "transitions": [
+      "S35",
+      "S23"
+    ],
+    "icon": "bell",
+    "info": "通知は補助です。端末の設定などにより、届かない場合があります。終了日時はプラン画面でも確認できます。",
+    "image": "design/screens/S22.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S23",
+    "title": "ホーム・Pro",
+    "layout": "home-pro",
+    "heading": "続きも、\nサクサク。",
+    "body": "2026年9月・186枚\n途中でやめても、続きから。",
+    "primary": "続きから整理",
+    "secondary": "",
+    "links": [],
+    "notes": "利用中は課金販促を消す。trial中のみ実際の終了日時。",
+    "transitions": [
+      "S04",
+      "S05",
+      "S06",
+      "S24",
+      "S25",
+      "S26",
+      "S33",
+      "S13"
+    ],
+    "image": "design/screens/S23.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S24",
+    "title": "Proの整理範囲",
+    "layout": "batch",
+    "heading": "今の気分で、区切ろう。",
+    "body": "2026年9月・残り166枚",
+    "primary": "50枚を整理する",
+    "secondary": "",
+    "links": [],
+    "notes": "20/50/100枚、好きな時に中断可能。設定は継続保存。無料は20枚単位。",
+    "transitions": [
+      "S08",
+      "S06",
+      "S23"
+    ],
+    "image": "design/screens/S24.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S25",
+    "title": "プラン・無料体験中",
+    "layout": "plan-trial",
+    "heading": "Proを無料体験中",
+    "body": "",
+    "primary": "プランの管理・解約",
+    "secondary": "",
+    "links": [
+      "購入を復元"
+    ],
+    "notes": "Appleの管理画面へ。trial終了前通知状態を表示。日時と金額をStoreKitから導く。",
+    "transitions": [
+      "S22",
+      "S35",
+      "S27",
+      "S28",
+      "S30",
+      "S47"
+    ],
+    "image": "design/screens/S25.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S26",
+    "title": "プラン・契約中",
+    "layout": "plan-active",
+    "heading": "Proを利用中",
+    "body": "枚数制限なく整理できます。",
+    "primary": "プランの管理・解約",
+    "secondary": "",
+    "links": [
+      "購入に関するサポート"
+    ],
+    "notes": "自動更新の状態、請求期間、実際の更新予定。",
+    "transitions": [
+      "S27",
+      "S28",
+      "S41",
+      "S30"
+    ],
+    "image": "design/screens/S26.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S27",
+    "title": "自動更新オフ",
+    "layout": "state",
+    "heading": "自動更新はオフです。",
+    "body": "利用できる期間は、下の日時で確認できます。",
+    "primary": "整理に戻る",
+    "secondary": "App Storeで契約を確認",
+    "links": [],
+    "notes": "解約と権利失効を混同しない。StoreKitの有効期限に従う。",
+    "transitions": [
+      "S23",
+      "S25",
+      "S26",
+      "S28"
+    ],
+    "icon": "calendar",
+    "info": "Proを利用できる期限\n2027/9/23 20:30（サンプル）\n無料体験の解約では、利用期間が変わる場合があります。最新状態をApp Storeで確認してください。",
+    "image": "design/screens/S27.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S28",
+    "title": "Pro終了・無料へ",
+    "layout": "state",
+    "heading": "無料プランに戻りました。",
+    "body": "今日も50枚まで、無料で整理できます。",
+    "primary": "無料で整理を続ける",
+    "secondary": "Proの内容を見る",
+    "links": [],
+    "notes": "枠残数は実際の当日利用を反映。保存データ・候補を消さない。trial再付与しない。",
+    "transitions": [
+      "S03",
+      "S48"
+    ],
+    "icon": "photo",
+    "info": "仕分けの続きと削除候補は残っています。\n候補の確認・削除も、そのまま使えます。",
+    "image": "design/screens/S28.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S29",
+    "title": "価格の取得失敗",
+    "layout": "state",
+    "heading": "料金を読み込めませんでした。",
+    "body": "通信を確認して、もう一度お試しください。",
+    "primary": "もう一度読み込む",
+    "secondary": "無料のまま戻る",
+    "links": [],
+    "notes": "固定価格で購入させない。ネット接続なくても無料の整理は可能な範囲で続ける。",
+    "transitions": [
+      "S48",
+      "S03"
+    ],
+    "icon": "cloud",
+    "info": "正しい料金が表示されるまで、登録はできません。無料の機能はそのまま使えます。",
+    "image": "design/screens/S29.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S30",
+    "title": "購入の確認待ち",
+    "layout": "state",
+    "heading": "登録を確認しています。",
+    "body": "App Storeの確認が終わると、\nProが使えるようになります。",
+    "primary": "閉じて整理に戻る",
+    "secondary": "",
+    "links": [
+      "購入について確認する"
+    ],
+    "notes": "pending/Ask to Buy/復元待ちで使用。同じ登録を再送しない。未検証でPro解放不可。",
+    "transitions": [
+      "S21",
+      "S26",
+      "S32",
+      "S31",
+      "S47",
+      "S03"
+    ],
+    "icon": "clock",
+    "info": "もう一度登録する必要はありません。\nこの画面を閉じても、仕分けの続きは残ります。",
+    "image": "design/screens/S30.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S31",
+    "title": "購入の確認失敗",
+    "layout": "state",
+    "heading": "登録を確認できませんでした。",
+    "body": "通信の状況などで、確認が終わっていません。\n先に購入状況をご確認ください。",
+    "primary": "購入状況を確認",
+    "secondary": "無料のまま戻る",
+    "links": [],
+    "notes": "未請求と断定しない。再課金を先導しない。",
+    "transitions": [
+      "S30",
+      "S41",
+      "S03"
+    ],
+    "icon": "info",
+    "info": "請求されたか不明な場合は、再登録する前に購入の復元・契約の確認をお試しください。",
+    "image": "design/screens/S31.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S32",
+    "title": "購入の復元完了",
+    "layout": "state",
+    "heading": "Proを復元しました。",
+    "body": "この端末でも、続きから使えます。",
+    "primary": "整理に戻る",
+    "secondary": "プランを確認",
+    "links": [],
+    "notes": "有効な既存権利のみ復元。過去の買い切り権利が実在すれば維持。",
+    "transitions": [
+      "S23",
+      "S25",
+      "S26"
+    ],
+    "icon": "check",
+    "info": "以前の購入を確認しました。\nこの復元操作による追加の請求はありません。",
+    "image": "design/screens/S32.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S33",
+    "title": "マイページ・設定",
+    "layout": "settings",
+    "heading": "",
+    "body": "",
+    "primary": "",
+    "secondary": "",
+    "links": [],
+    "notes": "アプリ独自ログインを追加しない。無料/体験/有料に応じて上段を替える。",
+    "transitions": [
+      "S48",
+      "S25",
+      "S26",
+      "S34",
+      "S35",
+      "S36",
+      "S02",
+      "S30",
+      "S41",
+      "S43",
+      "S44"
+    ],
+    "image": "design/screens/S33.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S34",
+    "title": "振動・音・動き",
+    "layout": "haptics",
+    "heading": "好きな手触りに。",
+    "body": "",
+    "primary": "振動を試す",
+    "secondary": "",
+    "links": [],
+    "notes": "振動オン、音オフ、Reduce MotionはOS優先。視覚/文字でも状態を伝える。",
+    "transitions": [
+      "S33"
+    ],
+    "image": "design/screens/S34.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S35",
+    "title": "通知",
+    "layout": "notifications",
+    "heading": "必要なお知らせだけ。",
+    "body": "",
+    "primary": "",
+    "secondary": "",
+    "links": [],
+    "notes": "体験終了前と任意週1回。ロック画面に写真枚数・内容を出さない。設定はOS状態と同期。",
+    "transitions": [
+      "S22",
+      "S33",
+      "S25"
+    ],
+    "image": "design/screens/S35.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S36",
+    "title": "整理の記録",
+    "layout": "history",
+    "heading": "少しずつ、進んでる。",
+    "body": "",
+    "primary": "",
+    "secondary": "",
+    "links": [],
+    "notes": "端末内の実際の完了数と整理日。累計削除容量の捏造不可。連続日数が途切れた罰を設けない。",
+    "transitions": [
+      "S04",
+      "S13",
+      "S33"
+    ],
+    "image": "design/screens/S36.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S37",
+    "title": "写真の一部アクセス",
+    "layout": "home-limited",
+    "heading": "まず20枚だけ。",
+    "body": "許可された写真だけ表示しています。",
+    "primary": "20枚を見てみる",
+    "secondary": "",
+    "links": [],
+    "notes": "許可分だけ集計。全部の写真を許可させる誘導をしない。",
+    "transitions": [
+      "S02",
+      "S04",
+      "S05",
+      "S08",
+      "S33"
+    ],
+    "image": "design/screens/S37.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S38",
+    "title": "写真へのアクセスなし",
+    "layout": "state",
+    "heading": "写真を表示できません。",
+    "body": "写真へのアクセスが許可されていません。\niPhoneの設定から変更できます。",
+    "primary": "iPhoneの設定を開く",
+    "secondary": "ホームへ戻る",
+    "links": [],
+    "notes": "拒否/restrictedを区別した文案。購入は出さない。",
+    "transitions": [
+      "S02",
+      "S03",
+      "S37",
+      "S45"
+    ],
+    "icon": "lock",
+    "info": "すべての写真を許可する必要はありません。\n選んだ写真だけでも使えます。",
+    "image": "design/screens/S38.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S39",
+    "title": "写真を読み込めない",
+    "layout": "state",
+    "heading": "この写真を読み込めません。",
+    "body": "iCloud上の写真には、通信が必要な場合があります。",
+    "primary": "もう一度読み込む",
+    "secondary": "この写真を飛ばす",
+    "links": [],
+    "notes": "失敗だけで日次枠を消費しない。読めない写真を候補に自動追加しない。",
+    "transitions": [
+      "S08",
+      "S11"
+    ],
+    "icon": "cloud",
+    "info": "読み込みに失敗しても無料枠は減りません。\n写真を飛ばして、整理を続けられます。",
+    "image": "design/screens/S39.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S40",
+    "title": "削除の一部失敗",
+    "layout": "partial",
+    "heading": "4枚を削除しました。",
+    "body": "2枚は削除できませんでした。",
+    "primary": "残った2枚を確認",
+    "secondary": "ホームへ戻る",
+    "links": [],
+    "notes": "ネイティブAPIで個別成功判定可能な場合のみ数字を出す。不明なら結果照合中→安全な再確認。成功演出と課金提案なし。",
+    "transitions": [
+      "S13",
+      "S03"
+    ],
+    "image": "design/screens/S40.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S41",
+    "title": "ヘルプ・問い合わせ",
+    "layout": "help",
+    "heading": "何に困っていますか？",
+    "body": "",
+    "primary": "",
+    "secondary": "",
+    "links": [],
+    "notes": "メール内容を本人確認後、OSのメールへ。連絡先は未設定ならリリース不可。",
+    "transitions": [
+      "S07",
+      "S42",
+      "S25",
+      "S26",
+      "S30",
+      "S38",
+      "S39",
+      "S43",
+      "S44"
+    ],
+    "image": "design/screens/S41.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S42",
+    "title": "消した写真を戻す",
+    "layout": "restore-photo",
+    "heading": "iPhoneの「写真」で\n戻せます。",
+    "body": "通常は削除から30日以内です。",
+    "primary": "Appleの案内を見る",
+    "secondary": "",
+    "links": [],
+    "notes": "PhotoSweepは最近削除アルバムを自作しない。完全削除等の例外も表示。",
+    "transitions": [
+      "S41"
+    ],
+    "image": "design/screens/S42.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S43",
+    "title": "プライバシー",
+    "layout": "privacy",
+    "heading": "写真の扱いについて",
+    "body": "",
+    "primary": "プライバシーポリシー全文",
+    "secondary": "",
+    "links": [],
+    "notes": "実際のSDK通信・端末保存と一致させて公開前確定。写真を送らないと無通信は別。",
+    "transitions": [
+      "S41",
+      "S33"
+    ],
+    "image": "design/screens/S43.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S44",
+    "title": "利用規約・購入条件",
+    "layout": "terms",
+    "heading": "はじめる前に。",
+    "body": "",
+    "primary": "運営者情報・規約全文",
+    "secondary": "",
+    "links": [],
+    "notes": "対象者のみ7日間無料、自動更新・終了24h前の解約案内。実装/ストア設定と照合。",
+    "transitions": [
+      "S41",
+      "S33",
+      "S48"
+    ],
+    "image": "design/screens/S44.png",
+    "screenClass": "screen_or_component",
+    "sampleData": true
+  },
+  {
+    "id": "S45",
+    "title": "写真がない",
+    "layout": "state",
+    "heading": "表示できる写真がありません。",
+    "body": "写真がないか、アクセスを許可した写真がありません。",
+    "primary": "アクセスする写真を変更",
+    "secondary": "ホームへ",
+    "links": [],
+    "notes": "月別0件と許可0件で適切に文案変更。課金は案内しない。",
+    "transitions": [
+      "S02",
+      "S03",
+      "S37"
+    ],
+    "icon": "photo",
+    "image": "design/screens/S45.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S46",
+    "title": "登録をキャンセル",
+    "layout": "paywall-cancel",
+    "heading": "整理したいときに、\n好きなだけ。",
+    "body": "",
+    "primary": "7日間無料で試す",
+    "secondary": "無料のまま続ける",
+    "links": [],
+    "notes": "OSから明確なUserCancelledの場合。短い通知だけで戻る。エラー/再課金ポップアップなし。",
+    "transitions": [
+      "S18",
+      "S19",
+      "S03",
+      "S08",
+      "S17"
+    ],
+    "image": "design/screens/S46.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S47",
+    "title": "復元対象なし",
+    "layout": "state",
+    "heading": "購入が見つかりません。",
+    "body": "購入したときと同じApple Accountで\nApp Storeにサインインしているかご確認ください。",
+    "primary": "もう一度確認",
+    "secondary": "無料のまま戻る",
+    "links": [
+      "購入について問い合わせる"
+    ],
+    "notes": "復元によって新しい契約を開始しない。",
+    "transitions": [
+      "S30",
+      "S03",
+      "S41"
+    ],
+    "icon": "undo",
+    "info": "復元によって、新しい契約が始まることはありません。",
+    "image": "design/screens/S47.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  },
+  {
+    "id": "S48",
+    "title": "無料体験の対象を確認中",
+    "layout": "state",
+    "heading": "無料体験の対象を確認中",
+    "body": "あなたのアカウントで使える内容を、\nApp Storeに確認しています。",
+    "primary": "確認中…",
+    "secondary": "無料のまま戻る",
+    "links": [],
+    "notes": "価格・商品・資格を別に確認。資格不明ならtrial CTAは無効。",
+    "transitions": [
+      "S18",
+      "S19",
+      "S20",
+      "S29",
+      "S03"
+    ],
+    "icon": "clock",
+    "busy": true,
+    "info": "確認できるまでは、無料体験や料金を確定表示しません。無料の機能はそのまま使えます。",
+    "image": "design/screens/S48.png",
+    "screenClass": "state_or_variant",
+    "sampleData": true
+  }
+]

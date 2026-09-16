@@ -1,0 +1,341 @@
+{
+  "scope": "HTML reference render only",
+  "screens": [
+    {
+      "id": "S01",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S02",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S03",
+      "client": 657,
+      "scroll": 657,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S04",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S05",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S06",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S07",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S08",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S09",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S10",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S11",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S12",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S13",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S14",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S15",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S16",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S17",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S18",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S19",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S20",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S21",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S22",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S23",
+      "client": 657,
+      "scroll": 657,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S24",
+      "client": 696,
+      "scroll": 696,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S25",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S26",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S27",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S28",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S29",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S30",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S31",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S32",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S33",
+      "client": 657,
+      "scroll": 657,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S34",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S35",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S36",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S37",
+      "client": 657,
+      "scroll": 657,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S38",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S39",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S40",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S41",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S42",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S43",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S44",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S45",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S46",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S47",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    },
+    {
+      "id": "S48",
+      "client": 726,
+      "scroll": 726,
+      "overflowX": false,
+      "verticallyScrollable": false
+    }
+  ]
+}

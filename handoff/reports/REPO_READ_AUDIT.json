@@ -1,0 +1,43 @@
+{
+  "checkedAt": "2026-09-16",
+  "repo": "Koki-coder-crypto/PhotoSweep",
+  "mode": "connector read only; no local build or full repository audit",
+  "files": [
+    {
+      "path": "package.json",
+      "blobSha": "87f3afea9deca8fe9eff4399852a593647212501",
+      "observation": "Expo ~57.0.0 / React 19.2.0 / RN 0.86.2 / expo-iap ^4.7.0 / expo-haptics / expo-media-library を宣言。typecheck, doctor, test:logic scriptあり。解決済みの証拠ではない。",
+      "url": "https://github.com/Koki-coder-crypto/PhotoSweep/blob/main/package.json"
+    },
+    {
+      "path": "app/paywall.tsx",
+      "blobSha": "bc1614092a18bfb11e3f261bcfdc608e0ee75491",
+      "observation": "lifetimeだけを購入。価格失敗時に¥2,480へfallback。purchase callbackでfinishTransaction後setIsPro(true)。このファイルから購読の期限・資格・更新判定は確認できない。",
+      "url": "https://github.com/Koki-coder-crypto/PhotoSweep/blob/main/app/paywall.tsx"
+    },
+    {
+      "path": "src/store/AppStore.tsx",
+      "blobSha": "95a95bf1d44f41be21a51d4c7364ce6d0f76998f",
+      "observation": "isPro/freeDeletesUsed/freedBytesをAsyncStorage保存。selectedIdsはメモリ状態。サブスク・日別ユニーク枠・永続candidateへ改修必要。",
+      "url": "https://github.com/Koki-coder-crypto/PhotoSweep/blob/main/src/store/AppStore.tsx"
+    },
+    {
+      "path": "src/lib/photoScanner.ts",
+      "blobSha": "8b25bc9112e990fe62a209eab98983487f54b5db",
+      "observation": "6,000枚上限、750枚ページ。類似は時刻・縦横比・解像度による推定。画像内容のAI類似判定ではない。uriへasset.id代入の有効性も対応SDKで要確認。",
+      "url": "https://github.com/Koki-coder-crypto/PhotoSweep/blob/main/src/lib/photoScanner.ts"
+    },
+    {
+      "path": "app.json",
+      "blobSha": "3319353464c03e200a88c448c50fed67ee17ca63",
+      "observation": "bundle ID com.kokicoder.photosweep、iPhone/縦画面、light、MediaLibrary/IAP plugin、英語権限文、privacy manifestのAPI配列は空。生成物のプライバシー宣言の妥当性は未検証。",
+      "url": "https://github.com/Koki-coder-crypto/PhotoSweep/blob/main/app.json"
+    },
+    {
+      "path": "src/lib/monetization.ts",
+      "blobSha": "5b0558f927d06b2b520803b2e676318aa2690c19",
+      "observation": "lifetime SKU、FREE_DELETE_LIMIT=30、DEFAULT_LIFETIME_PRICE_JPY=2480。最新案と不一致。",
+      "url": "https://github.com/Koki-coder-crypto/PhotoSweep/blob/main/src/lib/monetization.ts"
+    }
+  ]
+}

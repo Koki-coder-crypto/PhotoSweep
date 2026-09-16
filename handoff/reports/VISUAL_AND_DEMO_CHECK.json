@@ -1,0 +1,351 @@
+{
+  "scope": "再構成した参照画像とブラウザの動きの見本のみ。iOS・StoreKit・振動実機ではない。",
+  "pngIntegrity": "PASS",
+  "screenImages": [
+    {
+      "file": "design/screens/S01.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S02.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S03.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S04.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S05.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S06.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S07.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S08.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S09.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S10.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S11.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S12.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S13.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S14.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S15.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S16.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S17.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S18.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S19.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S20.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S21.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S22.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S23.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S24.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S25.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S26.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S27.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S28.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S29.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S30.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S31.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S32.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S33.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S34.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S35.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S36.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S37.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S38.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S39.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S40.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S41.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S42.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S43.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S44.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S45.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S46.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S47.png",
+      "size": [
+        780,
+        1688
+      ]
+    },
+    {
+      "file": "design/screens/S48.png",
+      "size": [
+        780,
+        1688
+      ]
+    }
+  ],
+  "demoChecks": [
+    "keep updates progress",
+    "undo restores review count",
+    "candidate updates progress",
+    "manual completion preview opens",
+    "completion preview closes",
+    "reduce motion toggle"
+  ],
+  "browserErrors": []
+}

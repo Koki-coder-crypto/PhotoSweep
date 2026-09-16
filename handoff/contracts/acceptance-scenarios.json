@@ -1,0 +1,1562 @@
+{
+  "scope": "実アプリでCodexが実施する受け入れ計画。参照モデルのpassとは別。",
+  "scenarios": [
+    {
+      "id": "UI-S01",
+      "screen": "S01",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "はじめるの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "初回のみ。1日50枚まで、アカウント登録なし。体験はここでは開始しない。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S02",
+      "screen": "S02",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "写真へのアクセスの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "OSの正規許可画面へ。選択済み写真のみに対応。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S03",
+      "screen": "S03",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "ホーム・無料の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "50枚は仮の無料上限。月別リングは閲覧可能な写真の進捗。偽の未読・期限表示はしない。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S04",
+      "screen": "S04",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "月を選ぶの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "古い月も無料。月を変えても無料枠は増やさない。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S05",
+      "screen": "S05",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "スクショの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "すべて／今月は無料。期間指定はPro。スクリーンショットのOSメタデータで絞る。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S06",
+      "screen": "S06",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "期間・並び順の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "無料ユーザーのプレビュー。権利がある場合は同じ部品で編集・適用。資格不明で体験を約束しない。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S07",
+      "screen": "S07",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "最初の操作ガイドの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "初回の最初の仕分けのみ。左右方向は全画面で統一。左＝候補、右＝残す。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S08",
+      "screen": "S08",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "仕分け・基本の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "各選択後に永続化。確認と取り消しは無料。写真の内容と仕分け位置は実データに置換。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S09",
+      "screen": "S09",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "左スワイプ・候補の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "候補へ追加するだけ。削除成功演出なし。確定前は振動しない。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S10",
+      "screen": "S10",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "右スワイプ・残すの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "「残す」も候補と同じ軽い触覚。お気に入り登録はしない。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S11",
+      "screen": "S11",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "写真の拡大の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "選択や削除はしない。拡大・縮小のアクセシブルな代替操作を提供。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S12",
+      "screen": "S12",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "20枚の区切りの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "残す14／候補6。区切りは終了可能。20枚未満でも中断可能。削除でなく見直しを評価。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S13",
+      "screen": "S13",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "削除候補の確認の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "iOSの正式な削除確認を挟む。追加の独自二重確認は不要。課金では止めない。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S14",
+      "screen": "S14",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "候補なしの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "不必要な削除をすすめない。すべて残した結果としても再利用。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S15",
+      "screen": "S15",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "削除結果の確認中の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "連打防止、結果を再照合。タイムアウト後も同じ削除を無条件で再送しない。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S16",
+      "screen": "S16",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "削除完了・体験の入口の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "真の結果が確認できた時だけ成功を返す。残枠に応じてCTA表示。試用案内は画面内の任意リンク。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S17",
+      "screen": "S17",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "無料50枚の区切りの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "無料枠到達後の新規選択を止める。確認・削除・戻す・中断は有料化しない。自動表示は日1回。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S18",
+      "screen": "S18",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "年額・7日間体験の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "年額2,400円は仮価格。StoreKitの現地価格・期間を使用。同じgroup内のtrialは1回。ボタンからOS確認へ。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S19",
+      "screen": "S19",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "月額・7日間体験の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "月額480円は仮価格。選択状態と実際に買うproductIDを一致させる。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S20",
+      "screen": "S20",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "無料体験の対象外の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "資格確認済みで対象外のときのみ。無料・7日後と表示しない。登録時点で請求されると説明。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S21",
+      "screen": "S21",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "無料体験スタートの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "検証されたStoreKit trial終了日時を使用。ローカル時計で7日付与しない。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S22",
+      "screen": "S22",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "体験終了前の通知の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "任意。許可なしに通知オンと表示しない。変更・解約で再スケジュール。48h前より短ければ案内更新。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S23",
+      "screen": "S23",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "ホーム・Proの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "利用中は課金販促を消す。trial中のみ実際の終了日時。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S24",
+      "screen": "S24",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "Proの整理範囲の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "20/50/100枚、好きな時に中断可能。設定は継続保存。無料は20枚単位。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S25",
+      "screen": "S25",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "プラン・無料体験中の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "Appleの管理画面へ。trial終了前通知状態を表示。日時と金額をStoreKitから導く。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S26",
+      "screen": "S26",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "プラン・契約中の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "自動更新の状態、請求期間、実際の更新予定。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S27",
+      "screen": "S27",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "自動更新オフの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "解約と権利失効を混同しない。StoreKitの有効期限に従う。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S28",
+      "screen": "S28",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "Pro終了・無料への状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "枠残数は実際の当日利用を反映。保存データ・候補を消さない。trial再付与しない。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S29",
+      "screen": "S29",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "価格の取得失敗の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "固定価格で購入させない。ネット接続なくても無料の整理は可能な範囲で続ける。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S30",
+      "screen": "S30",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "購入の確認待ちの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "pending/Ask to Buy/復元待ちで使用。同じ登録を再送しない。未検証でPro解放不可。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S31",
+      "screen": "S31",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "購入の確認失敗の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "未請求と断定しない。再課金を先導しない。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S32",
+      "screen": "S32",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "購入の復元完了の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "有効な既存権利のみ復元。過去の買い切り権利が実在すれば維持。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S33",
+      "screen": "S33",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "マイページ・設定の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "アプリ独自ログインを追加しない。無料/体験/有料に応じて上段を替える。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S34",
+      "screen": "S34",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "振動・音・動きの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "振動オン、音オフ、Reduce MotionはOS優先。視覚/文字でも状態を伝える。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S35",
+      "screen": "S35",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "通知の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "体験終了前と任意週1回。ロック画面に写真枚数・内容を出さない。設定はOS状態と同期。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S36",
+      "screen": "S36",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "整理の記録の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "端末内の実際の完了数と整理日。累計削除容量の捏造不可。連続日数が途切れた罰を設けない。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S37",
+      "screen": "S37",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "写真の一部アクセスの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "許可分だけ集計。全部の写真を許可させる誘導をしない。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S38",
+      "screen": "S38",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "写真へのアクセスなしの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "拒否/restrictedを区別した文案。購入は出さない。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S39",
+      "screen": "S39",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "写真を読み込めないの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "失敗だけで日次枠を消費しない。読めない写真を候補に自動追加しない。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S40",
+      "screen": "S40",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "削除の一部失敗の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "ネイティブAPIで個別成功判定可能な場合のみ数字を出す。不明なら結果照合中→安全な再確認。成功演出と課金提案なし。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S41",
+      "screen": "S41",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "ヘルプ・問い合わせの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "メール内容を本人確認後、OSのメールへ。連絡先は未設定ならリリース不可。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S42",
+      "screen": "S42",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "消した写真を戻すの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "PhotoSweepは最近削除アルバムを自作しない。完全削除等の例外も表示。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S43",
+      "screen": "S43",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "プライバシーの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "実際のSDK通信・端末保存と一致させて公開前確定。写真を送らないと無通信は別。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S44",
+      "screen": "S44",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "利用規約・購入条件の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "対象者のみ7日間無料、自動更新・終了24h前の解約案内。実装/ストア設定と照合。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S45",
+      "screen": "S45",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "写真がないの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "月別0件と許可0件で適切に文案変更。課金は案内しない。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S46",
+      "screen": "S46",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "登録をキャンセルの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "OSから明確なUserCancelledの場合。短い通知だけで戻る。エラー/再課金ポップアップなし。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S47",
+      "screen": "S47",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "復元対象なしの状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "復元によって新しい契約を開始しない。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UI-S48",
+      "screen": "S48",
+      "kind": "native_ui",
+      "status": "NOT_RUN",
+      "given": "無料体験の対象を確認中の状態を開発カタログで用意",
+      "when": [
+        "参照画像を開いて比較",
+        "primary/secondary/戻る操作を実行",
+        "375pt幅・大きな文字・VoiceOverを確認"
+      ],
+      "expect": [
+        "価格・商品・資格を別に確認。資格不明ならtrial CTAは無効。",
+        "実際の数値・権利・状態を表示。サンプル固定値を本番に使わない",
+        "ボタンが操作でき、遷移先と戻り先が仕様に一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-01",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S03",
+        "name": "list_loading",
+        "rule": "Skeleton。偽の進捗%なし。読めた範囲から表示。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-02",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S06",
+        "name": "pro_filter_edit",
+        "rule": "日付・順序を編集可能。前後日付不正はインラインエラー。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-03",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S08",
+        "name": "free_remaining_lt_20",
+        "rule": "min(20, remainingDaily, remainingAssets)で区切る。全画面の数字を一致。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-04",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S12",
+        "name": "all_kept",
+        "rule": "残すN・候補0。「削除候補の確認」を出さず、続行／終了へ。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-05",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S15",
+        "name": "all_failed_or_unconfirmed",
+        "rule": "成功枚数を推定しない。「結果を確認できませんでした」。写真一覧再読み込みと候補保持。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-06",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S13",
+        "name": "delete_cancelled",
+        "rule": "候補一覧に戻す。仕分け状態・枠そのまま。成功演出なし。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-07",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S28",
+        "name": "daily_quota_previously_used",
+        "rule": "契約切れの瞬間に無料枠を50に再設定しない。台帳の残数を表示。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-08",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S26",
+        "name": "billing_grace",
+        "rule": "確認済みgrace期限内はPro維持、支払更新への穏やかな案内。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-09",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S26",
+        "name": "billing_retry_expired",
+        "rule": "graceでなければ検証済み有効期限までのみ。データ削除不可。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-10",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S30",
+        "name": "ask_to_buy",
+        "rule": "保護者の承認待ち。制限回避や再購入を促さない。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-11",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S38",
+        "name": "restricted",
+        "rule": "端末の制限を説明、無意味な再リクエストなし。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-12",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S20",
+        "name": "purchase_disabled",
+        "rule": "この端末では購入できません。無料導線。制限回避案内なし。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-13",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S25",
+        "name": "verified_lifetime_legacy",
+        "rule": "既存買い切り権利を維持。購入済み（買い切り）を表示。再契約を求めない。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-14",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S35",
+        "name": "notification_denied",
+        "rule": "トグルをオンに偽装しない。端末の設定へ／戻る。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-15",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S36",
+        "name": "reset_history_confirm",
+        "rule": "記録だけリセット。写真、正規契約、当日利用枠は変えない。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-16",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S41",
+        "name": "email_unavailable",
+        "rule": "問い合わせ先をコピー。メールを送信したと表示しない。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-17",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S43",
+        "name": "full_policy_page",
+        "rule": "正規の公開URLまたは確定全文をアプリ内表示。草稿だけで公開しない。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "VAR-18",
+      "kind": "integration",
+      "status": "NOT_RUN",
+      "given": {
+        "parent": "S44",
+        "name": "full_terms_page",
+        "rule": "運営者情報を確定し公開ページに移動。未設定はリリースブロッカー。"
+      },
+      "when": [
+        "制御可能なアダプターで対象状態を再現",
+        "必要なものは実機/Sandboxでも確認"
+      ],
+      "expect": [
+        "state_variantsの行動と保持するデータに一致",
+        "安全な無料復帰・取消・ヘルプ導線を維持"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "PHOTO-01",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "full/limited/denied/restrictedそれぞれで写真アクセス",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "写真操作の範囲が正しい。拒否時に課金を勧めない"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "PHOTO-02",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "iCloud写真・通信断・一部未取得を再現",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "読み込めない写真は勝手に候補に入らず、枠は減らない"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "PHOTO-03",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "10,000件のテスト写真をページ取得",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "件数を全件読み込みと偽らず、UIが停止しない"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "PHOTO-04",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "候補6枚を選択しOSの削除をキャンセル",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "写真が消えず、候補と無料枠が保持される"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "PHOTO-05",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "削除処理中にアプリを終了して再開",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "重複削除しない。結果未確認を成功にしない"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "PHOTO-06",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "削除中に権限/ライブラリが外部で変更",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "実際に確認できた結果のみ表示する"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "QUOTA-01",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "49→50→51枚目を仕分け",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "50を保存して制限を案内。候補確認/削除は無料"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "QUOTA-02",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "同じassetを月別・スクショ・undo再操作で選択",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "日内の無料枠を重複消費しない"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "QUOTA-03",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "日跨ぎ・タイムゾーン変更・端末時計を変更",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "日付処理を仕様化し、誤った枠消費や多重リセットを起こさない"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "QUOTA-04",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "無料40枚使用後Pro開始・同日失効",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "元の無料台帳を保持し、再び50枚へリセットしない"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "QUOTA-05",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "保存エラー・二重タップ・高速スワイプ",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "決定/cursor/候補/無料枠が原子的で不整合がない"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "BILL-01",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "同一groupの月額trial利用後に年額を選択",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "正規資格に従い再体験を捏造しない"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "BILL-02",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "StoreKit商品価格取得失敗・資格unknown",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "固定の価格/7日無料を表示せず申込無効、無料へ戻れる"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "BILL-03",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "sandboxでtrial開始・更新・解約・期限切れ",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "実取引の期限・価格・自動更新状態に従う"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "BILL-04",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "pending/Ask to Buy・権利未検証",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "Proを解放せず、再度購入を急かさない"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "BILL-05",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "返金・取消・grace・請求再試行",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "状態を分け、検証した権利を尊重する"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "BILL-06",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "復元・端末変更・旧買い切りの有効購入",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "正当な既存権利を維持し二重請求しない"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "BILL-07",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "Paywall/OS購入をキャンセル",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "元の仕分け位置と候補に戻る"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "BILL-08",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "App Store管理で自動更新停止",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "アプリ復帰後に更新停止と利用可能期限を再確認"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "BILL-09",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "プランの商品価格/intro offer設定を点検",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "月額/年額の正規設定・同group・1week trialが一致"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UX-01",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "仕分けcommitと実削除の成功/失敗",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "keep/candidate同じ軽い触覚。失敗時に成功演出なし"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UX-02",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "Reduce Motion/触覚オフ/音オフを有効",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "代替の短い切り替え、文字結果。端末設定を尊重"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UX-03",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "価格下部・閉じる・無料リンクを大きな文字で開く",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "重要な料金と出口が読め操作できる"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "UX-04",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "20枚区切りで全て残す",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "削除0でも完了。削除への圧力や偽ストレージ成果なし"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "NOTIFY-01",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "trial通知optin拒否・48h前・更新停止",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "拒否を尊重、正規期限で予約/取消。過去通知を即送信しない"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "RELEASE-01",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "Productionビルドと公開設定を監査",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "デモ権利/サンプル写真/秘密/固定価格/仮URLなし"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "RELEASE-02",
+      "kind": "native_integration",
+      "status": "NOT_RUN",
+      "given": "iPhone実機で1本の完全なfreeとtrial経路を実行",
+      "when": [
+        "テスト写真/Sandboxで実行しログを保存"
+      ],
+      "expect": [
+        "実データとSandboxで証拠を記録。Webデモだけで完了としない"
+      ],
+      "evidence": []
+    }
+  ]
+}
