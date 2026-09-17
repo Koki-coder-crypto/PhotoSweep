@@ -1,5 +1,6 @@
 import type { ExpoConfig } from "expo/config";
-const projectId = process.env.EXPO_PUBLIC_EAS_PROJECT_ID;
+const projectId =
+  process.env.EXPO_PUBLIC_EAS_PROJECT_ID || "f834d7a8-7b18-470e-847e-ec1f24eefda6";
 const app: ExpoConfig = {
   name: "PhotoSweep",
   slug: "photosweep",

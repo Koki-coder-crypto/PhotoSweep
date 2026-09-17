@@ -22,6 +22,7 @@
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
     "@react-native-async-storage/async-storage": "2.2.0",
+    "decode-uri-component": "file:vendor/decode-uri-component",
     "expo": "~57.0.0",
     "expo-asset": "~57.0.17",
     "expo-audio": "~57.0.0",
@@ -65,7 +66,7 @@
     "typescript": "~6.0.3"
   },
   "overrides": {
-    "decode-uri-component": "file:./vendor/decode-uri-component",
+    "decode-uri-component": "$decode-uri-component",
     "xcode": {
       "uuid": "11.1.1"
     }

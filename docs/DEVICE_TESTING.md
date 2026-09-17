@@ -2,14 +2,14 @@
 
 ## 現在の状態
 
-Windowsでの型検査・本番関数/SQL/Provider/画面テスト・JSバンドル生成とWebプレビュー確認を実施。実機はiPhone 15、申告iOSは「26.61」（設定画面での再確認が必要）。Apple Developer加入済み。Expoアカウントあり、EAS CLI未認証。App Store Connectのアプリ・商品登録は未確認です。
+Windowsでの型検査・本番関数/SQL/Provider/画面テスト・JSバンドル生成とWebプレビュー確認を実施。実機はiPhone 15、申告iOSは「26.61」（設定画面での再確認が必要）。2026-09-17にExpoログイン、Apple Developer認証、iPhone登録、Bundle ID登録、Ad Hoc署名設定を確認。@koki_123/photosweepを作成し、公開プロジェクトIDをapp.config.tsへ設定済み。初回ビルドでnpm lockfileの参照不整合を検出し修正。npm 10.9.8での新規インストールと127テスト・Expo診断21項目を再確認し、無料枠（使用0/15回）内で修正版ビルドを投入済みです。インストール・実機起動・App Store Connectのアプリ・商品登録は未確認です。
 
 `device-test-results.json` の93項目は実機未実行です。自動テスト結果でPASSへ書き換えません。
 
 ## ビルドとインストール
 
 1. `eas login --browser` を公式画面で完了。パスワード・2FAはチャットに貼らない。
-2. `eas whoami`、`eas account:usage --json --non-interactive` でログイン・プラン・無料残量を確認。有料実行になる場合は中止。
+2. `eas whoami`、`eas account:usage koki_123 --json --non-interactive` でログイン・プラン・無料残量を確認。有料実行になる場合は中止。
 3. `eas init` で既存プロジェクトに接続または作成し、返されたIDを `EXPO_PUBLIC_EAS_PROJECT_ID` に設定。
 4. Bundle ID `com.kokicoder.photosweep` をApple Developerで確認。未使用なら登録。Appleの認証・署名設定は本人の公式画面で実施。
 5. `eas device:create` のリンクをiPhoneで開いて端末登録。その端末を含むプロファイルで `npm run build:development`。

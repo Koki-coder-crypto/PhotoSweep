@@ -1,6 +1,6 @@
 # 実装・検証の記録 — 2026-09-17
 
-POP V3を既存リポジトリへ実装し、Windowsで実行可能な検証を行いました。**署名付きiOSビルド、実機操作、Sandbox検証は未完了です。** 全工程の完了条件にはまだ達していません。
+POP V3を既存リポジトリへ実装し、Windowsで実行可能な検証と、EASで署名付きiOS開発ビルドを完了しました。**iPhoneへのインストール・実機操作・Sandbox検証は未完了です。** 全工程の完了条件にはまだ達していません。
 
 作業場所: `C:/Users/koki/Documents/ChatGPT/PhotoSweep`。ブランチ: `codex/pop-v3`。元のコミット: `1cb1ad3d04d7a8cd61f10ff1d38d5c9eceed492e`。デスクトップ資料を `handoff/` に保存し、古い画面の重複ソースと旧仕様を置き換えました。リモートへpush、ストアへの提出・公開、有料ビルドは行っていません。
 
@@ -32,7 +32,7 @@ POP V3を既存リポジトリへ実装し、Windowsで実行可能な検証を�
 | 削除後の遷移不具合の再検証 | デモ10枚の削除結果画面へ正常遷移 | `artifacts/deletion-regression.txt` |
 | 360/375/390/430px幅の課金画面 | 横スクロールなし、測定したボタンは44px以上 | `artifacts/responsive.json` |
 | ネイティブ設定のintrospection | iOS16.4、ローカルモジュール認識、マイク権限なし、音声バックグラウンドなし | `artifacts/native-config.json` |
-| Xcode/署名付きiOSビルド | BLOCKED（Expo未認証。WindowsのprebuildもiOS生成非対応） | 下記 |
+| Xcode/署名付きiOS開発ビルド | PASS（EAS FINISHED、ARCHIVE SUCCEEDED、Ad Hoc IPA生成済み） | build ID `ec3bca0a-935d-4a56-99c3-18f2e4aeeeba` |
 | 実機・Sandbox・触覚・VoiceOver・Dynamic Type | NOT_RUN | `docs/device-test-results.json` |
 | 公開前チェック | BLOCKED（設定と実機証跡が未完了のため意図どおり停止） | `artifacts/release-check.log` |
 
@@ -53,13 +53,14 @@ POP V3を既存リポジトリへ実装し、Windowsで実行可能な検証を�
 9. 購入保留後のイベント、キャンセル後の再表示、1商品が取れない場合の別商品の有効権利を補強。
 10. ネイティブ設定に不要な音声バックグラウンド実行が付いていたため無効化。
 11. 依存監査14件の根元にあったdecode-uri-componentとuuidを修正。SDK全体を降格させず、互換性テストを追加。現在の監査結果は0件。
+12. 初回EASビルドで、相対file指定のnpm overrideがquery-string配下の存在しないパスをlockfileへ記録していたことを検出。ローカルパッケージを直接依存にし、overrideをルート仕様への参照へ変更。EASと同じnpm 10.9.8で空のディレクトリから938パッケージをインストールし成功、監査0件。型検査・37本番テスト・90画面テスト・Expo診断21項目も再合格（`artifacts/check-after-eas-fix.log`）。クラウドでインストール成功を確認。
 
 `vendor/decode-uri-component/` は上流0.5.0のアルゴリズムを変更せずCommonJSのexport形式だけ調整したものです。query-string 7との互換性を保ちます。上流ソースとMITライセンスを記録。xcodeのuuidは11.1.1へ限定overrideし、プロジェクトID生成をテストしました。上流が対応したらこの橋渡しを外します。
 
 ## 再開に必要なこと
 
-1. Expo公式ブラウザログインを完了。`eas whoami` は最後の確認時点で `Not logged in`。無料ビルド残量も未取得。認証後に無料枠内か確認し、開発ビルドへ進む。
-2. AppleのBundle ID・署名・iPhone登録、App Store Connectのアプリ/月額・年額商品を設定。Apple認証・2FAは本人の画面で実施。
+1. 2026-09-17にExpoのkoki_123へのログインとFreeプラン（投入前iOS使用0/15回）を確認。プロジェクト接続、Apple認証、iPhone登録、Bundle ID登録、既存の有効な配布証明書の再利用、このiPhone用Ad Hocプロファイル作成まで完了。初回ビルド `c19d3ff0-c662-401b-ae10-f4ca0239b6d4` はnpm ciで失敗し無料枠の消費なし。修正・再検証後、開発ビルド `ec3bca0a-935d-4a56-99c3-18f2e4aeeeba` がFINISHED。ARCHIVE SUCCEEDEDと署名済みIPAの生成を確認。インストール・実機起動は未確認。
+2. [修正版ビルド](https://expo.dev/accounts/koki_123/projects/photosweep/builds/ec3bca0a-935d-4a56-99c3-18f2e4aeeeba) を登録したiPhoneへインストール。Metroを8081で起動し、iOS開発バンドルのHTTP配信成功とLAN側の稼働応答を確認済み。App Store Connectのアプリ/月額・年額商品の設定も残る。Apple認証・2FAが再度必要な場合は本人の画面で実施。
 3. iPhone 15で検証。申告されたiOS「26.61」は端末設定で正式な表記を再確認。削除してよいテスト写真だけを使用。
 4. 正式な運営者、問い合わせ窓口、公開する規約・プライバシーURLを決定。旧仮メールアドレスは使用していない。
 
