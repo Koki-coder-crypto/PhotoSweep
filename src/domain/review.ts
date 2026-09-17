@@ -6,7 +6,13 @@ import type {
   ReviewState,
   Scope,
 } from "./types.ts";
-import { batchSize, hasPro, mayDecide, refreshDay } from "./policy.ts";
+import {
+  batchSize,
+  hasPro,
+  mayDecide,
+  refreshDay,
+  remaining,
+} from "./policy.ts";
 export class ReviewError extends Error {
   constructor(
     public code: "quota" | "busy" | "empty" | "stale" | "locked",
@@ -132,7 +138,10 @@ export function decide(
   return withSummary({
     ...base,
     used,
-    quotaNoticeDay: !hasPro(e, c.now) && used.length >= 50 && base.used.length < 50 ? base.day : base.quotaNoticeDay,
+    quotaNoticeDay:
+      !hasPro(e, c.now) && used.length >= 50 && base.used.length < 50
+        ? base.day
+        : base.quotaNoticeDay,
     decisions:
       choice === "skip"
         ? base.decisions
@@ -185,6 +194,46 @@ export function removeCandidate(s: ReviewState, id: string): ReviewState {
   return {
     ...s,
     decisions: { ...s.decisions, [id]: { ...decision, choice: "keep" } },
+  };
+}
+// A grid selection is committed atomically before any OS deletion request.
+export function stageCandidates(
+  s: ReviewState,
+  ids: string[],
+  e: Entitlement,
+  c: Clock,
+): ReviewState {
+  const base = refreshDay(s, c);
+  if (
+    base.deletion?.status === "pending" ||
+    base.deletion?.status === "unknown"
+  )
+    throw new ReviewError("locked", "前の削除結果を確認してください。");
+  const unique = [...new Set(ids)];
+  if (!unique.length) throw new ReviewError("empty", "写真を選んでください。");
+  const pro = hasPro(e, c.now);
+  const fresh = unique.filter(
+    (id) => !base.decisions[id] && !base.used.includes(id),
+  );
+  if (!pro && fresh.length > remaining(base))
+    throw new ReviewError("quota", "今日の無料枚数を超えています。");
+  const decisions = { ...base.decisions };
+  unique.forEach((id) => {
+    decisions[id] = {
+      choice: "candidate",
+      at: c.now,
+      sessionId: `selection-${c.now}`,
+    };
+  });
+  const used = pro ? base.used : [...base.used, ...fresh];
+  return {
+    ...base,
+    decisions,
+    used,
+    quotaNoticeDay:
+      !pro && remaining({ ...base, used }) === 0
+        ? base.day
+        : base.quotaNoticeDay,
   };
 }
 export function beginDeletion(

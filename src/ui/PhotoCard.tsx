@@ -70,9 +70,10 @@ export function PhotoCard({
     .onUpdate((e) => {
       if (!locked.value) x.value = e.translationX;
     })
-    .onEnd(() => {
+    .onEnd((e) => {
       if (locked.value) return;
-      if (Math.abs(x.value) < cardWidth * 0.3) {
+      const flick = Math.abs(e.velocityX) > 750 && Math.abs(x.value) > 24 && Math.sign(e.velocityX) === Math.sign(x.value);
+      if (Math.abs(x.value) < cardWidth * 0.24 && !flick) {
         x.value = reduced ? 0 : withSpring(0, { damping: 20 });
         return;
       }
@@ -80,11 +81,14 @@ export function PhotoCard({
       const choice: Choice = x.value > 0 ? "keep" : "candidate";
       x.value = withTiming(
         reduced ? x.value : Math.sign(x.value) * (width + 120),
-        { duration: reduced ? 120 : 190 },
+        { duration: reduced ? 0 : 170 },
         (done) => {
           if (done) runOnJS(commit)(choice);
         },
       );
+    })
+    .onFinalize(() => {
+      if (!locked.value) x.value = reduced ? 0 : withSpring(0, { damping: 22, stiffness: 240 });
     });
   const animated = useAnimatedStyle(() => ({
     transform: [
@@ -110,16 +114,16 @@ export function PhotoCard({
           inset: 0,
           top: 13,
           bottom: -2,
-          backgroundColor: "#DED6F0",
-          borderRadius: 28,
-          transform: [{ rotate: "3deg" }, { scale: 0.96 }],
+          backgroundColor: p.surface,
+          borderRadius: 20,
+          transform: [{ scale: 0.96 }],
           overflow: "hidden",
         }}
       >
         {next ? (
           <Image
             source={{ uri: next.uri }}
-            style={{ flex: 1, opacity: 0.35 }}
+            style={{ flex: 1, opacity: 0.75 }}
             contentFit="cover"
             cachePolicy="memory"
             accessibilityElementsHidden
@@ -131,10 +135,10 @@ export function PhotoCard({
           style={[
             {
               flex: 1,
-              borderRadius: 28,
-              backgroundColor: "#fff",
-              padding: 7,
-              boxShadow: "0 12px 32px rgba(49, 28, 96, 0.12)",
+              borderRadius: 20,
+              backgroundColor: p.surface,
+              padding: 0,
+              boxShadow: "0 12px 32px rgba(0, 0, 0, 0.3)",
             },
             animated,
           ]}
@@ -146,7 +150,7 @@ export function PhotoCard({
             disabled={disabled}
             style={{
               flex: 1,
-              borderRadius: 22,
+              borderRadius: 20,
               overflow: "hidden",
               backgroundColor: p.lavender,
             }}
@@ -168,12 +172,12 @@ export function PhotoCard({
                 width: 38,
                 height: 38,
                 borderRadius: 19,
-                backgroundColor: "rgba(255,255,255,0.88)",
+                backgroundColor: "rgba(7,11,25,0.7)",
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              <Icon name="expand-outline" size={18} />
+              <Icon name="expand-outline" size={18} color="#fff" />
             </View>
           </Pressable>
           <Animated.View

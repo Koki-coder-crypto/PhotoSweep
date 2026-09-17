@@ -21,17 +21,12 @@ export function SettingsScreen() {
   const app = useApp();
   const pro = hasPro(app.entitlement, Date.now());
   return (
-    <Page title="マイページ">
-      <View style={{ gap: 8 }}>
-        <Chip>YOUR SPACE</Chip>
-        <Text style={s.title}>写真に、余白を。</Text>
-        <Text style={s.body}>少しずつでも、ちゃんと進んでいます。</Text>
-      </View>
+    <Page title="設定" back>
       <Card style={{ backgroundColor: p.lavender }}>
         <Text style={s.heading}>{pro ? "PhotoSweep Pro" : "無料プラン"}</Text>
         <Text style={s.body}>
           {pro
-            ? "あなたのペースで、何枚でも。"
+            ? "枚数制限なし。期間や並び順も選べます。"
             : "1日50枚。確認・取り消し・削除は無料。"}
         </Text>
         <Button
@@ -40,6 +35,11 @@ export function SettingsScreen() {
         />
       </Card>
       <Card style={{ paddingVertical: 4 }}>
+        <Row
+          icon="hand-left-outline"
+          title="使い方を見る"
+          onPress={() => go("/onboarding")}
+        />
         <Row
           icon="calendar-outline"
           title="整理の記録"
@@ -97,9 +97,7 @@ export function SettingsScreen() {
           onPress={() => go("/catalog")}
         />
       ) : null}
-      <Text style={[s.caption, { textAlign: "center" }]}>
-        PhotoSweep 1.0.0 · Made for your memories
-      </Text>
+      <Text style={[s.caption, { textAlign: "center" }]}>PhotoSweep 1.1.0</Text>
     </Page>
   );
 }
@@ -107,7 +105,6 @@ export function Feedback() {
   const app = useApp();
   return (
     <Page title="振動・音・動き" back>
-      <Text style={s.title}>心地よさも、自分好みに。</Text>
       <Card>
         <Row
           icon="pulse-outline"
@@ -406,8 +403,6 @@ export function RestorePhoto() {
 export function Privacy() {
   return (
     <Page title="プライバシー" back>
-      <Chip>PRIVATE BY DESIGN</Chip>
-      <Text style={s.title}>あなたの写真は、{`\n`}あなたのもの。</Text>
       <Card>
         <Text style={s.heading}>写真を開発者へ送信しません</Text>
         <Text style={s.body}>
@@ -438,7 +433,6 @@ export function Privacy() {
 export function Terms() {
   return (
     <Page title="利用規約・購入条件" back>
-      <Text style={s.title}>安心して使うために。</Text>
       <Card>
         <Text style={s.heading}>写真の整理</Text>
         <Text style={s.body}>
@@ -450,7 +444,7 @@ export function Terms() {
         </Text>
         <Text style={s.heading}>購入・自動更新</Text>
         <Text style={s.body}>
-          Proは月額または年額の自動更新サブスクリプションです。料金・期間・無料体験の有無は購入画面のApp
+          Proには自動更新プランと、1回の支払いで利用できる買い切りプランがあります。提供中のプラン・料金・期間・無料体験の有無は購入画面のApp
           Store情報に従います。無料体験は対象の方のみ利用できます。終了の24時間以上前に解約しない場合、自動更新されます。
         </Text>
         <Text style={s.heading}>管理・復元・返金</Text>

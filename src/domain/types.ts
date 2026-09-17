@@ -12,6 +12,8 @@ export interface Photo {
   height: number;
   createdAt: number;
   screenshot: boolean;
+  modifiedAt?: number;
+  favorite?: boolean;
 }
 export interface Scope {
   month?: string;
@@ -37,6 +39,15 @@ export interface PhotoRepository {
     ids: string[],
   ): Promise<"confirmed" | "cancelled" | "unknown">;
   subscribe(callback: () => void): () => void;
+  fingerprints?(ids: string[]): Promise<PhotoFingerprint[]>;
+  contentDigests?(ids: string[]): Promise<{ id: string; digest: string }[]>;
+}
+export interface PhotoFingerprint {
+  id: string;
+  hash: string;
+  quality: number;
+  favorite: boolean;
+  exactEligible: boolean;
 }
 export type Entitlement =
   | { kind: "free" | "unknown" | "expired" | "revoked"; verified: boolean }
@@ -51,7 +62,7 @@ export type Entitlement =
   | { kind: "legacy"; verified: true; productId: string };
 export interface StoreProduct {
   id: string;
-  period: "month" | "year";
+  period: "week" | "month" | "year" | "lifetime";
   displayPrice: string;
   price: number;
   currency: string;

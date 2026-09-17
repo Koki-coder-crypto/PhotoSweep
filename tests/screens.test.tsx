@@ -8,6 +8,9 @@ import * as Settings from "../src/screens/settings";
 import { scenarioData, scenarios } from "../src/dev/scenarios";
 import type { Photo } from "../src/domain/types";
 import { config } from "../src/config";
+import { Collection } from "../src/screens/collection";
+import { router } from "expo-router";
+import { emptyAnalysis } from "../src/domain/analysis";
 jest.mock("../src/state/AppContext", () => ({ useApp: jest.fn() }));
 const mockUseApp = jest.mocked(useApp);
 const photos: Photo[] = Array.from({ length: 146 }, (_, i) => ({
@@ -76,6 +79,7 @@ function model(id = "S03"): AppModel {
     undo: jest.fn(),
     removeCandidate: jest.fn(),
     deletePhotos: jest.fn(async () => {}),
+    stageCandidates: jest.fn(async () => {}),
     reconcile: jest.fn(),
     loadBilling: jest.fn(),
     refreshEntitlement: jest.fn(),
@@ -87,6 +91,10 @@ function model(id = "S03"): AppModel {
   };
 }
 const views: Record<string, React.ComponentType> = {
+  N01: () => <Collection initialKind="similar" />,
+  N02: () => <Collection initialKind="duplicate" />,
+  N03: () => <Collection initialKind="all" />,
+  N04: () => <Billing.Paywall initialPeriod="lifetime" />,
   S01: Main.Welcome,
   S02: Main.PermissionScreen,
   S03: Main.Home,
@@ -217,12 +225,128 @@ test("home never offers another 20 photos when the free allowance is exhausted",
   mockUseApp.mockReturnValue(app);
   render(<Main.Home />);
   expect(screen.queryByText("まず20枚だけ。")).toBeNull();
-  expect(screen.getByRole("button", { name: "今日の整理を確認" })).toBeTruthy();
+  expect(screen.getByText("今日あと0枚")).toBeTruthy();
+  expect(
+    screen.getByRole("button", { name: /スクリーンショット、/ }),
+  ).toBeTruthy();
 });
-test("screenshot entry shortens its promise to the same remaining daily allowance", () => {
+test("screenshot grid gates new selections exceeding the remaining free allowance", async () => {
   const app = model("S03");
   app.state.used = Array.from({ length: 43 }, (_, i) => `old-${i}`);
   mockUseApp.mockReturnValue(app);
   render(<Main.Screenshots />);
-  expect(screen.getByRole("button", { name: "7枚を見てみる" })).toBeTruthy();
+  fireEvent.press(screen.getByRole("button", { name: "すべて選択" }));
+  expect(screen.getByText(/今日の無料分：あと7枚/)).toBeTruthy();
+  await act(async () => {
+    fireEvent.press(screen.getByRole("button", { name: "37枚を削除" }));
+  });
+  expect(app.stageCandidates).not.toHaveBeenCalled();
+  expect(app.deletePhotos).not.toHaveBeenCalled();
+  expect(router.push).toHaveBeenCalledWith("/paywall?source=selection");
+});
+
+test("group selection protects the recommended photo and persists before the OS request", async () => {
+  const app = model();
+  app.photos = photos.slice(0, 3);
+  app.analysis = {
+    ...emptyAnalysis,
+    status: "complete",
+    groups: [
+      {
+        id: "g",
+        kind: "duplicate",
+        ids: ["demo-0", "demo-1", "demo-2"],
+        recommended: "demo-0",
+      },
+    ],
+  };
+  const order: string[] = [];
+  app.stageCandidates = jest.fn(async () => {
+    order.push("saved");
+  });
+  app.deletePhotos = jest.fn(async () => {
+    order.push("OS");
+  });
+  mockUseApp.mockReturnValue(app);
+  render(<Collection initialKind="duplicate" />);
+  expect(screen.getByRole("button", { name: "0枚を削除" })).toBeDisabled();
+  fireEvent.press(screen.getByRole("button", { name: "おすすめ以外を選択" }));
+  await act(async () => {
+    fireEvent.press(screen.getByRole("button", { name: "2枚を削除" }));
+  });
+  expect(app.stageCandidates).toHaveBeenCalledWith(["demo-1", "demo-2"]);
+  expect(order).toEqual(["saved", "OS"]);
+});
+test("failed grid save never requests an OS deletion", async () => {
+  const app = model();
+  app.photos = photos.slice(0, 2);
+  app.stageCandidates = jest.fn(async () => {
+    throw new Error("disk full");
+  });
+  mockUseApp.mockReturnValue(app);
+  render(<Collection initialKind="all" />);
+  fireEvent.press(screen.getByRole("button", { name: "すべて選択" }));
+  await act(async () => {
+    fireEvent.press(screen.getByRole("button", { name: "2枚を削除" }));
+  });
+  expect(app.deletePhotos).not.toHaveBeenCalled();
+  expect(app.notify).toHaveBeenCalledWith("disk full");
+});
+test("an unresolved deletion remains reachable when permission hides every candidate", () => {
+  const app = model("S40");
+  app.photos = [];
+  app.state.deletion = {
+    id: "unknown",
+    ids: ["private"],
+    deleted: [],
+    remaining: ["private"],
+    at: Date.now(),
+    status: "unknown",
+  };
+  mockUseApp.mockReturnValue(app);
+  render(<Main.Candidates />);
+  expect(screen.getByRole("button", { name: "削除結果を確認" })).toBeTruthy();
+});
+test("onboarding explains all three steps and allows skipping to photo permission", () => {
+  mockUseApp.mockReturnValue(model());
+  render(<Main.Welcome />);
+  expect(screen.getByText("1 / 3")).toBeTruthy();
+  fireEvent.press(screen.getByRole("button", { name: "次へ" }));
+  expect(screen.getByText("2 / 3")).toBeTruthy();
+  fireEvent.press(screen.getByRole("button", { name: "次へ" }));
+  expect(screen.getByText("3 / 3")).toBeTruthy();
+  fireEvent.press(screen.getByRole("button", { name: "写真を選んではじめる" }));
+  expect(router.push).toHaveBeenCalledWith("/permission");
+});
+test("lifetime plan selection shows the full one-time price and purchases its own SKU", async () => {
+  const app = model();
+  app.products = [
+    {
+      id: config.products.weekly,
+      period: "week",
+      displayPrice: "￥1,500",
+      price: 1500,
+      currency: "JPY",
+      eligibility: "eligible",
+      trialDays: 7,
+    },
+    {
+      id: config.products.lifetime,
+      period: "lifetime",
+      displayPrice: "￥6,000",
+      price: 6000,
+      currency: "JPY",
+      eligibility: "ineligible",
+      trialDays: 0,
+    },
+  ];
+  mockUseApp.mockReturnValue(app);
+  render(<Billing.Paywall />);
+  fireEvent.press(
+    screen.getByRole("radio", { name: "買い切りプラン ￥6,000" }),
+  );
+  await act(async () => {
+    fireEvent.press(screen.getByRole("button", { name: "￥6,000で買い切り" }));
+  });
+  expect(app.purchase).toHaveBeenCalledWith(config.products.lifetime);
 });

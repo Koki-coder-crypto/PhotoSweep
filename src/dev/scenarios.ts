@@ -10,6 +10,17 @@ import type {
 import screens from "../../handoff/design/screens.json";
 import variants from "../../handoff/design/state_variants.json";
 export const scenarios = [
+  ...[
+    ["N01", "似ている写真", "端末内解析でまとめた写真の比較と選択"],
+    ["N02", "同じ画像", "元画像の一致を確認したグループ"],
+    ["N03", "すべての写真", "複数選択からOS確認へ直接進む"],
+    ["N04", "買い切りプラン", "自動更新なし・総額表示"],
+  ].map(([id, title, note]) => ({
+    id: id!,
+    parent: id!,
+    title: title!,
+    note: note!,
+  })),
   ...screens.map((s) => ({
     id: s.id,
     parent: s.id,

@@ -1,5 +1,28 @@
 # 実装・検証の記録 — 2026-09-17
 
+## 現行版：1.1.0
+Cleanup使用録画を参照して画面と動線を刷新。端末内の類似・重複解析をSwiftで追加した。詳細は [CLEANUP_REDESIGN.md](CLEANUP_REDESIGN.md)。
+
+- 濃紺＋青、写真カテゴリ、3ステップ初回説明、ホーム／スワイプ／削除候補。
+- 比較一覧から選択→保存→OS確認。削除成功直後に一覧へ反映。
+- 週額・買い切りの選択、実ストア価格、無料継続を明示。
+- 1,000件・10,000件の類似分類、49→50→51枚、一括保存失敗、権限取消中の解析、購入型の誤設定、削除後の表示更新を追加検証。
+- TypeScript PASS。本番関数・SQL・依存テスト50/50、UI・Provider・StoreKit・解析Hook107/107、合計157テストPASS。OS/課金応答はmockであり実機結果ではない。
+- Expo Doctor21/21。iOS Hermesバンドルのデモ・カタログ除外PASS。
+- Webは360・390・430幅、初回説明、比較・選択・デモ削除、週額／買い切り切替を確認。残す25回＋取り消し25回、候補25回＋取り消し25回の計100操作で位置と候補数が復元。再読込後の位置も確認。
+- EAS無料枠（投入前iOS 1/15）でpreview Releaseを生成。ビルド **939de677-450f-48b3-97f7-8c4684c63d74** がFINISHED、Xcode ARCHIVE SUCCEEDED。Swift解析ファイルのコンパイルとネイティブモジュールのリンクを確認。
+- IPAを検査：1.1.0 (1)、iOS16.4以降、署名・登録端末用プロファイル・Hermesバンドルを同梱。デモ文字列なし。14,465,927 bytes。PC/Metro不要の構成。
+- 新版の実機起動・触覚・100操作・Sandboxは未実施。App Store Connectの商品・公開URL等の本人設定も残る。公開前チェックは合格扱いにしない。
+
+[実機用ビルド](https://expo.dev/accounts/koki_123/projects/photosweep/builds/939de677-450f-48b3-97f7-8c4684c63d74)
+証跡：artifacts/cleanup-final-check.log、cleanup-final-ui-tests.log、cleanup-analysis-hook.log、cleanup-xcode.txt、cleanup-ipa-verification.json、cleanup-home-390.png、cleanup-home-430.png。
+
+## 今回修正した問題
+一括選択での無料枠の二重消費を防止。保存失敗でOS削除を呼ばない。写真アクセス変更後に候補が0枚でも未確定削除の確認ボタンを維持。確定済み削除の表示を全件読み込み完了まで待たせない。解析中の権限取消・写真変更で古い結果を破棄。買い切りSKUが消耗型で登録されている場合は販売しない。小さい画面の説明の改行と、文字拡大時のカテゴリ配置を調整。
+
+以下は刷新前の履歴であり、現行のUI・商品構成・配布先は上記を使用する。
+
+
 POP V3を既存リポジトリへ実装し、Windowsで実行可能な検証と、EASで署名付きiOS開発ビルドを完了しました。**iPhoneへのインストール・実機操作・Sandbox検証は未完了です。** 全工程の完了条件にはまだ達していません。
 
 作業場所: `C:/Users/koki/Documents/ChatGPT/PhotoSweep`。ブランチ: `codex/pop-v3`。元のコミット: `1cb1ad3d04d7a8cd61f10ff1d38d5c9eceed492e`。デスクトップ資料を `handoff/` に保存し、古い画面の重複ソースと旧仕様を置き換えました。リモートへpush、ストアへの提出・公開、有料ビルドは行っていません。

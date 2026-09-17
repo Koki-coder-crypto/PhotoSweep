@@ -19,7 +19,7 @@ export function demoLibrary(count = 146): Photo[] {
     date.setDate(Math.max(1, 28 - (i % 28)));
     return {
       id: `demo-${i}`,
-      uri: Asset.fromModule(assets[i % 2]).uri,
+      uri: Asset.fromModule(assets[Math.floor(i / 3) % 2]).uri,
       width: 1000,
       height: 1400,
       createdAt: date.getTime(),
@@ -38,6 +38,33 @@ export function demoPhotos(
   let permission: Permission = options.permission || "full";
   let items = options.empty ? [] : demoLibrary();
   return {
+    async fingerprints(ids) {
+      return ids.map((id) => {
+        const index = Number(id.replace("demo-", ""));
+        return {
+          id,
+          hash: (
+            0x0f0f0f0f00000000n +
+            BigInt(Math.floor(index / 3)) * 0x101010101n
+          )
+            .toString(16)
+            .padStart(16, "0"),
+          quality: 500,
+          favorite: index % 3 === 0,
+          exactEligible: index < 12,
+        };
+      });
+    },
+    async contentDigests(ids) {
+      return ids
+        .filter((id) => Number(id.replace("demo-", "")) < 12)
+        .map((id) => ({
+          id,
+          digest: Math.floor(Number(id.replace("demo-", "")) / 3)
+            .toString(16)
+            .padStart(64, "a"),
+        }));
+    },
     async permission(request) {
       if (request && permission === "unknown") permission = "full";
       return permission;
@@ -112,35 +139,38 @@ export function demoBilling(
       if (options.fail) throw new Error("料金を読み込めませんでした。");
       return [
         {
-          id: config.products.annual,
-          period: "year",
-          displayPrice: "￥2,400",
-          price: 2400,
+          id: config.products.weekly,
+          period: "week",
+          displayPrice: "￥1,500",
+          price: 1500,
           currency: "JPY",
           eligibility: options.eligibility || "eligible",
           trialDays: 7,
         },
         {
-          id: config.products.monthly,
-          period: "month",
-          displayPrice: "￥480",
-          price: 480,
+          id: config.products.lifetime,
+          period: "lifetime",
+          displayPrice: "￥6,000",
+          price: 6000,
           currency: "JPY",
-          eligibility: options.eligibility || "eligible",
-          trialDays: 7,
+          eligibility: "ineligible",
+          trialDays: 0,
         },
       ];
     },
     entitlement: async () => entitlement,
     async purchase(productId) {
       if (options.purchase) return options.purchase;
-      entitlement = {
-        kind: options.eligibility === "ineligible" ? "active" : "trial",
-        verified: true,
-        productId,
-        expiresAt: Date.now() + 7 * 86400000,
-        autoRenew: true,
-      };
+      entitlement =
+        productId === config.products.lifetime
+          ? { kind: "legacy", verified: true, productId }
+          : {
+              kind: options.eligibility === "ineligible" ? "active" : "trial",
+              verified: true,
+              productId,
+              expiresAt: Date.now() + 7 * 86400000,
+              autoRenew: true,
+            };
       callbacks.forEach((fn) => fn());
       return "verified";
     },

@@ -5,8 +5,11 @@ import type {
   Photo,
   PhotoRepository,
   Scope,
+  PhotoFingerprint,
 } from "../domain/types";
 const access = requireNativeModule<{
+  fingerprints?(ids: string[]): Promise<PhotoFingerprint[]>;
+  contentDigests?(ids: string[]): Promise<{ id: string; digest: string }[]>;
   permission(): Promise<Permission>;
   inspect(
     ids: string[],
@@ -21,6 +24,7 @@ const map = (a: Media.Asset): Photo => ({
   width: a.width,
   height: a.height,
   createdAt: a.creationTime,
+  modifiedAt: a.modificationTime,
   screenshot: a.mediaSubtypes?.includes("screenshot") || false,
 });
 function dates(scope: Scope) {
@@ -33,6 +37,12 @@ function dates(scope: Scope) {
 }
 export function createPhotoRepository(): PhotoRepository {
   return {
+    fingerprints: access.fingerprints
+      ? (ids) => access.fingerprints!(ids)
+      : undefined,
+    contentDigests: access.contentDigests
+      ? (ids) => access.contentDigests!(ids)
+      : undefined,
     async permission(request = false) {
       if (request && (await access.permission()) !== "restricted")
         await Media.requestPermissionsAsync(false, ["photo"]);

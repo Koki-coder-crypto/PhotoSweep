@@ -11,10 +11,15 @@ import { AppProvider, useApp } from "../state/AppContext";
 import * as Main from "../screens/primary";
 import * as Billing from "../screens/billing";
 import * as Settings from "../screens/settings";
+import { Collection } from "../screens/collection";
 import { palette as p, styles as s } from "../ui/theme";
 import { demoBilling, demoPhotos } from "./adapters";
 import { scenarioData, scenarios } from "./scenarios";
 const views: Record<string, React.ComponentType> = {
+  N01: () => <Collection initialKind="similar" />,
+  N02: () => <Collection initialKind="duplicate" />,
+  N03: () => <Collection initialKind="all" />,
+  N04: () => <Billing.Paywall initialPeriod="lifetime" />,
   S01: Main.Welcome,
   S02: Main.PermissionScreen,
   S03: Main.Home,
@@ -33,7 +38,7 @@ const views: Record<string, React.ComponentType> = {
   S16: Main.DeletionResult,
   S17: Main.Quota,
   S18: Billing.Paywall,
-  S19: () => <Billing.Paywall initialPeriod="month" />,
+  S19: () => <Billing.Paywall initialPeriod="lifetime" />,
   S20: Billing.Paywall,
   S21: Billing.Paywall,
   S22: Settings.NotificationsScreen,

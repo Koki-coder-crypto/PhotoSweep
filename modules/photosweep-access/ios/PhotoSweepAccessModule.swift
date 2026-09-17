@@ -3,8 +3,15 @@ import Photos
 import StoreKit
 
 public class PhotoSweepAccessModule: Module {
+  private let analysisQueue = DispatchQueue(label: "photosweep.analysis", qos: .utility)
   public func definition() -> ModuleDefinition {
     Name("PhotoSweepAccess")
+    AsyncFunction("fingerprints") { (ids: [String]) -> [[String: Any]] in
+      PhotoSweepAnalysis.fingerprints(ids)
+    }.runOnQueue(analysisQueue)
+    AsyncFunction("contentDigests") { (ids: [String]) -> [[String: String]] in
+      PhotoSweepAnalysis.digests(ids)
+    }.runOnQueue(analysisQueue)
     AsyncFunction("canPurchase") { () -> Bool in AppStore.canMakePayments }
     AsyncFunction("deleteRequested") { (ids: [String], promise: Promise) in
       let unique = Array(Set(ids))

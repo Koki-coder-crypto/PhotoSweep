@@ -1,11 +1,11 @@
 {
-  "recordedAt": "2026-09-16T16:09:04.2995671Z",
+  "recordedAt": "2026-09-17T07:58:20.875Z",
   "environment": "Windows / Node 24.13.0 / Expo SDK 57",
   "automated": {
     "expoDoctor": "21/21 PASS",
     "typecheck": "PASS",
     "domainSqlAndDependencies": {
-      "tests": 37,
+      "tests": 50,
       "status": "PASS"
     },
     "npmAudit": {
@@ -18,8 +18,9 @@
     },
     "screensProviderAndStoreAdapter": {
       "status": "PASS",
-      "tests": 90,
-      "nativeApis": "mocked"
+      "tests": 107,
+      "nativeApis": "mocked",
+      "includes": "analysis lifecycle hook"
     }
   },
   "web": {
@@ -28,28 +29,45 @@
     "nativeGesturePerformance": "NOT_RUN",
     "responsiveWidths": [
       360,
-      375,
       390,
       430
     ],
-    "catalogStates": 66,
-    "sequentialDecisionActions": 100
+    "catalogStates": 70,
+    "sequentialDecisionActions": 100,
+    "catalogVerification": "70 React screen/state mounts; selected key flows visually verified",
+    "sequentialMethod": "25 keep/undo pairs + 25 candidate/undo pairs; position restored, reload checked; demo only"
   },
   "native": {
     "storeKitSandbox": "NOT_RUN",
     "iosVerified": false,
     "acceptanceStatus": "NOT_RUN",
     "build": "FINISHED",
-    "buildProfile": "development",
-    "buildUrl": "https://expo.dev/accounts/koki_123/projects/photosweep/builds/ec3bca0a-935d-4a56-99c3-18f2e4aeeeba",
+    "buildProfile": "preview (Release)",
+    "buildUrl": "https://expo.dev/accounts/koki_123/projects/photosweep/builds/939de677-450f-48b3-97f7-8c4684c63d74",
     "installation": "AWAITING_USER",
-    "buildId": "ec3bca0a-935d-4a56-99c3-18f2e4aeeeba",
-    "previousBuildId": "c19d3ff0-c662-401b-ae10-f4ca0239b6d4",
+    "buildId": "939de677-450f-48b3-97f7-8c4684c63d74",
+    "previousBuildId": "ec3bca0a-935d-4a56-99c3-18f2e4aeeeba",
     "previousBuildFailure": "npm ci: invalid transitive local override lock entry; fixed using root dependency reference; clean npm 10.9.8 installation passed",
     "deviceRegistration": "CONFIRMED_2026-09-17",
     "device": "iPhone 15",
     "iosReported": "26.61",
-    "acceptanceCases": 93
+    "acceptanceCases": 102,
+    "ipaInspection": {
+      "bundleId": "com.kokicoder.photosweep",
+      "version": "1.1.0",
+      "buildNumber": "1",
+      "minimumOS": "16.4",
+      "embeddedHermesBundleBytes": 4196131,
+      "developmentMarkers": [],
+      "nativeAnalysisCompiled": true,
+      "releaseArchiveSucceeded": true,
+      "codeSignaturePresent": true,
+      "provisioningProfilePresent": true,
+      "ipaBytes": 14465927,
+      "sha256": "40a6d98a8a6b40835920385482fe3f58b0e6265d2ca9c06e1a7dc056fd35058e",
+      "actualDeviceExecution": "NOT_RUN"
+    }
   },
-  "release": "BLOCKED_OWNER_CONFIGURATION_AND_NATIVE_VERIFICATION"
+  "release": "BLOCKED_OWNER_CONFIGURATION_AND_NATIVE_VERIFICATION",
+  "version": "1.1.0"
 }

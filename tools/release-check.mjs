@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
 if (fs.existsSync('.env')) process.loadEnvFile('.env');
 const errors = [];
-const required = ['EXPO_PUBLIC_EAS_PROJECT_ID', 'EXPO_PUBLIC_PRIVACY_URL', 'EXPO_PUBLIC_TERMS_URL', 'EXPO_PUBLIC_OPERATOR_NAME', 'EXPO_PUBLIC_MONTHLY_PRODUCT_ID', 'EXPO_PUBLIC_ANNUAL_PRODUCT_ID'];
+const required = ['EXPO_PUBLIC_EAS_PROJECT_ID', 'EXPO_PUBLIC_PRIVACY_URL', 'EXPO_PUBLIC_TERMS_URL', 'EXPO_PUBLIC_OPERATOR_NAME', 'EXPO_PUBLIC_WEEKLY_PRODUCT_ID', 'EXPO_PUBLIC_LIFETIME_PRODUCT_ID'];
 for (const key of required) if (!process.env[key]?.trim()) errors.push(`${key}: 未設定`);
 if (!process.env.EXPO_PUBLIC_SUPPORT_EMAIL && !process.env.EXPO_PUBLIC_SUPPORT_URL) errors.push('正式な問い合わせ窓口が未設定');
 for (const key of ['EXPO_PUBLIC_PRIVACY_URL', 'EXPO_PUBLIC_TERMS_URL', 'EXPO_PUBLIC_SUPPORT_URL']) {

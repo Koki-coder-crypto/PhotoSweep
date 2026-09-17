@@ -2,7 +2,7 @@
   "device": "iPhone 15",
   "iosVersionReported": "26.61",
   "iosVersionVerified": null,
-  "buildId": null,
+  "buildId": "939de677-450f-48b3-97f7-8c4684c63d74",
   "testedAt": null,
   "tests": [
     {
@@ -562,6 +562,62 @@
       "status": "NOT_RUN",
       "evidence": null,
       "notes": "Windows自動テスト・Web確認は別記録。実機合格ではない。"
+    },
+    {
+      "id": "UI-N01",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "類似の比較・拡大・おすすめ以外を選択"
+    },
+    {
+      "id": "UI-N02",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "完全一致グループとLive Photo・編集除外"
+    },
+    {
+      "id": "UI-N03",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "一括選択と保存後のOS削除確認"
+    },
+    {
+      "id": "UI-N04",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "週額と買い切りの実ストア価格・権利"
+    },
+    {
+      "id": "ANALYSIS-01",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "全アクセス・部分許可・権限取消"
+    },
+    {
+      "id": "ANALYSIS-02",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "iCloudのみ・大規模写真・UI追従"
+    },
+    {
+      "id": "DELETE-FAST",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "確定削除直後の一覧反映と再起動"
+    },
+    {
+      "id": "UX-100-V11",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "1.1.0で連続100操作と触覚・待ち時間"
+    },
+    {
+      "id": "RELEASE-V11",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "Metroなし起動・デモ除外・オフライン"
     }
-  ]
+  ],
+  "appVersion": "1.1.0",
+  "installation": "AWAITING_USER"
 }

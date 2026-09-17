@@ -4,10 +4,10 @@ const projectId =
 const app: ExpoConfig = {
   name: "PhotoSweep",
   slug: "photosweep",
-  version: "1.0.0",
+  version: "1.1.0",
   scheme: "photosweep",
   orientation: "portrait",
-  userInterfaceStyle: "light",
+  userInterfaceStyle: "dark",
   icon: "./assets/icon.png",
   ios: {
     supportsTablet: false,
@@ -56,7 +56,7 @@ const app: ExpoConfig = {
       {
         image: "./assets/splash-icon.png",
         imageWidth: 160,
-        backgroundColor: "#FAF8FF",
+        backgroundColor: "#070B19",
       },
     ],
   ],

@@ -39,29 +39,27 @@ beforeEach(() => {
   jest.mocked(IAP.isTransactionVerifiedIOS).mockResolvedValue(true);
 });
 test("StoreKit product display price, period and group eligibility are used directly", async () => {
-  jest
-    .mocked(IAP.fetchProducts)
-    .mockResolvedValue([
-      {
-        id: config.products.annual,
-        platform: "ios",
-        type: "subs",
-        displayPrice: "€19,99",
-        price: 19.99,
-        currency: "EUR",
-        subscriptionPeriodUnitIOS: "year",
-        subscriptionPeriodNumberIOS: "1",
-        subscriptionGroupIdIOS: "group",
-        subscriptionOffers: [
-          {
-            type: "introductory",
-            paymentMode: "free-trial",
-            period: { unit: "week", value: 1 },
-            periodCount: 1,
-          },
-        ],
-      },
-    ] as any);
+  jest.mocked(IAP.fetchProducts).mockResolvedValue([
+    {
+      id: config.products.annual,
+      platform: "ios",
+      type: "subs",
+      displayPrice: "€19,99",
+      price: 19.99,
+      currency: "EUR",
+      subscriptionPeriodUnitIOS: "year",
+      subscriptionPeriodNumberIOS: "1",
+      subscriptionGroupIdIOS: "group",
+      subscriptionOffers: [
+        {
+          type: "introductory",
+          paymentMode: "free-trial",
+          period: { unit: "week", value: 1 },
+          periodCount: 1,
+        },
+      ],
+    },
+  ] as any);
   const adapter = createBillingAdapter();
   const products = await adapter.loadProducts();
   expect(products[0]).toMatchObject({
@@ -73,22 +71,92 @@ test("StoreKit product display price, period and group eligibility are used dire
   expect(IAP.isEligibleForIntroOfferIOS).toHaveBeenCalledWith("group");
   adapter.dispose();
 });
-test("a failing eligibility request stays unknown and a failed price request has no fallback", async () => {
+
+test("weekly and non-consumable products are loaded from StoreKit and purchased with distinct types", async () => {
+  jest.mocked(IAP.fetchProducts).mockResolvedValue([
+    {
+      id: config.products.weekly,
+      platform: "ios",
+      type: "subs",
+      displayPrice: "￥1,500",
+      price: 1500,
+      currency: "JPY",
+      subscriptionPeriodUnitIOS: "week",
+      subscriptionPeriodNumberIOS: "1",
+      subscriptionGroupIdIOS: "group",
+      subscriptionOffers: [
+        {
+          type: "introductory",
+          paymentMode: "free-trial",
+          period: { unit: "week", value: 1 },
+          periodCount: 1,
+        },
+      ],
+    },
+    {
+      id: config.products.lifetime,
+      platform: "ios",
+      type: "in-app",
+      typeIOS: "non-consumable",
+      displayPrice: "￥6,000",
+      price: 6000,
+      currency: "JPY",
+    },
+  ] as any);
+  jest.mocked(IAP.isEligibleForIntroOfferIOS).mockResolvedValue(true);
+  const adapter = createBillingAdapter();
+  const products = await adapter.loadProducts();
+  expect(products.map((p) => p.period)).toEqual(["week", "lifetime"]);
+  expect(products[0]?.trialDays).toBe(7);
+  expect(products[1]?.trialDays).toBe(0);
+  jest
+    .mocked(IAP.requestPurchase)
+    .mockRejectedValueOnce({ code: IAP.ErrorCode.UserCancelled });
+  await adapter.purchase(config.products.lifetime);
+  expect(IAP.requestPurchase).toHaveBeenLastCalledWith(
+    expect.objectContaining({ type: "in-app" }),
+  );
+  jest
+    .mocked(IAP.requestPurchase)
+    .mockRejectedValueOnce({ code: IAP.ErrorCode.UserCancelled });
+  await adapter.purchase(config.products.weekly);
+  expect(IAP.requestPurchase).toHaveBeenLastCalledWith(
+    expect.objectContaining({ type: "subs" }),
+  );
+  adapter.dispose();
+});
+test("a misconfigured consumable SKU cannot be sold as lifetime access", async () => {
   jest
     .mocked(IAP.fetchProducts)
     .mockResolvedValue([
       {
-        id: config.products.annual,
+        id: config.products.lifetime,
         platform: "ios",
-        type: "subs",
-        displayPrice: "€19,99",
-        price: 19.99,
-        currency: "EUR",
-        subscriptionPeriodUnitIOS: "year",
-        subscriptionPeriodNumberIOS: "1",
-        subscriptionGroupIdIOS: "group",
+        type: "in-app",
+        typeIOS: "consumable",
+        displayPrice: "￥6,000",
+        price: 6000,
+        currency: "JPY",
       },
     ] as any);
+  const adapter = createBillingAdapter();
+  await expect(adapter.loadProducts()).rejects.toThrow();
+  adapter.dispose();
+});
+test("a failing eligibility request stays unknown and a failed price request has no fallback", async () => {
+  jest.mocked(IAP.fetchProducts).mockResolvedValue([
+    {
+      id: config.products.annual,
+      platform: "ios",
+      type: "subs",
+      displayPrice: "€19,99",
+      price: 19.99,
+      currency: "EUR",
+      subscriptionPeriodUnitIOS: "year",
+      subscriptionPeriodNumberIOS: "1",
+      subscriptionGroupIdIOS: "group",
+    },
+  ] as any);
   jest
     .mocked(IAP.isEligibleForIntroOfferIOS)
     .mockRejectedValueOnce(new Error("offline"));
@@ -113,12 +181,10 @@ test("one unavailable SKU does not discard a different verified active subscript
 });
 test("unverified native transactions cannot grant an entitlement or be finished", async () => {
   const adapter = createBillingAdapter();
-  jest
-    .mocked(IAP.currentEntitlementIOS)
-    .mockResolvedValue({
-      productId: config.products.monthly,
-      expirationDateIOS: Date.now() + 10000,
-    } as any);
+  jest.mocked(IAP.currentEntitlementIOS).mockResolvedValue({
+    productId: config.products.monthly,
+    expirationDateIOS: Date.now() + 10000,
+  } as any);
   jest.mocked(IAP.isTransactionVerifiedIOS).mockResolvedValue(false);
   expect(await adapter.entitlement()).toEqual({
     kind: "unknown",

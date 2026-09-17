@@ -71,7 +71,14 @@ export function productCTA(p?: StoreProduct): {
       disclosure:
         "確認が終わるまで申し込みはできません。無料のまま利用できます。",
     };
-  const period = p.period === "year" ? "年" : "月";
+  if (p.period === "lifetime")
+    return {
+      enabled: true,
+      trial: false,
+      label: `${p.displayPrice}で買い切り`,
+      disclosure: `${p.displayPrice}の1回限りのお支払い。自動更新はありません。`,
+    };
+  const period = p.period === "year" ? "年" : p.period === "week" ? "週" : "月";
   const trial = p.eligibility === "eligible" && p.trialDays > 0;
   return {
     enabled: true,

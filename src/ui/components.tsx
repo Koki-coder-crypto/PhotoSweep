@@ -72,7 +72,7 @@ export function Button({
                   ? p.mint
                   : variant === "ghost"
                     ? "transparent"
-                    : "#fff",
+                    : p.surface,
           borderWidth: variant === "secondary" ? 1 : 0,
           borderColor: p.border,
           opacity: disabled || loading ? 0.45 : 1,
@@ -238,7 +238,6 @@ export function StateView({
             backgroundColor: background,
             alignItems: "center",
             justifyContent: "center",
-            transform: [{ rotate: "-7deg" }],
           }}
         >
           <Icon name={icon} color={color} size={46} />
@@ -379,7 +378,7 @@ const c = StyleSheet.create({
     minHeight: 54,
     paddingVertical: 14,
     paddingHorizontal: 18,
-    borderRadius: 18,
+    borderRadius: 14,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",

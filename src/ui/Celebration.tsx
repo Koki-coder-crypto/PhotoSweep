@@ -82,7 +82,6 @@ export function Celebration({ reduced }: { reduced: boolean }) {
                 outputRange: [0.88, 1.03, 1],
               }),
             },
-            { rotate: "-7deg" },
           ],
         }}
       >

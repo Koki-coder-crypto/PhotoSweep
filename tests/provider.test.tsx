@@ -101,6 +101,32 @@ async function boot() {
   });
   return view;
 }
+
+test("bulk selection rolls back on storage failure and never consumes allowance", async () => {
+  await boot();
+  saveFails = true;
+  await act(async () => {
+    await expect(app.stageCandidates(["p0", "p1"])).rejects.toThrow(
+      "disk full",
+    );
+  });
+  expect(app.state.used).toEqual([]);
+  expect(app.state.decisions).toEqual({});
+  expect(repository.deleteRequested).not.toHaveBeenCalled();
+});
+test("confirmed deletions disappear immediately even while the library refresh is slow", async () => {
+  await boot();
+  await act(async () => {
+    await app.stageCandidates(["p0", "p1"]);
+  });
+  jest.mocked(repository.page).mockImplementation(() => new Promise(() => {}));
+  await act(async () => {
+    await app.deletePhotos(["p0", "p1"]);
+  });
+  expect(app.state.deletion?.status).toBe("done");
+  expect(app.photos.some((p) => p.id === "p0" || p.id === "p1")).toBe(false);
+  expect(app.photos.length).toBe(138);
+});
 test("full provider persists a decision and resumes the same cursor after remount", async () => {
   const view = await boot();
   await act(async () => {
@@ -177,13 +203,11 @@ test("revoked permission and unknown deletion retain the entire candidate set", 
   });
   jest.mocked(repository.deleteRequested).mockImplementation(async () => {
     jest.mocked(repository.permission).mockResolvedValue("denied");
-    jest
-      .mocked(repository.inspect)
-      .mockImplementation(async (ids) => ({
-        present: [],
-        missing: [],
-        inaccessible: ids,
-      }));
+    jest.mocked(repository.inspect).mockImplementation(async (ids) => ({
+      present: [],
+      missing: [],
+      inaccessible: ids,
+    }));
     return "unknown";
   });
   await act(async () => {

@@ -25,7 +25,10 @@ import {
   removeCandidate,
   beginDeletion,
   reconcileDeletion,
+  stageCandidates,
 } from "../domain/review";
+import { useLibraryAnalysis } from "./useLibraryAnalysis";
+import type { LibraryAnalysis } from "../domain/analysis";
 import type {
   BillingAdapter,
   Choice,
@@ -45,6 +48,7 @@ export interface AppModel {
   bootError: string;
   retryBoot(): void;
   photos: Photo[];
+  analysis?: LibraryAnalysis;
   permission: Permission;
   loading: boolean;
   libraryError: string;
@@ -75,6 +79,7 @@ export interface AppModel {
   undo(): Promise<void>;
   removeCandidate(id: string): Promise<void>;
   deletePhotos(ids: string[]): Promise<void>;
+  stageCandidates(ids: string[]): Promise<void>;
   reconcile(): Promise<void>;
   loadBilling(): Promise<void>;
   refreshEntitlement(): Promise<void>;
@@ -137,6 +142,7 @@ export function AppProvider({
     purchaseRunning = useRef(false),
     starting = useRef(false);
   const activeWrites = useRef(0);
+  const analysis = useLibraryAnalysis(repository, photos, permission, loading);
   const mutate = useCallback(async (fn: (s: ReviewState) => ReviewState) => {
     if (!controller.current) throw new Error("保存の準備中です。");
     activeWrites.current++;
@@ -215,7 +221,10 @@ export function AppProvider({
   const refreshEntitlement = useCallback(async () => {
     try {
       const e = await billing.entitlement();
-      const verified = e.kind === 'unknown' && hasPro(entitlementRef.current, Date.now()) ? entitlementRef.current : e;
+      const verified =
+        e.kind === "unknown" && hasPro(entitlementRef.current, Date.now())
+          ? entitlementRef.current
+          : e;
       setEntitlement(verified);
       entitlementRef.current = verified;
     } catch {
@@ -385,6 +394,20 @@ export function AppProvider({
             : { kind: "confirmed", deleted: confirmedIds },
         ),
       );
+      // Update visible cards as soon as the confirmed transaction is saved.
+      // A slower library refresh must not leave deleted thumbnails on screen.
+      if (next.deletion?.deleted.length) {
+        const removed = new Set(next.deletion.deleted);
+        generation.current++;
+        setPhotos((previous) =>
+          previous.filter((photo) => !removed.has(photo.id)),
+        );
+        setLibraryTotal((previous) =>
+          previous === undefined
+            ? undefined
+            : Math.max(0, previous - removed.size),
+        );
+      }
       if (
         next.deletion?.status === "done" &&
         next.settings.haptics &&
@@ -444,6 +467,7 @@ export function AppProvider({
     bootError,
     retryBoot: () => setBootAttempt((x) => x + 1),
     photos,
+    analysis,
     permission,
     loading,
     libraryError,
@@ -472,6 +496,11 @@ export function AppProvider({
       await mutate((s) => removeCandidate(s, id));
     },
     deletePhotos,
+    stageCandidates: async (ids) => {
+      await mutate((s) =>
+        stageCandidates(s, ids, entitlementRef.current, clock()),
+      );
+    },
     reconcile,
     loadBilling,
     refreshEntitlement,

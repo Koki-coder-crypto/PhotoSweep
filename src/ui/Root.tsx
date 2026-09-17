@@ -46,7 +46,7 @@ export function Root({ children }: PropsWithChildren) {
     <View
       style={{
         flex: 1,
-        backgroundColor: Platform.OS === "web" ? "#E9E4F3" : p.bg,
+        backgroundColor: p.bg,
       }}
     >
       <View
