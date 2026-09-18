@@ -1,3 +1,5 @@
+import { Videos, Compress } from "../screens/videos";
+import { upgradeAdapter } from "./upgrade";
 import React, { useMemo, useState } from "react";
 import {
   ActivityIndicator,
@@ -16,6 +18,17 @@ import { palette as p, styles as s } from "../ui/theme";
 import { demoBilling, demoPhotos } from "./adapters";
 import { scenarioData, scenarios } from "./scenarios";
 const views: Record<string, React.ComponentType> = {
+  U01: Main.Review,
+  U02: Videos,
+  U03: Main.DeletionResult,
+  U04: () => <Compress adapter={upgradeAdapter('idle')} initialId="demo-8" />,
+  U05: () => <Compress adapter={upgradeAdapter('encoding')} initialId="demo-8" />,
+  U06: () => <Compress adapter={upgradeAdapter('ready')} initialId="demo-8" />,
+  U07: () => <Compress adapter={upgradeAdapter('saved')} initialId="demo-8" />,
+  U08: () => <Compress adapter={upgradeAdapter('unknown')} initialId="demo-8" />,
+  U09: () => <Compress adapter={upgradeAdapter('failed')} initialId="demo-8" />,
+  U10: Main.Quota,
+  U11: Main.Home,
   O01: Main.Welcome,
   O02: Main.Welcome,
   O03: Main.Welcome,
@@ -79,6 +92,7 @@ function Fixture({ id }: { id: string }) {
   const overrides = useMemo(() => {
     const data = scenarioData(id);
     const photos = demoPhotos({
+      videos: id.startsWith("U"),
       permission: data.permission,
       empty: data.empty,
       fail: data.failPhotos,

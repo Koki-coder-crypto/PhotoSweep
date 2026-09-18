@@ -28,7 +28,7 @@ export function SettingsScreen() {
         <Text style={s.body}>
           {pro
             ? "枚数制限なし。期間や並び順も選べます。"
-            : "1日50枚。確認・取り消し・削除は無料。"}
+            : "毎日、写真30枚・動画5本。確認・取り消し・削除は無料。"}
         </Text>
         <Button
           title={pro ? "プランを確認・管理" : "Proの内容と料金を見る"}
@@ -446,7 +446,7 @@ export function Terms() {
         </Text>
         <Text style={s.heading}>無料利用とPro</Text>
         <Text style={s.body}>
-          無料では1日50枚の新しい写真を仕分けできます。Proでは枚数上限の解除、期間指定、並び替え、区切り枚数の選択ができます。削除・確認・取り消し・保存は無料です。
+          無料では1日30枚の写真と5本の動画を仕分けできます。Proでは枚数上限の解除、期間指定、並び替え、区切り枚数の選択と動画圧縮ができます。削除・確認・取り消し・保存は無料です。
         </Text>
         <Text style={s.heading}>購入・自動更新</Text>
         <Text style={s.body}>

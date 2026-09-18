@@ -1,6 +1,7 @@
 import * as Media from "expo-media-library/legacy";
 import { requireNativeModule } from "expo-modules-core";
 import type {
+  AssetSize,
   Permission,
   Photo,
   PhotoRepository,
@@ -8,6 +9,8 @@ import type {
   PhotoFingerprint,
 } from "../domain/types";
 const access = requireNativeModule<{
+  screenRecordings(ids: string[]): Promise<string[]>;
+  size(id: string): Promise<AssetSize>;
   fingerprints?(ids: string[]): Promise<PhotoFingerprint[]>;
   contentDigests?(ids: string[]): Promise<{ id: string; digest: string }[]>;
   permission(): Promise<Permission>;
@@ -20,6 +23,8 @@ const access = requireNativeModule<{
 }>("PhotoSweepAccess");
 const map = (a: Media.Asset): Photo => ({
   id: a.id,
+  kind: a.mediaType === "video" ? "video" : "photo",
+  duration: a.duration,
   uri: a.uri,
   width: a.width,
   height: a.height,
@@ -37,6 +42,7 @@ function dates(scope: Scope) {
 }
 export function createPhotoRepository(): PhotoRepository {
   return {
+    size: (id) => access.size(id),
     fingerprints: access.fingerprints
       ? (ids) => access.fingerprints!(ids)
       : undefined,
@@ -45,18 +51,18 @@ export function createPhotoRepository(): PhotoRepository {
       : undefined,
     async permission(request = false) {
       if (request && (await access.permission()) !== "restricted")
-        await Media.requestPermissionsAsync(false, ["photo"]);
+        await Media.requestPermissionsAsync(false, ["photo", "video"]);
       return access.permission();
     },
     async selectMore() {
-      await Media.presentPermissionsPickerAsync(["photo"]);
+      await Media.presentPermissionsPickerAsync(["photo", "video"]);
     },
     async page(scope, after, limit = 100) {
       const range = dates(scope);
       const page = await Media.getAssetsAsync({
         first: limit,
         after,
-        mediaType: ["photo"],
+        mediaType: scope.screenshotsOnly ? ["photo"] : scope.recordingsOnly ? ["video"] : scope.mediaKind ? [scope.mediaKind] : ["photo", "video"],
         sortBy: [["creationTime", scope.order === "oldest"]],
         createdAfter: range.start === undefined ? undefined : range.start - 1,
         createdBefore: range.end,
@@ -64,8 +70,9 @@ export function createPhotoRepository(): PhotoRepository {
           ? { mediaSubtypes: ["screenshot"] as Media.MediaSubtype[] }
           : {}),
       });
+      const recordings = new Set(await access.screenRecordings(page.assets.filter(a => a.mediaType === "video").map(a => a.id)));
       return {
-        items: page.assets.map(map),
+        items: page.assets.map(a => ({ ...map(a), screenRecording: recordings.has(a.id) })).filter(a => !scope.recordingsOnly || a.screenRecording),
         next: page.hasNextPage ? page.endCursor : undefined,
         total: page.totalCount,
       };

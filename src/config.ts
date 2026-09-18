@@ -1,5 +1,6 @@
 export const config = {
-  freeDaily: 50,
+  freeDaily: 30,
+  freeVideoDaily: 5,
   freeBatch: 20,
   proBatches: [20, 50, 100] as const,
   products: {

@@ -1,4 +1,17 @@
 export type Choice = "keep" | "candidate";
+export type MediaKind = "photo" | "video";
+export interface AssetSize {
+  bytes: number | null;
+  quality: "measured-resource" | "estimated" | "unknown";
+  basis: "original-resource" | "local-resource" | "unknown";
+  modifiedAt: number;
+}
+export interface StorageReading { free: number; total: number; at: number }
+export interface CleanupOutcome {
+  id: string; at: number; photoCount: number; videoCount: number;
+  knownBytes: number; unknownCount: number; estimated: boolean;
+  freeBefore?: number; freeAfter?: number;
+}
 export type Permission =
   | "unknown"
   | "full"
@@ -14,10 +27,15 @@ export interface Photo {
   screenshot: boolean;
   modifiedAt?: number;
   favorite?: boolean;
+  kind?: MediaKind;
+  duration?: number;
+  screenRecording?: boolean;
 }
 export interface Scope {
   month?: string;
   screenshotsOnly?: boolean;
+  mediaKind?: MediaKind;
+  recordingsOnly?: boolean;
   start?: number;
   end?: number;
   order: "newest" | "oldest";
@@ -41,6 +59,7 @@ export interface PhotoRepository {
   subscribe(callback: () => void): () => void;
   fingerprints?(ids: string[]): Promise<PhotoFingerprint[]>;
   contentDigests?(ids: string[]): Promise<{ id: string; digest: string }[]>;
+  size?(id: string): Promise<AssetSize>;
 }
 export interface PhotoFingerprint {
   id: string;
@@ -105,6 +124,8 @@ export interface DeletionJob {
   status: "pending" | "unknown" | "cancelled" | "done" | "partial";
   deleted: string[];
   remaining: string[];
+  snapshot?: Record<string, { kind: MediaKind; size?: AssetSize }>;
+  freeBefore?: number;
 }
 export interface Settings {
   haptics: boolean;
@@ -116,7 +137,13 @@ export interface Settings {
 }
 export interface ReviewState {
   onboarding?: import('./onboarding').OnboardingState;
-  version: 1;
+  version: 1 | 2;
+  mediaKinds?: Record<string, MediaKind>;
+  monthSessions?: Record<string, Session>;
+  monthHintSeen?: boolean;
+  sizes?: Record<string, AssetSize>;
+  outcomes?: CleanupOutcome[];
+  reviewPrompt?: { at: number; version: string };
   onboarded: boolean;
   guided: boolean;
   decisions: Record<string, Decision>;

@@ -11,6 +11,6 @@ Pod::Spec.new do |s|
   s.static_framework = true
   s.dependency 'ExpoModulesCore'
   s.source_files = '**/*.{h,m,mm,swift}'
-  s.frameworks = 'Photos', 'StoreKit'
+  s.frameworks = 'Photos', 'StoreKit', 'AVFoundation', 'UIKit'
   s.swift_version = '5.9'
 end

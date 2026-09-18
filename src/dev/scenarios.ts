@@ -12,6 +12,17 @@ import screens from "../../handoff/design/screens.json";
 import variants from "../../handoff/design/state_variants.json";
 export const scenarios = [
   ...[
+    ["U01", "月別サークル", "月を切り替えて仕分け"],
+    ["U02", "大きい動画", "既知サイズと未確認を区別"],
+    ["U03", "削除した効果", "写真・動画・容量・測定値"],
+    ["U04", "圧縮の設定", "SDR・最大1080p / 720p"],
+    ["U05", "動画を変換中", "実進捗・キャンセル"],
+    ["U06", "変換結果の比較", "保存前に原本を確認"],
+    ["U07", "保存を確認済み", "原本を残すか候補にする"],
+    ["U08", "保存結果不明", "自動の再保存をしない"],
+    ["U09", "変換失敗", "原本保持・再試行"],
+    ["U10", "種類別の無料枠", "写真30枚・動画5本"],
+    ["U11", "容量から始めるホーム", "写真と動画の入口"],
     ["O01", "はじめる", "カードが集まる導入"],
     ["O02", "見比べる練習", "選択・候補への移動"],
     ["O03", "スワイプの練習", "左右の操作・ボタン・スキップ"],
@@ -60,6 +71,7 @@ export function scenarioData(id: string) {
     | "restored"
     | "none" = "idle";
   const inReview = [
+    "U01",
     "S08",
     "S09",
     "S10",
@@ -117,7 +129,7 @@ export function scenarioData(id: string) {
       remaining: parent === "S16" ? [] : ["demo-1", "demo-2"],
     };
   if (parent === "S17")
-    state.used = Array.from({ length: 50 }, (_, i) => `demo-${i}`);
+    state.used = Array.from({ length: 30 }, (_, i) => `demo-${i}`);
   if (["S21", "S23", "S24", "S25", "S26", "S27", "S32"].includes(parent))
     entitlement = {
       kind: ["S26", "S27"].includes(parent) ? "active" : "trial",
@@ -145,7 +157,7 @@ export function scenarioData(id: string) {
     variant === "free_remaining_lt_20" ||
     variant === "daily_quota_previously_used"
   )
-    state.used = Array.from({ length: 43 }, (_, i) => `past-${i}`);
+    state.used = Array.from({ length: 23 }, (_, i) => `past-${i}`);
   if (variant === "free_remaining_lt_20")
     state.session = {
       ...state.session!,
@@ -224,6 +236,15 @@ export function scenarioData(id: string) {
       step: steps[Number(parent.slice(1)) - 1]!,
     };
     if (parent === "O04") permission = "unknown";
+  }
+  if (parent.startsWith("U")) {
+    state.mediaKinds = Object.fromEntries(Array.from({ length: 146 }, (_, i) => [`demo-${i}`, i % 3 === 2 ? 'video' : 'photo']));
+    state.sizes = Object.fromEntries(Array.from({ length: 50 }, (_, i) => [`demo-${i}`, { bytes: i % 3 === 2 ? (i + 1) * 12000000 : 2500000, quality: 'measured-resource', basis: 'original-resource', modifiedAt: 0 }]));
+    if (parent !== 'U10') entitlement = { kind: 'legacy', verified: true, productId: config.products.legacy };
+    if (parent === 'U03') {
+      state.deletion = { id: 'ux13-result', ids: ['demo-0','demo-1','demo-2'], at: c.now, status: 'done', deleted: ['demo-0','demo-1','demo-2'], remaining: [] };
+      state.outcomes = [{ id: 'ux13-result', at: c.now, photoCount: 2, videoCount: 1, knownBytes: 41000000, unknownCount: 0, estimated: false, freeBefore: 1000000000, freeAfter: 1000000000 }];
+    }
   }
   return {
     parent,

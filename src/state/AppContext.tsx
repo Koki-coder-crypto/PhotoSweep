@@ -1,3 +1,6 @@
+import { migrateMedia, registerMedia } from "../domain/media";
+import { readStorage } from "../data/storage";
+import { sessionSource } from "../domain/sessionSource";
 import React, {
   createContext,
   useCallback,
@@ -172,7 +175,7 @@ export function AppProvider({
       if (!saved && !overrides) {
         next.onboarded = (await AsyncStorage.getItem("onboarded")) === "1";
       }
-      const refreshed = migrateOnboarding(refreshDay(next, clock()));
+      const refreshed = migrateOnboarding(refreshDay(migrateMedia(next), clock()));
       await persistence.save(next, refreshed);
       if (!active) return;
       controller.current = new ReviewController(refreshed, persistence);
@@ -298,6 +301,36 @@ export function AppProvider({
   ]);
   useEffect(() => () => billing.dispose(), [billing]);
   useEffect(() => {
+    if (!ready || loading || !repository.size || overrides) return;
+    let cancelled = false;
+    const ordered = [...photos].sort((a, b) => {
+      const rank = (photo: Photo) => controller.current?.state.decisions[photo.id]?.choice === 'candidate' ? 0 : photo.kind === 'video' ? 1 : 2;
+      return rank(a) - rank(b);
+    });
+    void (async () => {
+      for (const photo of ordered) {
+        if (cancelled) break;
+        const cached = controller.current?.state.sizes?.[photo.id];
+        if (cached && cached.modifiedAt === (photo.modifiedAt || 0)) continue;
+        while ((activeWrites.current || starting.current || deletionRunning.current) && !cancelled)
+          await new Promise(resolve => setTimeout(resolve, 150));
+        if (cancelled) break;
+        const size = await repository.size!(photo.id);
+        if (cancelled) break;
+        // Do not let metadata work compete with an explicit user save.
+        let stored = false, attempts = 0;
+        while (!stored && !cancelled && attempts++ < 3) {
+          try {
+            await mutate(s => ({ ...s, sizes: { ...s.sizes, [photo.id]: { ...size, modifiedAt: photo.modifiedAt || 0 } } }));
+            stored = true;
+          } catch { await new Promise(resolve => setTimeout(resolve, 500)); }
+        }
+        await new Promise(resolve => setTimeout(resolve, 30));
+      }
+    })().catch(() => {});
+    return () => { cancelled = true; };
+  }, [ready, loading, photos, repository, mutate, overrides]);
+  useEffect(() => {
     if (ready && !overrides)
       void syncNotifications(state.settings, entitlement).catch(() => {});
   }, [ready, state.settings, entitlement, overrides]);
@@ -325,25 +358,14 @@ export function AppProvider({
         ? scope
         : {
             month: scope.month,
+            mediaKind: scope.mediaKind, recordingsOnly: scope.recordingsOnly,
             screenshotsOnly: scope.screenshotsOnly,
             order: "newest",
           };
-      let after: string | undefined;
-      const ids: string[] = [];
-      do {
-        const page = await repository.page(safe, after, 250);
-        ids.push(
-          ...page.items
-            .filter((p) => !current.decisions[p.id])
-            .map((p) => p.id),
-        );
-        if (page.next && page.next === after)
-          throw new Error("写真一覧を更新してください。");
-        after = page.next;
-      } while (after && ids.length < 100);
+      const { ids, photos: found } = await sessionSource(repository, current, safe, entitlementRef.current, clock());
       await mutate((s) =>
         startSession(
-          s,
+          registerMedia(s, found),
           ids,
           safe,
           entitlementRef.current,
@@ -358,7 +380,7 @@ export function AppProvider({
   };
   const choose = async (id: string, choice: Choice | "skip") => {
     const next = await mutate((s) =>
-      decide(s, id, choice, entitlementRef.current, clock()),
+      ({ ...decide(registerMedia(s, photos), id, choice, entitlementRef.current, clock()), monthHintSeen: true }),
     );
     if (choice !== "skip") void decisionFeedback(next.settings);
   };
@@ -371,7 +393,13 @@ export function AppProvider({
         throw new Error(
           "写真のアクセス範囲が変わりました。一覧を更新して候補を確認してください。",
         );
-      await mutate((s) => beginDeletion(s, ids, `${Date.now()}`, Date.now()));
+      const diskBefore = await readStorage();
+      await mutate((s) => {
+        const base = registerMedia(s, photos);
+        const next = beginDeletion(base, ids, `${Date.now()}-${Math.random().toString(36).slice(2)}`, Date.now());
+        return { ...next, deletion: { ...next.deletion!, freeBefore: diskBefore?.free,
+          snapshot: Object.fromEntries(ids.map(id => { const photo = photos.find(p => p.id === id); const size = base.sizes?.[id]; return [id, { kind: base.mediaKinds?.[id] || "photo", ...(size && size.modifiedAt === (photo?.modifiedAt || 0) ? { size } : {}) }]; })) } };
+      });
       const result = await repository.deleteRequested(ids);
       if (result === "cancelled") {
         await mutate((s) => reconcileDeletion(s, { kind: "cancelled" }));
@@ -395,6 +423,8 @@ export function AppProvider({
             : { kind: "confirmed", deleted: confirmedIds },
         ),
       );
+      const diskAfter = await readStorage();
+      if (diskAfter && next.deletion?.deleted.length) await mutate(s => ({ ...s, outcomes: s.outcomes?.map(x => x.id === next.deletion?.id ? { ...x, freeAfter: diskAfter.free } : x) }));
       // Update visible cards as soon as the confirmed transaction is saved.
       // A slower library refresh must not leave deleted thumbnails on screen.
       if (next.deletion?.deleted.length) {
@@ -499,7 +529,7 @@ export function AppProvider({
     deletePhotos,
     stageCandidates: async (ids) => {
       await mutate((s) =>
-        stageCandidates(s, ids, entitlementRef.current, clock()),
+        stageCandidates(registerMedia(s, photos), ids, entitlementRef.current, clock()),
       );
     },
     reconcile,

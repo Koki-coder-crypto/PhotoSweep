@@ -69,15 +69,15 @@ test("undo keeps usage; redeciding same asset cannot consume quota twice", () =>
   assert.equal(s.used.length, 1);
   assert.equal(s.decisions.p0?.choice, "keep");
 });
-test("49 -> 50 is durable and 51st new photo is refused", () => {
+test("29 -> 30 is durable and 31st new photo is refused", () => {
   const s = {
     ...active(),
-    used: Array.from({ length: 49 }, (_, i) => `old${i}`),
+    used: Array.from({ length: 29 }, (_, i) => `old${i}`),
   };
   const next = decide(s, "p0", "keep", free, c);
   assert.equal(remaining(next), 0);
   assert.throws(() => decide(next, "p1", "candidate", free, c), /無料/);
-  assert.equal(decide(undo(next), "p0", "keep", free, c).used.length, 50);
+  assert.equal(decide(undo(next), "p0", "keep", free, c).used.length, 30);
 });
 test("quota is shared between screenshot and month sessions", () => {
   let s = decide(active(), "p0", "keep", free, c);
@@ -101,7 +101,7 @@ test("paid batch settings do not escape the free batch cap", () => {
   const s = initialState(c);
   s.settings.batch = 100;
   assert.equal(batchSize(s, free, c.now, 100), 20);
-  s.used = Array.from({ length: 43 }, (_, i) => String(i));
+  s.used = Array.from({ length: 23 }, (_, i) => String(i));
   assert.equal(batchSize(s, free, c.now, 100), 7);
   assert.equal(batchSize(s, pro, c.now, 100), 100);
 });

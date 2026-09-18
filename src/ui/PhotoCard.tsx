@@ -27,6 +27,7 @@ export function PhotoCard({
   onZoom,
   onError,
   previewDrag = 0,
+  exitDirection,
 }: {
   photo: Photo;
   next?: Photo;
@@ -36,12 +37,13 @@ export function PhotoCard({
   onZoom(): void;
   onError(): void;
   previewDrag?: number;
+  exitDirection?: Choice;
 }) {
   const { width, height, fontScale } = useWindowDimensions();
   const cardWidth = Math.min(width - 44, 450);
   const cardHeight = Math.max(
-    250,
-    Math.min((height * 0.48) / Math.min(fontScale, 1.3), 480),
+    190,
+    Math.min((height * 0.30) / Math.min(fontScale, 1.3), 480),
   );
   const x = useSharedValue(previewDrag * cardWidth),
     locked = useSharedValue(false);
@@ -55,6 +57,12 @@ export function PhotoCard({
     return () => sub.remove();
   }, []);
   const reduced = reduceMotion || osReduced;
+  useEffect(() => {
+    if (exitDirection) {
+      locked.value = true;
+      x.value = withTiming(reduced ? 0 : (exitDirection === 'keep' ? 1 : -1) * cardWidth * 1.35, { duration: reduced ? 0 : 220 });
+    } else { locked.value = false; x.value = previewDrag * cardWidth; }
+  }, [exitDirection, reduced, cardWidth]);
   const commit = async (choice: Choice) => {
     try {
       await onDecision(choice);
@@ -72,20 +80,15 @@ export function PhotoCard({
     })
     .onEnd((e) => {
       if (locked.value) return;
-      const flick = Math.abs(e.velocityX) > 750 && Math.abs(x.value) > 24 && Math.sign(e.velocityX) === Math.sign(x.value);
-      if (Math.abs(x.value) < cardWidth * 0.24 && !flick) {
-        x.value = reduced ? 0 : withSpring(0, { damping: 20 });
+      const flick = Math.abs(e.velocityX) > 1000 && Math.abs(x.value) > 28 && Math.sign(e.velocityX) === Math.sign(x.value);
+      if (Math.abs(e.translationX) < Math.abs(e.translationY) * 1.2 || Math.abs(x.value) < cardWidth * 0.26 && !flick) {
+        x.value = reduced ? 0 : withSpring(0, { damping: 25, stiffness: 260, mass: 1 });
         return;
       }
       locked.value = true;
       const choice: Choice = x.value > 0 ? "keep" : "candidate";
-      x.value = withTiming(
-        reduced ? x.value : Math.sign(x.value) * (width + 120),
-        { duration: reduced ? 0 : 170 },
-        (done) => {
-          if (done) runOnJS(commit)(choice);
-        },
-      );
+      runOnJS(commit)(choice);
+      x.value = withTiming(reduced ? 0 : Math.sign(x.value) * cardWidth * 1.35, { duration: reduced ? 0 : 220 });
     })
     .onFinalize(() => {
       if (!locked.value) x.value = reduced ? 0 : withSpring(0, { damping: 22, stiffness: 240 });
@@ -94,31 +97,31 @@ export function PhotoCard({
     transform: [
       { translateX: x.value },
       {
-        rotate: `${reduced ? 0 : Math.max(-7, Math.min(7, (x.value / cardWidth) * 14))}deg`,
+        rotate: `${reduced ? 0 : Math.max(-12, Math.min(12, (x.value / cardWidth) * 24))}deg`,
       },
     ],
   }));
+  const behind = useAnimatedStyle(() => ({ transform: [{ scale: reduced ? 1 : 0.965 + Math.min(1, Math.abs(x.value) / (cardWidth * 0.26)) * 0.035 }, { translateY: reduced ? 0 : 12 * (1 - Math.min(1, Math.abs(x.value) / (cardWidth * 0.26))) }] }));
   const keep = useAnimatedStyle(() => ({
-    opacity: Math.min(1, Math.max(0, x.value / (cardWidth * 0.22))),
+    opacity: Math.min(1, Math.max(0, x.value / (cardWidth * 0.24))),
   }));
   const candidate = useAnimatedStyle(() => ({
-    opacity: Math.min(1, Math.max(0, -x.value / (cardWidth * 0.22))),
+    opacity: Math.min(1, Math.max(0, -x.value / (cardWidth * 0.24))),
   }));
   return (
     <View
       style={{ width: cardWidth, height: cardHeight + 14, alignSelf: "center" }}
     >
-      <View
-        style={{
+      <Animated.View
+        style={[{
           position: "absolute",
           inset: 0,
           top: 13,
           bottom: -2,
           backgroundColor: p.surface,
           borderRadius: 20,
-          transform: [{ scale: 0.96 }],
           overflow: "hidden",
-        }}
+        }, behind]}
       >
         {next ? (
           <Image
@@ -129,7 +132,7 @@ export function PhotoCard({
             accessibilityElementsHidden
           />
         ) : null}
-      </View>
+      </Animated.View>
       <GestureDetector gesture={pan}>
         <Animated.View
           style={[
@@ -145,7 +148,7 @@ export function PhotoCard({
         >
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel="写真を拡大する"
+            accessibilityLabel={photo.kind === "video" ? "動画を再生する" : "写真を拡大する"}
             onPress={onZoom}
             disabled={disabled}
             style={{
@@ -177,7 +180,7 @@ export function PhotoCard({
                 alignItems: "center",
               }}
             >
-              <Icon name="expand-outline" size={18} color="#fff" />
+              <Icon name={photo.kind === "video" ? "play" : "expand-outline"} size={18} color="#fff" />
             </View>
           </Pressable>
           <Animated.View

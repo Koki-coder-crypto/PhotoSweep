@@ -1,5 +1,8 @@
+import { Videos, Compress } from "../src/screens/videos";
+import { upgradeAdapter } from "../src/dev/upgrade";
+jest.mock("../src/data/compression", () => ({ compression: {} }));
 import React from "react";
-import { render, screen, fireEvent, act } from "@testing-library/react-native";
+import { render, screen, fireEvent, act, waitFor } from "@testing-library/react-native";
 import { useApp, type AppModel } from "../src/state/AppContext";
 import { Button } from "../src/ui/components";
 import * as Main from "../src/screens/primary";
@@ -15,6 +18,17 @@ jest.mock("../src/state/AppContext", () => ({ useApp: jest.fn() }));
 const mockUseApp = jest.mocked(useApp);
 import { model, photos } from "./app-model";
 const views: Record<string, React.ComponentType> = {
+  U01: Main.Review,
+  U02: Videos,
+  U03: Main.DeletionResult,
+  U04: () => <Compress adapter={upgradeAdapter('idle')} initialId="demo-8" />,
+  U05: () => <Compress adapter={upgradeAdapter('encoding')} initialId="demo-8" />,
+  U06: () => <Compress adapter={upgradeAdapter('ready')} initialId="demo-8" />,
+  U07: () => <Compress adapter={upgradeAdapter('saved')} initialId="demo-8" />,
+  U08: () => <Compress adapter={upgradeAdapter('unknown')} initialId="demo-8" />,
+  U09: () => <Compress adapter={upgradeAdapter('failed')} initialId="demo-8" />,
+  U10: Main.Quota,
+  U11: Main.Home,
   O01: Main.Welcome,
   O02: Main.Welcome,
   O03: Main.Welcome,
@@ -108,11 +122,11 @@ test("ineligible customers see a paid registration, never a free-trial CTA", () 
 });
 test("candidate deletion is available with zero free allowance and uses visible IDs", async () => {
   const app = model("S13");
-  app.state.used = Array.from({ length: 50 }, (_, i) => String(i));
+  app.state.used = Array.from({ length: 30 }, (_, i) => String(i));
   mockUseApp.mockReturnValue(app);
   render(<Main.Candidates />);
   await act(async () =>
-    fireEvent.press(screen.getByRole("button", { name: "3枚を削除" })),
+    fireEvent.press(screen.getByRole("button", { name: "3件を削除" })),
   );
   expect(app.deletePhotos).toHaveBeenCalledWith(["demo-0", "demo-1", "demo-2"]);
   expect(app.purchase).not.toHaveBeenCalled();
@@ -137,6 +151,7 @@ test("keep and candidate buttons act on the displayed asset; undo is accessible"
     fireEvent.press(screen.getByRole("button", { name: "写真を残す" })),
   );
   expect(app.choose).toHaveBeenCalledWith("demo-8", "keep");
+  await waitFor(() => expect(screen.getByRole("button", { name: "前の操作を戻す" })).not.toBeDisabled());
   await act(async () =>
     fireEvent.press(screen.getByRole("button", { name: "前の操作を戻す" })),
   );
@@ -149,20 +164,21 @@ test("disabled generic buttons report disabled state and do not fire", () => {
   fireEvent.press(screen.getByRole("button", { name: "保存中" }));
   expect(action).not.toHaveBeenCalled();
 });
-test("home never offers another 20 photos when the free allowance is exhausted", () => {
+test("home never offers another 20 photos when the free allowance is exhausted", async () => {
   const app = model("S03");
-  app.state.used = Array.from({ length: 50 }, (_, i) => `old-${i}`);
+  app.state.used = Array.from({ length: 30 }, (_, i) => `old-${i}`);
   mockUseApp.mockReturnValue(app);
   render(<Main.Home />);
+  await act(async () => {});
   expect(screen.queryByText("まず20枚だけ。")).toBeNull();
-  expect(screen.getByText("今日あと0枚")).toBeTruthy();
+  expect(screen.getByText("写真0枚 / 動画5本")).toBeTruthy();
   expect(
     screen.getByRole("button", { name: /スクリーンショット、/ }),
   ).toBeTruthy();
 });
 test("screenshot grid gates new selections exceeding the remaining free allowance", async () => {
   const app = model("S03");
-  app.state.used = Array.from({ length: 43 }, (_, i) => `old-${i}`);
+  app.state.used = Array.from({ length: 23 }, (_, i) => `old-${i}`);
   mockUseApp.mockReturnValue(app);
   render(<Main.Screenshots />);
   fireEvent.press(screen.getByRole("button", { name: "すべて選択" }));

@@ -1,3 +1,4 @@
+import { deletionOutcome, kindOf, sessionKey } from "./media.ts";
 import type {
   Choice,
   Clock,
@@ -23,7 +24,8 @@ export class ReviewError extends Error {
 }
 export function initialState(c: Clock): ReviewState {
   return {
-    version: 1,
+    version: 2,
+    mediaKinds: {}, monthSessions: {}, sizes: {}, outcomes: [],
     onboarded: false,
     guided: false,
     decisions: {},
@@ -59,12 +61,28 @@ export function startSession(
     base.deletion?.status === "unknown"
   )
     throw new ReviewError("locked", "削除結果を先に確認してください。");
-  const available = [...new Set(ids)].filter((id) => !base.decisions[id]);
-  const target = batchSize(base, e, c.now, available.length);
+  const budget = { photo: remaining(base, "photo"), video: remaining(base, "video") };
+  const saved = base.monthSessions?.[sessionKey(scope)];
+  if (saved && saved.status !== "summary" && saved.cursor < saved.ids.length && (hasPro(e, c.now) || saved.cursor < 20)) {
+    const pending = saved.ids.slice(saved.cursor).filter(id => {
+      if (!ids.includes(id) || base.decisions[id]) return false;
+      if (hasPro(e, c.now) || base.used.includes(id)) return true;
+      return budget[kindOf(base, id)]-- > 0;
+    }).slice(0, hasPro(e, c.now) ? base.settings.batch : 20 - saved.cursor);
+    if (pending.length) return { ...base, session: { ...saved, ids: [...saved.ids.slice(0, saved.cursor), ...pending], target: saved.cursor + pending.length, status: "active" } };
+  }
+  budget.photo = remaining(base, "photo"); budget.video = remaining(base, "video");
+  const fresh = [...new Set(ids)].filter(id => !base.decisions[id]);
+  const available = fresh.filter(id => {
+    if (hasPro(e, c.now) || base.used.includes(id)) return true;
+    const kind = kindOf(base, id);
+    return budget[kind]-- > 0;
+  });
+  const target = Math.min(available.length, hasPro(e, c.now) ? base.settings.batch : 20);
   if (!target)
     throw new ReviewError(
-      available.length ? "quota" : "empty",
-      available.length
+      fresh.length ? "quota" : "empty",
+      fresh.length
         ? "今日の無料分を整理しました。"
         : "この範囲の写真は見直し済みです。",
     );
@@ -72,6 +90,7 @@ export function startSession(
     ? scope
     : {
         ...(scope.month ? { month: scope.month } : {}),
+        ...(scope.mediaKind ? { mediaKind: scope.mediaKind } : {}), ...(scope.recordingsOnly ? { recordingsOnly: true } : {}),
         ...(scope.screenshotsOnly ? { screenshotsOnly: true } : {}),
         order: "newest" as const,
       };
@@ -132,14 +151,14 @@ export function decide(
     );
   const previous = base.decisions[assetId];
   const used =
-    choice !== "skip" && !hasPro(e, c.now) && !base.used.includes(assetId)
+    choice !== "skip" && !hasPro(e, c.now) && !base.used.includes(assetId) && !base.decisions[assetId]
       ? [...base.used, assetId]
       : base.used;
   return withSummary({
     ...base,
     used,
     quotaNoticeDay:
-      !hasPro(e, c.now) && used.length >= 50 && base.used.length < 50
+      !hasPro(e, c.now) && remaining({ ...base, used }, kindOf(base, assetId)) === 0 && remaining(base, kindOf(base, assetId)) > 0
         ? base.day
         : base.quotaNoticeDay,
     decisions:
@@ -215,7 +234,7 @@ export function stageCandidates(
   const fresh = unique.filter(
     (id) => !base.decisions[id] && !base.used.includes(id),
   );
-  if (!pro && fresh.length > remaining(base))
+  if (!pro && (["photo", "video"] as const).some(kind => fresh.filter(id => kindOf(base, id) === kind).length > remaining(base, kind)))
     throw new ReviewError("quota", "今日の無料枚数を超えています。");
   const decisions = { ...base.decisions };
   unique.forEach((id) => {
@@ -286,6 +305,8 @@ export function reconcileDeletion(
     ...s,
     decisions,
     deletedCount: s.deletedCount + deleted.length,
+    outcomes: deleted.length ? [...(s.outcomes || []).filter(x => x.id !== job.id), deletionOutcome(s, deleted)] : s.outcomes,
+    monthSessions: Object.fromEntries(Object.entries(s.monthSessions || {}).map(([key, value]) => [key, { ...value, steps: [], ids: value.ids.filter(id => !deleted.includes(id)), cursor: value.cursor - value.ids.slice(0, value.cursor).filter(id => deleted.includes(id)).length }])),
     session: s.session
       ? {
           ...s.session,
@@ -321,7 +342,8 @@ export class ReviewController {
     if (this.busy) throw new ReviewError("busy", "保存しています。");
     this.busy = true;
     try {
-      const next = transform(this.state);
+      let next = transform(this.state);
+      if (next.session) next = { ...next, monthSessions: { ...next.monthSessions, [sessionKey(next.session.scope)]: next.session } };
       await this.persistence.save(this.state, next);
       this.state = next;
       return next;

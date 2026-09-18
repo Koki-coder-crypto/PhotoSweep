@@ -29,6 +29,7 @@ export function demoLibrary(count = 146): Photo[] {
 }
 export function demoPhotos(
   options: {
+    videos?: boolean;
     permission?: Permission;
     empty?: boolean;
     fail?: boolean;
@@ -36,7 +37,7 @@ export function demoPhotos(
   } = {},
 ): PhotoRepository {
   let permission: Permission = options.permission || "full";
-  let items = options.empty ? [] : demoLibrary();
+  let items = options.empty ? [] : demoLibrary().map((p, i) => options.videos && i % 3 === 2 ? { ...p, kind: "video" as const, duration: 75, screenRecording: i % 2 === 0 } : p);
   return {
     async fingerprints(ids) {
       return ids.map((id) => {

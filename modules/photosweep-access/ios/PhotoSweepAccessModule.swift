@@ -4,8 +4,26 @@ import StoreKit
 
 public class PhotoSweepAccessModule: Module {
   private let analysisQueue = DispatchQueue(label: "photosweep.analysis", qos: .utility)
+  private let libraryQueue = DispatchQueue(label: "photosweep.library", qos: .userInitiated)
+  private let mediaQueue = DispatchQueue(label: "photosweep.media", qos: .utility)
+  private let compression = PhotoSweepCompression()
   public func definition() -> ModuleDefinition {
     Name("PhotoSweepAccess")
+    AsyncFunction("screenRecordings") { (ids: [String]) -> [String] in
+      guard let album = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumScreenRecordings, options: nil).firstObject else { return [] }
+      let wanted = Set(ids); var result: [String] = []
+      PHAsset.fetchAssets(in: album, options: nil).enumerateObjects { asset, _, _ in
+        if wanted.contains(asset.localIdentifier) { result.append(asset.localIdentifier) }
+      }
+      return result
+    }.runOnQueue(libraryQueue)
+    AsyncFunction("size") { (id: String) -> [String: Any] in PhotoSweepMedia.size(id) }.runOnQueue(mediaQueue)
+    AsyncFunction("compressionStart") { (id: String, preset: String) -> [String: Any] in
+      try self.compression.start(id, preset: preset)
+    }
+    AsyncFunction("compressionStatus") { () -> [String: Any] in self.compression.status() }
+    AsyncFunction("compressionCancel") { () in self.compression.cancel() }
+    AsyncFunction("compressionSave") { (id: String) -> [String: Any] in try self.compression.save(id) }
     AsyncFunction("fingerprints") { (ids: [String]) -> [[String: Any]] in
       PhotoSweepAnalysis.fingerprints(ids)
     }.runOnQueue(analysisQueue)

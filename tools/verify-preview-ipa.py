@@ -21,8 +21,10 @@ with zipfile.ZipFile(args.ipa) as archive:
     assert info['CFBundleShortVersionString'] == args.version
     bundle = archive.read(root + 'main.jsbundle')
     assert bundle[:8] == bytes.fromhex('c61fbc03c103191f'), 'Missing embedded Hermes bytecode'
-    prohibited = ['DEV CATALOG', 'catalog-session', 'demo-', 'dog.jpg', 'sea.jpg', 'src/dev/adapters']
+    prohibited = ['DEV CATALOG', 'catalog-session', 'demo-', 'dog.jpg', 'sea.jpg', 'src/dev/adapters', 'catalog-compression', 'PhotoSweep_Codex_UX_Upgrade', 'photosweep-ux-upgrade']
     assert not [s for s in prohibited if s.encode() in bundle], 'Development data found'
+    if args.version == '1.3.0':
+        assert all(marker in bundle for marker in [b'monthHintSeen', b'compressionStart', b'compressionSave']), '1.3 features missing'
     assert b'homeHintSeen' in bundle, 'Versioned onboarding missing'
     assert root + '_CodeSignature/CodeResources' in names, 'Code signature resources missing'
     profile_bytes = archive.read(root + 'embedded.mobileprovision')

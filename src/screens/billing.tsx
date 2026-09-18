@@ -275,6 +275,7 @@ export function Paywall({
         {[
           ["infinite-outline", "1日の枚数制限なし"],
           ["options-outline", "期間・順番・整理枚数を自由に"],
+          ["videocam-outline", "動画を見比べて、小さく保存"],
         ].map(([icon, text]) => (
           <View key={text} style={s.row}>
             <View

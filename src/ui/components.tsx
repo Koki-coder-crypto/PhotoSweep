@@ -145,16 +145,20 @@ export function Page({
   scroll = true,
   style,
   footer,
+  onInteraction,
 }: PropsWithChildren<{
   title?: string;
   back?: boolean;
   scroll?: boolean;
   style?: StyleProp<ViewStyle>;
   footer?: React.ReactNode;
+  onInteraction?(): void;
 }>) {
   const insets = useSafeAreaInsets();
   const contents = scroll ? (
     <ScrollView
+      onTouchStart={onInteraction}
+      onScrollBeginDrag={onInteraction}
       contentContainerStyle={[s.content, style, !footer && { paddingBottom: Math.max(32, insets.bottom + 12) }]}
       showsVerticalScrollIndicator={false}
     >

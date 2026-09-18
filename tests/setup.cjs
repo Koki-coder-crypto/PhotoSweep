@@ -35,3 +35,7 @@ jest.mock("../src/data/feedback", () => ({
   interactionFeedback: jest.fn(async () => {}),
   decisionFeedback: jest.fn(async () => {}),
 }));
+
+jest.mock("expo-video", () => ({ VideoView: require("react-native").View, useVideoPlayer: () => ({ pause: jest.fn() }) }));
+jest.mock("expo-file-system", () => ({ Paths: { availableDiskSpace: 1000000000, totalDiskSpace: 10000000000 } }));
+jest.mock("expo-store-review", () => ({ isAvailableAsync: jest.fn(async () => false), requestReview: jest.fn() }));

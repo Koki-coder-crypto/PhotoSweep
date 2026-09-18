@@ -1,3 +1,5 @@
+import { MonthStories } from "../ui/MonthStories";
+import { StorageCard } from "../ui/StorageCard";
 import React, { useEffect, useMemo, useState } from "react";
 import {
   Linking,
@@ -308,15 +310,16 @@ export function Home() {
         </View>
       </View>
       <HomeOrientation />
+      <StorageCard />
       <View style={{ gap: 10 }}>
         <View style={s.between}>
           <Text style={s.body}>
             {allowed
-              ? `${(app.libraryTotal ?? app.photos.length).toLocaleString()}枚の写真`
+              ? `${app.photos.filter(p => p.kind !== "video").length.toLocaleString()}枚の写真 · ${app.photos.filter(p => p.kind === "video").length.toLocaleString()}本の動画`
               : "写真をまとめて整理"}
           </Text>
           <Text style={s.caption}>
-            {pro ? "上限なし" : `今日あと${remaining(app.state)}枚`}
+            {pro ? "上限なし" : `写真${remaining(app.state)}枚 / 動画${remaining(app.state, "video")}本`}
           </Text>
         </View>
         {app.loading || analysis.status === "scanning" ? (
@@ -388,6 +391,7 @@ export function Home() {
               <Icon name="chevron-forward" color="#fff" />
             </Pressable>
           ) : null}
+          <Card><Text style={s.heading}>大きい動画から整理</Text><Text style={s.body}>{app.photos.filter(p => p.kind === "video").length}本の動画。サイズを見ながら選べます。</Text><Button title="動画を選ぶ" onPress={() => go('/videos')} /><Button title="動画を小さくする · Pro" variant="secondary" onPress={() => go('/videos?compress=1')} /><Button title="画面収録を整理" variant="ghost" onPress={() => go('/videos?recordings=1')} /></Card>
           <View style={s.between}>
             <Text style={s.heading}>まとめて整理</Text>
             <Text style={s.caption}>削除する写真は自分で選択</Text>
@@ -413,8 +417,8 @@ export function Home() {
             />
             <CategoryCard
               title="すべての写真"
-              subtitle={`${app.photos.length.toLocaleString()}枚`}
-              photos={app.photos.slice(0, 2)}
+              subtitle={`${app.photos.filter(p => p.kind !== "video").length.toLocaleString()}枚`}
+              photos={app.photos.filter(p => p.kind !== "video").slice(0, 2)}
               onPress={() => go("/collection?kind=all")}
             />
           </View>
@@ -461,92 +465,19 @@ export function Home() {
 }
 export function SwipeLibrary() {
   const app = useApp();
-  const months = [
-    ...new Set(app.photos.map((photo) => monthKey(photo.createdAt))),
-  ]
-    .sort()
-    .reverse();
-  const start = async (month?: string) => {
-    if (!hasPro(app.entitlement, Date.now()) && !remaining(app.state)) {
-      go("/quota");
-      return;
-    }
-    if (await run(app, () => app.start({ month, order: "newest" })))
-      go(app.state.guided ? "/review" : "/guide");
+  const first = app.photos[0];
+  const start = async (month: string) => {
+    if (await run(app, () => app.start({ month, order: "newest" }))) go("/review");
   };
-  return (
-    <Page>
-      <View style={s.between}>
-        <Text style={s.title}>スワイプ</Text>
-        <IconButton
-          name="options-outline"
-          label="期間と並び順"
-          onPress={() => go("/filter")}
-        />
-      </View>
-      <Text style={s.body}>右に残す。左に削除候補。</Text>
-      {app.state.session &&
-      app.state.session.cursor < app.state.session.ids.length ? (
-        <Button title="前回の続きから" onPress={() => go("/review")} />
-      ) : null}
-      {!months.length ? (
-        <StateView
-          icon="images-outline"
-          title="写真がありません"
-          description="ホームから写真へのアクセスを確認してください。"
-        />
-      ) : (
-        months.map((month) => {
-          const photos = app.photos.filter(
-              (photo) => monthKey(photo.createdAt) === month,
-            ),
-            reviewed = photos.filter(
-              (photo) => app.state.decisions[photo.id],
-            ).length;
-          return (
-            <Pressable
-              key={month}
-              accessibilityRole="button"
-              disabled={photos.length === reviewed}
-              accessibilityState={{ disabled: photos.length === reviewed }}
-              accessibilityLabel={`${monthLabel(month)}、未整理${photos.length - reviewed}枚`}
-              onPress={() => void start(month)}
-              style={c.month}
-            >
-              <View
-                style={{
-                  width: 78,
-                  height: 88,
-                  borderRadius: 12,
-                  overflow: "hidden",
-                }}
-              >
-                <PhotoTile photo={photos[0]} />
-              </View>
-              <View style={{ flex: 1, gap: 9 }}>
-                <Text style={s.heading}>{monthLabel(month)}</Text>
-                <Text style={s.caption}>
-                  {photos.length === reviewed
-                    ? "整理済み"
-                    : `あと${photos.length - reviewed}枚`}
-                </Text>
-                <Progress value={reviewed / photos.length} />
-              </View>
-              <Icon
-                name={
-                  photos.length === reviewed
-                    ? "checkmark-circle"
-                    : "chevron-forward"
-                }
-                color={photos.length === reviewed ? p.green : p.muted}
-              />
-            </Pressable>
-          );
-        })
-      )}
-    </Page>
-  );
+  return <Page title="スワイプ">
+    <MonthStories onSelect={month => void start(month)} />
+    {first ? <View style={{ height: 320, borderRadius: 24, overflow: 'hidden' }}><PhotoTile photo={first} /></View> : <StateView title={app.loading ? "読み込み中" : "写真・動画がありません"} description="ホームでアクセス範囲を確認してください。" />}
+    <Text style={s.heading}>月を選んで、1件ずつ。</Text><Text style={s.body}>右に残す。左に削除候補。最後にまとめて確認できます。</Text>
+    {app.state.session && app.state.session.cursor < app.state.session.ids.length ? <Button title="前回の続きから" onPress={() => go('/review')} /> : first ? <Button title="最近の月から始める" onPress={() => void start(monthKey(first.createdAt))} /> : null}
+    <Button title="期間・並び順" variant="ghost" onPress={() => go('/filter')} />
+  </Page>;
 }
+
 const c = StyleSheet.create({
   center: { textAlign: "center" },
   textButton: { minHeight: 44, justifyContent: "center", paddingHorizontal: 6 },

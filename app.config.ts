@@ -4,7 +4,7 @@ const projectId =
 const app: ExpoConfig = {
   name: "PhotoSweep",
   slug: "photosweep",
-  version: "1.2.0",
+  version: "1.3.0",
   scheme: "photosweep",
   orientation: "portrait",
   userInterfaceStyle: "dark",
@@ -16,6 +16,9 @@ const app: ExpoConfig = {
     privacyManifests: {
       NSPrivacyTracking: false,
       NSPrivacyCollectedDataTypes: [],
+      NSPrivacyAccessedAPITypes: [
+        { NSPrivacyAccessedAPIType: "NSPrivacyAccessedAPICategoryDiskSpace", NSPrivacyAccessedAPITypeReasons: ["85F4.1", "E174.1"] },
+      ],
     },
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
@@ -26,6 +29,7 @@ const app: ExpoConfig = {
   web: { bundler: "metro", output: "single", favicon: "./assets/icon.png" },
   plugins: [
     "expo-router",
+    ["expo-video", { supportsBackgroundPlayback: false, supportsPictureInPicture: false }],
     "expo-font",
     "expo-asset",
     "expo-sqlite",
@@ -45,9 +49,9 @@ const app: ExpoConfig = {
       "expo-media-library",
       {
         photosPermission:
-          "写真を表示し、あなたが選んだ写真を整理するために使用します。写真を開発者へ送信しません。",
+          "写真と動画の表示・整理・圧縮に使用します。写真や動画を開発者へ送信しません。",
         savePhotosPermission:
-          "あなたが選択し、確認した写真を削除するために使用します。",
+          "あなたが確認した圧縮動画を写真ライブラリに保存するために使用します。",
         isAccessMediaLocationEnabled: false,
       },
     ],

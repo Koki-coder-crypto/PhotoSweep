@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type {
   Permission,
   Photo,
@@ -14,10 +14,11 @@ import {
 
 export function useLibraryAnalysis(
   repository: PhotoRepository,
-  photos: Photo[],
+  media: Photo[],
   permission: Permission,
   loading: boolean,
 ): LibraryAnalysis {
+  const photos = useMemo(() => media.filter(p => p.kind !== "video"), [media]);
   const [state, setState] = useState<LibraryAnalysis>(emptyAnalysis);
   const cache = useRef(
     new Map<string, { modified: number; value: PhotoFingerprint }>(),

@@ -148,17 +148,17 @@ for (const count of [1000, 10000])
       "analysis exceeds a five-second regression ceiling",
     );
   });
-test("bulk selection applies 49 to 50 atomically and rejects 51 without changing its input", () => {
+test("bulk selection applies 29 to 30 atomically and rejects 31 without changing its input", () => {
   const s = {
     ...initialState(c),
-    used: Array.from({ length: 49 }, (_, i) => `old-${i}`),
+    used: Array.from({ length: 29 }, (_, i) => `old-${i}`),
   };
   assert.throws(() => stageCandidates(s, ["a", "b"], free, c), /無料/);
   assert.deepEqual(s.decisions, {});
   const next = stageCandidates(s, ["a", "a"], free, c);
   assert.equal(remaining(next), 0);
   assert.throws(() => stageCandidates(next, ["b"], free, c), /無料/);
-  assert.equal(stageCandidates(next, ["a"], free, c).used.length, 50);
+  assert.equal(stageCandidates(next, ["a"], free, c).used.length, 30);
 });
 test("previously reviewed photos can become candidates after the quota is exhausted", () => {
   const s = {

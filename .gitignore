@@ -22,3 +22,8 @@ artifacts/
 
 expo-env.d.ts
 # @end expo-cli
+
+# Private UX reference material
+photosweep-ux-upgrade/
+PhotoSweep_Codex_UX_Upgrade.zip
+PhotoSweep_Interaction_Demo.html

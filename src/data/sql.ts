@@ -1,3 +1,4 @@
+import { migrateMedia } from "../domain/media.ts";
 import type {
   ReviewPersistence,
   ReviewState,
@@ -28,7 +29,7 @@ export class SqlReviewPersistence implements ReviewPersistence {
     if (!row) return null;
     const meta = JSON.parse(row.value) as ReviewState;
     if (
-      meta.version !== 1 ||
+      ![1, 2].includes(meta.version) ||
       !Array.isArray(meta.used) ||
       !meta.settings ||
       !Array.isArray(meta.history)
@@ -42,7 +43,7 @@ export class SqlReviewPersistence implements ReviewPersistence {
       at: number;
       session_id: string;
     }>("SELECT * FROM decisions");
-    return {
+    const loaded: ReviewState = {
       ...meta,
       decisions: Object.fromEntries(
         rows.map((r) => [
@@ -51,6 +52,9 @@ export class SqlReviewPersistence implements ReviewPersistence {
         ]),
       ),
     };
+    const migrated = migrateMedia(loaded);
+    if (migrated !== loaded) await this.save(loaded, migrated);
+    return migrated;
   }
   async save(previous: ReviewState, next: ReviewState) {
     await this.db.transaction(async (tx) => {

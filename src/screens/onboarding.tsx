@@ -545,7 +545,7 @@ export function Onboarding() {
           ) : (
             <Text style={[s.caption, { textAlign: "center" }]}>
               {step === "welcome"
-                ? "登録不要 · 1日50枚まで無料"
+                ? "写真30枚・動画5本まで毎日無料"
                 : step === "compare" || step === "swipe"
                   ? "練習用の写真です。無料枠は減りません。"
                   : "写真を開発者へ送信しません。"}
@@ -781,6 +781,7 @@ export function Onboarding() {
                 "スクリーンショット",
                 app.photos.filter((p) => p.screenshot).length,
               ],
+              ["動画", app.photos.filter(p => p.kind === "video").length],
             ].map(([label, count], i) => (
               <Animated.View
                 key={label}
@@ -800,7 +801,7 @@ export function Onboarding() {
                     : i < 2 &&
                         ["unavailable", "error"].includes(analysis.status)
                       ? "未確認"
-                      : `${count}枚`}
+                      : `${count}${i === 3 ? "本" : "枚"}`}
                 </Text>
               </Animated.View>
             ))}

@@ -1,3 +1,4 @@
+import { kindOf } from "./media.ts";
 import { config } from "../config.ts";
 import type { Clock, Entitlement, ReviewState, StoreProduct } from "./types.ts";
 export function clock(at = new Date()): Clock {
@@ -14,8 +15,8 @@ export function hasPro(e: Entitlement, now: number): boolean {
       ("expiresAt" in e && Number.isFinite(e.expiresAt) && e.expiresAt > now))
   );
 }
-export function remaining(s: ReviewState): number {
-  return Math.max(0, config.freeDaily - new Set(s.used).size);
+export function remaining(s: ReviewState, kind: "photo" | "video" = "photo"): number {
+  return Math.max(0, (kind === "video" ? config.freeVideoDaily : config.freeDaily) - new Set(s.used.filter(id => kindOf(s, id) === kind)).size);
 }
 export function mayDecide(
   s: ReviewState,
@@ -23,7 +24,7 @@ export function mayDecide(
   e: Entitlement,
   now: number,
 ): boolean {
-  return hasPro(e, now) || s.used.includes(id) || remaining(s) > 0;
+  return hasPro(e, now) || !!s.decisions[id] || s.used.includes(id) || remaining(s, kindOf(s, id)) > 0;
 }
 export function refreshDay(s: ReviewState, c: Clock): ReviewState {
   // Persist a high-water calendar day. Changing timezone cannot itself mint a new allowance.

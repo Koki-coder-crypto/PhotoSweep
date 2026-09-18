@@ -1,3 +1,4 @@
+import { formatBytes, summarizeSizes } from "../domain/media";
 import React, { useMemo, useRef, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
@@ -33,7 +34,7 @@ export function Collection({ initialKind }: { initialKind?: Category } = {}) {
     grouped = kind === "similar" || kind === "duplicate";
   const photos = useMemo(
     () =>
-      app.photos.filter((photo) => kind !== "screenshots" || photo.screenshot),
+      app.photos.filter((photo) => photo.kind !== "video" && (kind !== "screenshots" || photo.screenshot)),
     [app.photos, kind],
   );
   const lookup = useMemo(
@@ -306,6 +307,7 @@ export function Candidates() {
     photos = app.photos.filter(
       (p) => app.state.decisions[p.id]?.choice === "candidate",
     );
+  const sizes = summarizeSizes(photos.map(p => p.id), app.state.sizes);
   const [busy, setBusy] = useState(false);
   const lock = useRef(false);
   const unresolved = ["pending", "unknown"].includes(
@@ -336,7 +338,7 @@ export function Candidates() {
         photos.length || unresolved ? (
           <>
             <Button
-              title={unresolved ? "削除結果を確認" : `${photos.length}枚を削除`}
+              title={unresolved ? "削除結果を確認" : `${photos.length}件を削除`}
               icon="trash-outline"
               disabled={app.busy || busy}
               loading={busy}
@@ -359,7 +361,8 @@ export function Candidates() {
         </StateView>
       ) : (
         <>
-          <Text style={s.body}>{photos.length}枚 · ×で候補から外せます</Text>
+          <Text style={s.body}>{photos.filter(p => p.kind !== 'video').length}枚の写真 · {photos.filter(p => p.kind === 'video').length}本の動画</Text>
+          <Text style={s.caption}>{sizes.knownBytes ? formatBytes(sizes.knownBytes) + (sizes.estimated ? '（概算）' : '（確認済み）') : 'サイズ未確認'}{sizes.unknownCount ? ` · ${sizes.unknownCount}件は未確認` : ''} · ×で候補から外せます</Text>
           <FlatList
             data={photos}
             numColumns={3}

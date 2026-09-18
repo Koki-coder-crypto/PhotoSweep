@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 const root = path.resolve('dist/ios');
 if (!fs.existsSync(path.join(root, 'metadata.json'))) throw new Error('Run npm run export:ios first.');
-const prohibited = ['DEV CATALOG', 'catalog-session', 'demo-', 'dog.jpg', 'sea.jpg', 'src/dev/adapters'];
+const prohibited = ['DEV CATALOG', 'catalog-session', 'demo-', 'dog.jpg', 'sea.jpg', 'src/dev/adapters', 'catalog-compression', 'PhotoSweep_Codex_UX_Upgrade', 'photosweep-ux-upgrade'];
 function files(dir) { return fs.readdirSync(dir, { withFileTypes: true }).flatMap(e => e.isDirectory() ? files(path.join(dir, e.name)) : [path.join(dir, e.name)]); }
 let checked = 0;
 for (const file of files(root)) {

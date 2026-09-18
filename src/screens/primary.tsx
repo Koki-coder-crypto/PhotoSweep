@@ -1,3 +1,9 @@
+import { ResultSize } from "../ui/ResultSize";
+import { MonthStories } from "../ui/MonthStories";
+import { SwipeHint } from "../ui/SwipeHint";
+import { VideoPreview } from "../ui/VideoPreview";
+import { formatBytes, summarizeSizes } from "../domain/media";
+import { useReviewPrompt } from "../state/useReviewPrompt";
 import React, {
   useCallback,
   useEffect,
@@ -37,7 +43,7 @@ import type { Photo, Scope } from "../domain/types";
 import { dateLabel, go, monthKey, monthLabel, run } from "./actions";
 
 async function begin(app: ReturnType<typeof useApp>, scope: Scope) {
-  if (!hasPro(app.entitlement, Date.now()) && remaining(app.state) === 0) {
+  if (!hasPro(app.entitlement, Date.now()) && remaining(app.state) + remaining(app.state, "video") === 0) {
     go("/quota");
     return;
   }
@@ -176,7 +182,15 @@ export function Review({ previewDrag = 0 }: { previewDrag?: number } = {}) {
   const app = useApp();
   const session = app.state.session;
   const [failed, setFailed] = useState("");
+  const [hint, setHint] = useState(!app.state.monthHintSeen);
+  const dismissHint = () => { setHint(false); if (!app.state.monthHintSeen) void run(app, () => app.mutate(s => ({ ...s, monthHintSeen: true }))); };
+  const candidateIds = Object.keys(app.state.decisions).filter(id => app.state.decisions[id]?.choice === "candidate");
+  const candidateSize = summarizeSizes(candidateIds, app.state.sizes);
+  useEffect(() => {
+    if (session?.scope.month && !app.state.monthHintSeen) void app.mutate(s => ({ ...s, monthHintSeen: true })).catch(() => {});
+  }, [session?.scope.month]);
   const deciding = useRef(false);
+  const [leaving, setLeaving] = useState<{ photo: Photo; next?: Photo; choice: "keep" | "candidate" } | null>(null);
   const id = session?.ids[session.cursor];
   const photo = app.photos.find((photo) => photo.id === id);
   const next = app.photos.find(
@@ -197,23 +211,69 @@ export function Review({ previewDrag = 0 }: { previewDrag?: number } = {}) {
   );
   const choose = async (choice: "keep" | "candidate" | "skip") => {
     if (!id || deciding.current) return;
+    setHint(false);
     deciding.current = true;
+    if (photo && choice !== 'skip') setLeaving({ photo, next, choice });
     try {
-      await app.choose(id, choice);
+      await Promise.all([app.choose(id, choice), new Promise(resolve => setTimeout(resolve, app.state.settings.reduceMotion || choice === 'skip' ? 0 : 220))]);
       setFailed("");
-      const reachesLimit =
-        choice !== "skip" &&
-        !hasPro(app.entitlement, Date.now()) &&
-        !app.state.used.includes(id) &&
-        remaining(app.state) === 1;
-      if (reachesLimit && app.state.quotaNoticeDay !== app.state.day) {
-        go("/quota");
-      } else if (session && session.cursor + 1 >= session.ids.length)
-        router.replace("/summary");
+      if (session && session.cursor + 1 >= session.ids.length) router.replace("/summary");
     } finally {
+      setLeaving(null);
       deciding.current = false;
     }
   };
+  const controls = session ? <View style={{ gap: 8 }}>
+      <View style={[s.between, { paddingHorizontal: 10, marginTop: 0 }]}>
+        <IconButton
+          name="arrow-undo-outline"
+          label="前の操作を戻す"
+          onPress={() => void run(app, app.undo)}
+          disabled={app.busy || !!leaving || !session.steps.length}
+        />
+        <View style={{ alignItems: "center", gap: 8 }}>
+          <IconButton
+            name="close"
+            label="削除候補にする"
+            size={64}
+            background={p.pink}
+            color={p.rose}
+            disabled={app.busy || !!leaving || !photo || failed === id}
+            onPress={() => void run(app, () => choose("candidate"))}
+          />
+          <Text style={[s.caption, { color: p.rose }]}>候補へ</Text>
+        </View>
+        <View style={{ alignItems: "center", gap: 8 }}>
+          <IconButton
+            name="checkmark"
+            label="写真を残す"
+            size={64}
+            background={p.mint}
+            color={p.green}
+            disabled={app.busy || !!leaving || !photo || failed === id}
+            onPress={() => void run(app, () => choose("keep"))}
+          />
+          <Text style={[s.caption, { color: p.green }]}>残す</Text>
+        </View>
+        <IconButton
+          name="play-skip-forward-outline"
+          label="この写真をスキップ"
+          onPress={() => void run(app, () => choose("skip"))}
+          disabled={app.busy}
+        />
+      </View>
+      {!hasPro(app.entitlement, Date.now()) ? (
+        <Text style={[s.caption, { textAlign: "center" }]}>
+          写真 あと{remaining(app.state)}枚 · 動画 あと{remaining(app.state, "video")}本
+        </Text>
+      ) : null}
+      <Text style={s.caption}>{candidateSize.knownBytes > 0 ? `${formatBytes(candidateSize.knownBytes)}${candidateSize.estimated ? '（概算）' : '（確認済み）'}` : candidates ? '候補のサイズを確認中' : '削除候補はありません'}{candidateSize.unknownCount ? ` · ${candidateSize.unknownCount}件は未確認` : ''}</Text>
+      <Button
+        title={`候補${candidates}件を確認`}
+        variant="secondary"
+        onPress={() => go("/candidates")}
+      />
+  </View> : undefined;
   if (!session)
     return (
       <Page title="仕分け" back>
@@ -226,8 +286,12 @@ export function Review({ previewDrag = 0 }: { previewDrag?: number } = {}) {
       </Page>
     );
   return (
-    <Page scroll title="写真の仕分け" back style={{ gap: 16 }}>
+    <Page scroll style={{ gap: 10 }} footer={controls}>
+      <MonthStories disabled={!!leaving} onSelect={month => { if (deciding.current) return; setHint(false); void run(app, () => app.start({ month, order: "newest" })); }} />
+
       <View style={s.between}>
+        <IconButton name="chevron-back" label="戻る" onPress={() => router.canGoBack() ? router.back() : router.replace("/swipe")} />
+        <Pressable accessibilityRole="button" accessibilityLabel="スワイプの説明" onPress={() => setHint(true)}><Text style={{ color: p.cyan, padding: 12 }}>?</Text></Pressable>
         <Chip>
           {session.scope.month
             ? monthLabel(session.scope.month)
@@ -237,22 +301,27 @@ export function Review({ previewDrag = 0 }: { previewDrag?: number } = {}) {
         </Chip>
         <Text style={s.label}>
           {Math.min(session.cursor + 1, session.target)}{" "}
-          <Text style={s.caption}>/ {session.target}枚</Text>
+          <Text style={s.caption}>/ {session.target}件</Text>
         </Text>
       </View>
       <Progress value={session.cursor / session.target} />
-      {photo && failed !== id ? (
+      {photo?.kind === "video" ? <Text style={s.caption}>動画 · {Math.floor((photo.duration || 0) / 60)}:{String(Math.floor((photo.duration || 0) % 60)).padStart(2, '0')} · {app.state.sizes?.[photo.id]?.bytes != null ? formatBytes(app.state.sizes![photo.id]!.bytes!) : 'サイズ未確認'}</Text> : null}
+      {(leaving?.photo || photo) && failed !== id ? (
+        <View onTouchStart={() => { if (hint) setHint(false); }}>
         <PhotoCard
-          key={id}
+          key={leaving?.photo.id || id}
+          exitDirection={leaving?.choice}
           previewDrag={previewDrag}
-          photo={photo}
-          next={next}
-          disabled={app.busy}
+          photo={leaving?.photo || photo!}
+          next={leaving?.next || next}
+          disabled={app.busy || !!leaving}
           reduceMotion={app.state.settings.reduceMotion}
           onDecision={choose}
           onZoom={() => go(`/zoom?id=${encodeURIComponent(id!)}`)}
           onError={() => setFailed(id!)}
         />
+        {hint ? <View style={{ position: 'absolute', left: 12, right: 12, bottom: 26 }}><SwipeHint reduced={app.state.settings.reduceMotion} onDismiss={dismissHint} /></View> : null}
+        </View>
       ) : (
         <StateView
           icon="cloud-offline-outline"
@@ -274,56 +343,6 @@ export function Review({ previewDrag = 0 }: { previewDrag?: number } = {}) {
           />
         </StateView>
       )}
-      <View style={[s.between, { paddingHorizontal: 10, marginTop: 7 }]}>
-        <IconButton
-          name="arrow-undo-outline"
-          label="前の操作を戻す"
-          onPress={() => void run(app, app.undo)}
-          disabled={app.busy || !session.steps.length}
-        />
-        <View style={{ alignItems: "center", gap: 8 }}>
-          <IconButton
-            name="close"
-            label="削除候補にする"
-            size={76}
-            background={p.pink}
-            color={p.rose}
-            disabled={app.busy || !photo || failed === id}
-            onPress={() => void run(app, () => choose("candidate"))}
-          />
-          <Text style={[s.caption, { color: p.rose }]}>候補へ</Text>
-        </View>
-        <View style={{ alignItems: "center", gap: 8 }}>
-          <IconButton
-            name="checkmark"
-            label="写真を残す"
-            size={76}
-            background={p.mint}
-            color={p.green}
-            disabled={app.busy || !photo || failed === id}
-            onPress={() => void run(app, () => choose("keep"))}
-          />
-          <Text style={[s.caption, { color: p.green }]}>残す</Text>
-        </View>
-        <IconButton
-          name="play-skip-forward-outline"
-          label="この写真をスキップ"
-          onPress={() => void run(app, () => choose("skip"))}
-          disabled={app.busy}
-        />
-      </View>
-      {!hasPro(app.entitlement, Date.now()) ? (
-        <Text style={[s.caption, { textAlign: "center" }]}>
-          {remaining(app.state) === 10
-            ? "今日はあと10枚、無料で整理できます。"
-            : `今日の無料分 あと${remaining(app.state)}枚`}
-        </Text>
-      ) : null}
-      <Button
-        title={`候補${candidates}枚を確認`}
-        variant="secondary"
-        onPress={() => go("/candidates")}
-      />
       <Button
         title="今日はここまで"
         variant="ghost"
@@ -356,6 +375,8 @@ export function Summary() {
         !app.state.decisions[photo.id] &&
         (!scope?.month || monthKey(photo.createdAt) === scope.month) &&
         (!scope?.screenshotsOnly || photo.screenshot) &&
+        (!scope?.mediaKind || (photo.kind || 'photo') === scope.mediaKind) &&
+        (!scope?.recordingsOnly || photo.screenRecording) &&
         (!scope?.start || photo.createdAt >= scope.start) &&
         (!scope?.end || photo.createdAt < scope.end),
     );
@@ -420,6 +441,8 @@ export function DeletionResult() {
       if (job?.status === "cancelled") router.replace("/candidates");
     }, [job?.status]),
   );
+  const cancelPrompt = useReviewPrompt(job?.id);
+  const outcome = app.state.outcomes?.find(x => x.id === job?.id);
   const waiting = job?.status === "pending",
     unknown = job?.status === "unknown",
     done = job?.status === "done";
@@ -428,12 +451,12 @@ export function DeletionResult() {
     : unknown
       ? "結果を確認できませんでした"
       : done
-        ? `${job.deleted.length}枚を削除しました。`
+        ? `${job.deleted.length}件を整理しました`
         : job?.status === "cancelled"
           ? "削除をキャンセルしました"
           : "残った候補を確認しましょう";
   return (
-    <Page title="削除の結果" back>
+    <Page title="削除の結果" back onInteraction={cancelPrompt}>
       <StateView
         badge={
           done ? (
@@ -469,6 +492,14 @@ export function DeletionResult() {
           />
         )}
       </StateView>
+      {outcome ? <Card>
+        <Text style={s.heading}>削除したデータ</Text><ResultSize bytes={outcome.knownBytes} reduced={app.state.settings.reduceMotion} suffix={outcome.estimated ? "（概算）" : outcome.unknownCount ? "（確認済み分）" : ""} />
+        <Text style={s.body}>写真{outcome.photoCount}枚 · 動画{outcome.videoCount}本</Text>
+        {outcome.unknownCount ? <Text style={s.caption}>{outcome.unknownCount}件のサイズは含まれていません。</Text> : null}
+        {outcome.freeBefore !== undefined && outcome.freeAfter !== undefined ? <Text style={s.caption}>端末の空き容量（測定値）{formatBytes(outcome.freeBefore)} → {formatBytes(outcome.freeAfter)}</Text> : null}
+        <Text style={s.caption}>削除した項目は「最近削除した項目」に通常30日間残ります。空き容量への反映には時間がかかることがあります。iCloud写真を使っている場合、同じアカウントの端末にも削除が反映されます。</Text>
+        <Button title="別の月を整理する" onPress={() => go('/swipe')} />
+      </Card> : null}
       {done ? (
         <Button
           title="削除した写真を戻す方法"
@@ -493,8 +524,8 @@ export function Quota() {
     <Page title="無料分の上限" back>
       <StateView
         icon="sparkles-outline"
-        title="今日の50枚が終わりました"
-        description={`無料で使える${50}枚を整理しました。日付が変わると、新しい写真をまた整理できます。`}
+        title="今日の無料枠"
+        description={`写真はあと${remaining(app.state)}枚、動画はあと${remaining(app.state, "video")}本。毎日、写真30枚・動画5本まで整理できます。候補の確認・削除は引き続き無料です。`}
       />
       <Button title="Proの内容と料金を見る" onPress={() => go("/paywall")} />
       <Button
@@ -562,7 +593,7 @@ export function Zoom() {
         minimumZoomScale={1}
         centerContent
       >
-        {photo ? (
+        {photo?.kind === "video" ? <VideoPreview uri={photo.uri} /> : photo ? (
           <Image
             source={{ uri: photo.uri }}
             style={{
