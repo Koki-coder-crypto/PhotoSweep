@@ -18,7 +18,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Generate native project
         run: |
+          sudo xcode-select -s /Applications/Xcode_26.3.app/Contents/Developer
           brew install xcodegen
+          python3 native/generate_localizations.py
           xcodebuild -version
           xcodegen generate --spec native/project.yml
       - name: Choose available iPhone simulator

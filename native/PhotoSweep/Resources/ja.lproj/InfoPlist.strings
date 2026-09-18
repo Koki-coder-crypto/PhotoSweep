@@ -1,0 +1,2 @@
+"NSPhotoLibraryUsageDescription" = "写真・動画を見比べて整理し、選んだ項目を削除するためにアクセスします。解析は端末内で行います。";
+"NSPhotoLibraryAddUsageDescription" = "圧縮した動画を写真ライブラリに保存します。原本は自分で削除候補にするまで残ります。";

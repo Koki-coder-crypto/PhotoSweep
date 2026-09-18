@@ -13,6 +13,7 @@ struct SettingsView: View {
         }
         Section(L("settings.feedback")) {
             Toggle(L("settings.haptics"), isOn: binding(\.haptics))
+            Toggle(L("settings.sound"), isOn: binding(\.sound))
             Toggle(L("settings.reduceMotion"), isOn: binding(\.reduceMotion))
             Button(L("settings.testHaptic")) { app.feedback() }
             Picker(L("settings.batch"), selection: Binding(get: { app.state.settings.batch }, set: { value in if billing.hasPro { Task { await app.settings { $0.batch = value } } } else { app.paywall = true } })) { ForEach([20, 50, 100], id: \.self) { Text("\($0)").tag($0) } }
@@ -21,7 +22,7 @@ struct SettingsView: View {
         Section(L("permission.title")) {
             Text(L(app.permission == .limited ? "permission.limited" : app.library.accessible ? "permission.full" : "permission.denied"))
             Button(L("permission.settings")) { UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!) }
-            if app.permission == .limited { LimitedLibraryButton() }
+            if app.permission == .limited { LimitedLibraryButton().frame(minHeight: 44) }
         }
         Section {
             NavigationLink(L("help.title")) { HelpView() }
