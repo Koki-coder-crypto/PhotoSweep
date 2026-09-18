@@ -34,7 +34,8 @@
       "100 button operations with restored cursor and candidate count",
       "large video size ordering and selection",
       "confirmed deletion results",
-      "compression comparison/saved/unknown branches"
+      "compression comparison/saved/unknown branches",
+      "home video/compression/recording/month entries and unavailable disk metric retry"
     ],
     "actualNativeGesturesAndHaptics": "NOT_RUN",
     "evidence": "artifacts/ux13-qa/"
