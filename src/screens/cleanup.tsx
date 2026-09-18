@@ -1,5 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Linking, Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import {
+  Linking,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
@@ -14,6 +21,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useApp } from "../state/AppContext";
+import { HomeOrientation } from "./onboarding";
 import { emptyAnalysis } from "../domain/analysis";
 import { hasPro, remaining } from "../domain/policy";
 import type { Photo } from "../domain/types";
@@ -125,84 +133,7 @@ export function MotionPreview({ step = 0 }: { step?: number }) {
     </View>
   );
 }
-export function Welcome() {
-  const [step, setStep] = useState(0),
-    reduced = useReducedMotion();
-  const copy = [
-    ["写真を、すっきり。", "似た写真とスクショを\nまとめて整理。"],
-    ["残す写真は、自分で。", "見比べて選択。\n削除は最後に確認できます。"],
-    [
-      "1枚ずつなら、\nスワイプ。",
-      "右に残す。左に削除候補。\nいつでも一つ戻れます。",
-    ],
-  ][step]!;
-  return (
-    <Page
-      style={{ gap: 20, justifyContent: "space-between" }}
-      footer={
-        <>
-          <Button
-            title={step === 2 ? "写真を選んではじめる" : "次へ"}
-            onPress={() => (step === 2 ? go("/permission") : setStep(step + 1))}
-          />
-          <Text style={[s.caption, c.center]}>
-            アカウント登録なし · 1日50枚まで無料
-          </Text>
-        </>
-      }
-    >
-      <View style={s.between}>
-        <Text style={[s.heading, { fontSize: 19 }]}>PhotoSweep</Text>
-        <Pressable
-          accessibilityRole="button"
-          onPress={() => go("/permission")}
-          style={c.textButton}
-        >
-          <Text style={s.caption}>スキップ</Text>
-        </Pressable>
-      </View>
-      <View style={[s.row, { gap: 6 }]}>
-        {[0, 1, 2].map((i) => (
-          <View
-            key={i}
-            style={{
-              flex: 1,
-              height: 3,
-              borderRadius: 2,
-              backgroundColor: i <= step ? p.blue : p.border,
-            }}
-          />
-        ))}
-      </View>
-      <MotionPreview step={step} />
-      <Animated.View
-        key={step}
-        entering={reduced ? undefined : FadeInDown.duration(240)}
-        style={{ gap: 16, paddingBottom: 18 }}
-      >
-        <Text
-          accessibilityRole="header"
-          style={[s.title, c.center, { fontSize: 30 }]}
-        >
-          {copy[0]}
-        </Text>
-        <Text style={[s.body, c.center]}>{copy[1]}</Text>
-      </Animated.View>
-      <View style={[s.between, { minHeight: 44 }]}>
-        {step > 0 ? (
-          <IconButton
-            name="chevron-back"
-            label="前の説明へ"
-            onPress={() => setStep(step - 1)}
-          />
-        ) : (
-          <View />
-        )}
-        <Text style={s.caption}>{step + 1} / 3</Text>
-      </View>
-    </Page>
-  );
-}
+export { Onboarding as Welcome } from "./onboarding";
 export function PermissionScreen() {
   const app = useApp();
   const finish = async (request: boolean) => {
@@ -283,13 +214,19 @@ function CategoryCard({
   photos: Photo[];
   onPress(): void;
 }) {
-  const {fontScale} = useWindowDimensions();
+  const { fontScale } = useWindowDimensions();
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={`${title}、${subtitle}`}
       onPress={onPress}
-      style={({ pressed }) => [c.category, { width:fontScale>1.35?'100%':'48%', opacity: pressed ? 0.8 : 1 }]}
+      style={({ pressed }) => [
+        c.category,
+        {
+          width: fontScale > 1.35 ? "100%" : "48%",
+          opacity: pressed ? 0.8 : 1,
+        },
+      ]}
     >
       <View style={{ height: 148, flexDirection: "row", gap: 3 }}>
         <PhotoTile photo={photos[0]} />
@@ -345,7 +282,9 @@ export function Home() {
       <View style={s.between}>
         <View style={[s.row, { gap: 8, flexShrink: 1 }]}>
           <Icon name="sparkles" color={p.cyan} size={24} />
-          <Text style={[s.heading, { fontSize: 25, flexShrink:1 }]}>PhotoSweep</Text>
+          <Text style={[s.heading, { fontSize: 25, flexShrink: 1 }]}>
+            PhotoSweep
+          </Text>
         </View>
         <View style={[s.row, { gap: 4 }]}>
           <Pressable
@@ -368,6 +307,7 @@ export function Home() {
           />
         </View>
       </View>
+      <HomeOrientation />
       <View style={{ gap: 10 }}>
         <View style={s.between}>
           <Text style={s.body}>

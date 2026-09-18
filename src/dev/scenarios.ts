@@ -1,3 +1,4 @@
+import { onboardingState, type IntroStep } from "../domain/onboarding";
 import { initialState } from "../domain/review";
 import { clock } from "../domain/policy";
 import { config } from "../config";
@@ -11,6 +12,12 @@ import screens from "../../handoff/design/screens.json";
 import variants from "../../handoff/design/state_variants.json";
 export const scenarios = [
   ...[
+    ["O01", "はじめる", "カードが集まる導入"],
+    ["O02", "見比べる練習", "選択・候補への移動"],
+    ["O03", "スワイプの練習", "左右の操作・ボタン・スキップ"],
+    ["O04", "写真アクセス", "写真アクセスは説明の後に要求"],
+    ["O05", "解析結果", "実際の件数・待たずに先へ"],
+    ["O06", "導入後のPro案内", "購入・無料・キャンセルを共通の完了へ"],
     ["N01", "似ている写真", "端末内解析でまとめた写真の比較と選択"],
     ["N02", "同じ画像", "元画像の一致を確認したグループ"],
     ["N03", "すべての写真", "複数選択からOS確認へ直接進む"],
@@ -203,6 +210,21 @@ export function scenarioData(id: string) {
       expiresAt: c.now + 86400000,
       autoRenew: true,
     };
+  if (parent.startsWith("O")) {
+    const steps: IntroStep[] = [
+      "welcome",
+      "compare",
+      "swipe",
+      "permission",
+      "discover",
+      "pro",
+    ];
+    state.onboarding = {
+      ...onboardingState(state),
+      step: steps[Number(parent.slice(1)) - 1]!,
+    };
+    if (parent === "O04") permission = "unknown";
+  }
   return {
     parent,
     variant,

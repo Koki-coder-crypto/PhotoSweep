@@ -16,6 +16,12 @@ import { palette as p, styles as s } from "../ui/theme";
 import { demoBilling, demoPhotos } from "./adapters";
 import { scenarioData, scenarios } from "./scenarios";
 const views: Record<string, React.ComponentType> = {
+  O01: Main.Welcome,
+  O02: Main.Welcome,
+  O03: Main.Welcome,
+  O04: Main.Welcome,
+  O05: Main.Welcome,
+  O06: Main.Welcome,
   N01: () => <Collection initialKind="similar" />,
   N02: () => <Collection initialKind="duplicate" />,
   N03: () => <Collection initialKind="all" />,

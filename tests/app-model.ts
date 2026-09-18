@@ -1,0 +1,81 @@
+import type { AppModel } from "../src/state/AppContext";
+import type { Photo } from "../src/domain/types";
+import { scenarioData } from "../src/dev/scenarios";
+import { config } from "../src/config";
+export const photos: Photo[] = Array.from({ length: 146 }, (_, i) => ({
+  id: `demo-${i}`,
+  uri: "file:///test-photo.jpg",
+  width: 1000,
+  height: 1400,
+  createdAt: Date.now(),
+  screenshot: i % 4 === 0,
+}));
+export function model(id = "S03"): AppModel {
+  const fixture = scenarioData(id);
+  return {
+    state: fixture.state,
+    entitlement: fixture.entitlement,
+    permission: fixture.permission,
+    photos: fixture.empty ? [] : photos,
+    ready: true,
+    bootError: "",
+    retryBoot: jest.fn(),
+    loading: fixture.variant === "list_loading",
+    libraryError: fixture.failPhotos ? "読み込み失敗" : "",
+    libraryTotal: photos.length,
+    busy: false,
+    message: "",
+    clearMessage: jest.fn(),
+    notify: jest.fn(),
+    preview: true,
+    billingError: fixture.failBilling ? "料金を読み込めませんでした。" : "",
+    billingLoading: false,
+    purchaseState: fixture.purchaseState,
+    products: [
+      {
+        id: config.products.annual,
+        period: "year",
+        displayPrice: "￥2,400",
+        price: 2400,
+        currency: "JPY",
+        eligibility: fixture.eligibility,
+        trialDays: 7,
+      },
+      {
+        id: config.products.monthly,
+        period: "month",
+        displayPrice: "￥480",
+        price: 480,
+        currency: "JPY",
+        eligibility: fixture.eligibility,
+        trialDays: 7,
+      },
+    ],
+    repository: {
+      permission: jest.fn(),
+      selectMore: jest.fn(),
+      page: jest.fn(),
+      resolve: async () => photos[8]!,
+      inspect: jest.fn(),
+      deleteRequested: jest.fn(),
+      subscribe: () => () => {},
+    },
+    reload: jest.fn(async () => {}),
+    selectMore: jest.fn(),
+    mutate: jest.fn(async (fn) => fn(fixture.state)),
+    start: jest.fn(),
+    choose: jest.fn(),
+    undo: jest.fn(),
+    removeCandidate: jest.fn(),
+    deletePhotos: jest.fn(async () => {}),
+    stageCandidates: jest.fn(async () => {}),
+    reconcile: jest.fn(),
+    loadBilling: jest.fn(),
+    refreshEntitlement: jest.fn(),
+    purchase: jest.fn(),
+    restore: jest.fn(),
+    manage: jest.fn(),
+    settings: jest.fn(),
+    dismissPurchaseResult: jest.fn(),
+  };
+}

@@ -28,6 +28,7 @@ import {
   stageCandidates,
 } from "../domain/review";
 import { useLibraryAnalysis } from "./useLibraryAnalysis";
+import { migrateOnboarding } from "../domain/onboarding";
 import type { LibraryAnalysis } from "../domain/analysis";
 import type {
   BillingAdapter,
@@ -171,7 +172,7 @@ export function AppProvider({
       if (!saved && !overrides) {
         next.onboarded = (await AsyncStorage.getItem("onboarded")) === "1";
       }
-      const refreshed = refreshDay(next, clock());
+      const refreshed = migrateOnboarding(refreshDay(next, clock()));
       await persistence.save(next, refreshed);
       if (!active) return;
       controller.current = new ReviewController(refreshed, persistence);

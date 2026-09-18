@@ -31,6 +31,13 @@ function Navigator() {
       }}
     >
       <Stack.Screen name="(tabs)" />
+      <Stack.Screen
+        name="onboarding"
+        options={{
+          gestureEnabled: false,
+          animation: reduced ? "none" : "fade",
+        }}
+      />
       <Stack.Screen name="paywall" options={{ presentation: "modal" }} />
       <Stack.Screen
         name="zoom"

@@ -4,7 +4,7 @@ const projectId =
 const app: ExpoConfig = {
   name: "PhotoSweep",
   slug: "photosweep",
-  version: "1.1.0",
+  version: "1.2.0",
   scheme: "photosweep",
   orientation: "portrait",
   userInterfaceStyle: "dark",

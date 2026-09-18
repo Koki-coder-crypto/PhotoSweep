@@ -268,3 +268,46 @@ test("purchase pending is never interpreted as Pro and cannot be purchased twice
   });
   expect(billing.purchase).toHaveBeenCalledTimes(1);
 });
+
+test("v2 boot migration preserves existing decisions and stage survives provider reconstruction", async () => {
+  stored = initialState(clock());
+  stored.onboarded = true;
+  stored.used = ["p0"];
+  stored.decisions = {
+    p0: { choice: "candidate", at: Date.now(), sessionId: "old" },
+  };
+  const original = JSON.parse(JSON.stringify(stored));
+  let view = await boot();
+  expect(app.state.onboarding?.mode).toBe("upgrade");
+  expect(stored?.onboarding?.version).toBe(2);
+  expect(app.state.used).toEqual(original.used);
+  expect(app.state.decisions).toEqual(original.decisions);
+  await act(async () => {
+    await app.mutate((s) => ({
+      ...s,
+      onboarding: { ...s.onboarding!, step: "swipe", kept: true },
+    }));
+  });
+  view.unmount();
+  view = await boot();
+  expect(app.state.onboarding?.step).toBe("swipe");
+  expect(app.state.onboarding?.kept).toBe(true);
+  expect(app.state.used).toEqual(original.used);
+  view.unmount();
+});
+test("failed practice metadata save does not publish a new stage or alter free allowance", async () => {
+  await boot();
+  const before = app.state;
+  saveFails = true;
+  await act(async () => {
+    await expect(
+      app.mutate((s) => ({
+        ...s,
+        onboarding: { ...s.onboarding!, step: "compare", selected: [1] },
+      })),
+    ).rejects.toThrow("disk full");
+  });
+  expect(app.state).toEqual(before);
+  expect(app.state.used).toEqual([]);
+  expect(repository.deleteRequested).not.toHaveBeenCalled();
+});

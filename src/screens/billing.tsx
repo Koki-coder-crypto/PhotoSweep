@@ -1,5 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import { Linking, Pressable, Text, View } from "react-native";
+import Animated, {
+  FadeIn,
+  ZoomIn,
+  useReducedMotion,
+} from "react-native-reanimated";
 import { LinearGradient } from "expo-linear-gradient";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useApp } from "../state/AppContext";
@@ -17,10 +22,40 @@ import {
 import { palette as p, styles as s } from "../ui/theme";
 import { dateLabel, go, run } from "./actions";
 import type { StoreProduct } from "../domain/types";
+import { interactionFeedback } from "../data/feedback";
+import { Celebration } from "../ui/Celebration";
 export function Paywall({
   initialPeriod,
-}: { initialPeriod?: StoreProduct["period"] } = {}) {
+  onboarding = false,
+  onFinish,
+  finishing = false,
+  finishError = "",
+}: {
+  initialPeriod?: StoreProduct["period"];
+  onboarding?: boolean;
+  onFinish?: () => void;
+  finishing?: boolean;
+  finishError?: string;
+} = {}) {
   const app = useApp();
+  const osReduced = useReducedMotion(),
+    reduced = osReduced || app.state.settings.reduceMotion;
+  const celebrated = useRef(false);
+  useEffect(() => {
+    if (
+      hasPro(app.entitlement, Date.now()) &&
+      ["verified", "restored"].includes(app.purchaseState) &&
+      !celebrated.current
+    ) {
+      celebrated.current = true;
+      void interactionFeedback(app.state.settings, "success");
+    }
+  }, [app.entitlement, app.purchaseState]);
+  const finishNotice = finishError ? (
+    <Text accessibilityRole="alert" style={{ color: p.rose }}>
+      {finishError}
+    </Text>
+  ) : null;
   const params = useLocalSearchParams<{ period?: string }>();
   const [period, setPeriod] = useState<StoreProduct["period"]>(
     initialPeriod || (params.period === "month" ? "month" : "week"),
@@ -33,7 +68,8 @@ export function Paywall({
       if (app.purchaseState === "cancelled") {
         app.notify("登録をキャンセルしました。");
         app.dismissPurchaseResult();
-        if (router.canGoBack()) router.back();
+        if (onFinish) onFinish();
+        else if (router.canGoBack()) router.back();
       }
     }, [app.purchaseState]),
   );
@@ -42,13 +78,20 @@ export function Paywall({
     cta = productCTA(product),
     pro = hasPro(app.entitlement, Date.now());
   const close = () => {
+    if (finishing) return;
+    if (onFinish) {
+      onFinish();
+      return;
+    }
     app.dismissPurchaseResult();
     router.canGoBack() ? router.back() : router.replace("/");
   };
   if (pro && ["verified", "restored"].includes(app.purchaseState))
     return (
-      <Page title="PhotoSweep Pro" back>
+      <Page title="PhotoSweep Pro" back={!onboarding}>
+        {finishNotice}
         <StateView
+          badge={<Celebration reduced={app.state.settings.reduceMotion} />}
           icon="checkmark"
           tone="green"
           title={
@@ -64,7 +107,11 @@ export function Paywall({
               : "購入済みの権利を確認しました。"
           }
         >
-          <Button title="続きに戻る" onPress={close} />
+          <Button
+            title={onboarding ? "整理をはじめる" : "続きに戻る"}
+            loading={finishing}
+            onPress={close}
+          />
           {app.entitlement.kind === "trial" ? (
             <Button
               title="終了前の通知を設定"
@@ -77,7 +124,8 @@ export function Paywall({
     );
   if (pro)
     return (
-      <Page title="PhotoSweep Pro" back>
+      <Page title="PhotoSweep Pro" back={!onboarding}>
+        {finishNotice}
         <StateView
           icon="diamond-outline"
           title="Proをご利用中です"
@@ -90,7 +138,8 @@ export function Paywall({
     );
   if (app.purchaseState === "pending")
     return (
-      <Page title="購入状況の確認" back>
+      <Page title="購入状況の確認" back={!onboarding}>
+        {finishNotice}
         <StateView
           icon="hourglass-outline"
           title="購入の確認を待っています"
@@ -110,7 +159,8 @@ export function Paywall({
     );
   if (app.purchaseState === "failed" || app.purchaseState === "none")
     return (
-      <Page title="購入状況" back>
+      <Page title="購入状況" back={!onboarding}>
+        {finishNotice}
         <StateView
           icon="receipt-outline"
           title={
@@ -156,7 +206,10 @@ export function Paywall({
                   ? "購入条件を確認中"
                   : cta.label
             }
-            disabled={!app.billingError && (!cta.enabled || app.billingLoading)}
+            disabled={
+              finishing ||
+              (!app.billingError && (!cta.enabled || app.billingLoading))
+            }
             onPress={() =>
               app.billingError
                 ? void app.loadBilling()
@@ -165,10 +218,20 @@ export function Paywall({
                   : undefined
             }
           />
+          {finishError ? (
+            <Text accessibilityRole="alert" style={{ color: p.rose }}>
+              {finishError}
+            </Text>
+          ) : null}
           <Text style={[s.caption, { textAlign: "center", color: p.ink }]}>
             {cta.disclosure}
           </Text>
-          <Button title="無料のまま続ける" variant="ghost" onPress={close} />
+          <Button
+            title="無料のまま続ける"
+            variant="ghost"
+            loading={finishing}
+            onPress={close}
+          />
         </>
       }
     >
@@ -183,11 +246,19 @@ export function Paywall({
         <Text style={s.eyebrow}>PhotoSweep PRO</Text>
         <View style={{ width: 48 }} />
       </View>
-      <View style={{ alignItems: "center", gap: 12, paddingBottom: 8 }}>
+      {onboarding ? (
+        <Text style={[s.caption, { textAlign: "center" }]}>
+          最後に、あなたに合うプランを。
+        </Text>
+      ) : null}
+      <Animated.View
+        entering={reduced ? FadeIn.duration(120) : ZoomIn.duration(240)}
+        style={{ alignItems: "center", gap: 12, paddingBottom: 8 }}
+      >
         <View
           style={{
-            width: 72,
-            height: 72,
+            width: onboarding ? 56 : 72,
+            height: onboarding ? 56 : 72,
             borderRadius: 22,
             backgroundColor: p.blue,
             alignItems: "center",
@@ -199,10 +270,9 @@ export function Paywall({
         <Text style={[s.title, { textAlign: "center", fontSize: 30 }]}>
           枚数を気にせず、{`\n`}まとめて整理。
         </Text>
-      </View>
+      </Animated.View>
       <View style={{ gap: 16 }}>
         {[
-          ["images-outline", "50枚を超えてまとめて整理"],
           ["infinite-outline", "1日の枚数制限なし"],
           ["options-outline", "期間・順番・整理枚数を自由に"],
         ].map(([icon, text]) => (
@@ -246,7 +316,12 @@ export function Paywall({
                     periodName(item.period) + "プラン " + item.displayPrice
                   }
                   accessibilityState={{ selected }}
-                  onPress={() => setPeriod(item.period)}
+                  onPress={() => {
+                    if (product?.id !== item.id) {
+                      setPeriod(item.period);
+                      void interactionFeedback(app.state.settings, "selection");
+                    }
+                  }}
                   style={[
                     s.card,
                     {
@@ -276,10 +351,17 @@ export function Paywall({
                             : "いつでも解約できます。"}
                       </Text>
                     </View>
-                    <Icon
-                      name={selected ? "radio-button-on" : "radio-button-off"}
-                      color={selected ? p.cyan : p.muted}
-                    />
+                    <Animated.View
+                      key={String(selected)}
+                      entering={
+                        reduced ? FadeIn.duration(120) : ZoomIn.duration(140)
+                      }
+                    >
+                      <Icon
+                        name={selected ? "radio-button-on" : "radio-button-off"}
+                        color={selected ? p.cyan : p.muted}
+                      />
+                    </Animated.View>
                   </View>
                 </Pressable>
               );

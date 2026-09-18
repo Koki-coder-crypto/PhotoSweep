@@ -1,0 +1,8 @@
+{
+  "appVersion":"1.2.0",
+  "environment":"Windows / Node 24.13.0 / Expo SDK 57",
+  "automated": {"typecheck":"PASS","domainAndSql":{"status":"PASS","tests":58},"screensProviderStoreFeedback":{"status":"PASS","tests":139,"nativeApis":"mocked"},"expoDoctor":"21/21 PASS","hermesIosExport":"PASS","releaseDemoExclusion":"PASS"},
+  "web":{"status":"PASS","data":"development sample photos and products","widths":[360,390,430],"catalogMounts":76,"verifiedFlows":["comparison selection and confirmation","both practice swipe buttons","practice reload with progress restored","skip practice","discovery to paywall","weekly/lifetime disclosure selection","free continuation to one-time home guide","home guide dismissal","settings replay without automatic paywall","existing review cursor and daily quota retained","restart after completion opens home"],"screenshots":"artifacts/onboarding-qa"},
+  "native":{"build":"PENDING","device":"iPhone 15","upgrade":"NOT_RUN","hapticStrength":"NOT_RUN","nativeGesture100Operations":"NOT_RUN","photoPermissions":"NOT_RUN","dynamicTypeAndVoiceOver":"NOT_RUN","storeKitSandbox":"NOT_RUN","reason":"Requires signed app installation and user operation. App Store Connect products are not confirmed configured."},
+  "fixes":["Legacy onboarded flag no longer suppresses version 2 onboarding","Resume each stage without modifying photos or quota","Discovery back action skips already-granted permission instead of looping","Web interaction feedback has its own supported adapter","Saving completion errors remain visible on paywall","Windows Expo route type generation is refreshed before typecheck","Paywall removes repeated benefit text to expose choices sooner"]
+}

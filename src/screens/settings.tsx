@@ -6,6 +6,7 @@ import { useApp } from "../state/AppContext";
 import { hasPro } from "../domain/policy";
 import { notificationPermission } from "../data/notifications";
 import { config } from "../config";
+import { replayOnboarding } from "../domain/onboarding";
 import {
   Button,
   Card,
@@ -38,7 +39,12 @@ export function SettingsScreen() {
         <Row
           icon="hand-left-outline"
           title="使い方を見る"
-          onPress={() => go("/onboarding")}
+          onPress={() =>
+            void run(app, async () => {
+              await app.mutate(replayOnboarding);
+              go("/onboarding");
+            })
+          }
         />
         <Row
           icon="calendar-outline"
@@ -97,7 +103,7 @@ export function SettingsScreen() {
           onPress={() => go("/catalog")}
         />
       ) : null}
-      <Text style={[s.caption, { textAlign: "center" }]}>PhotoSweep 1.1.0</Text>
+      <Text style={[s.caption, { textAlign: "center" }]}>PhotoSweep 1.2.0</Text>
     </Page>
   );
 }

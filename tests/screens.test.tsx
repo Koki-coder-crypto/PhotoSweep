@@ -13,84 +13,14 @@ import { router } from "expo-router";
 import { emptyAnalysis } from "../src/domain/analysis";
 jest.mock("../src/state/AppContext", () => ({ useApp: jest.fn() }));
 const mockUseApp = jest.mocked(useApp);
-const photos: Photo[] = Array.from({ length: 146 }, (_, i) => ({
-  id: `demo-${i}`,
-  uri: "file:///test-photo.jpg",
-  width: 1000,
-  height: 1400,
-  createdAt: Date.now(),
-  screenshot: i % 4 === 0,
-}));
-function model(id = "S03"): AppModel {
-  const fixture = scenarioData(id);
-  return {
-    state: fixture.state,
-    entitlement: fixture.entitlement,
-    permission: fixture.permission,
-    photos: fixture.empty ? [] : photos,
-    ready: true,
-    bootError: "",
-    retryBoot: jest.fn(),
-    loading: fixture.variant === "list_loading",
-    libraryError: fixture.failPhotos ? "読み込み失敗" : "",
-    libraryTotal: photos.length,
-    busy: false,
-    message: "",
-    clearMessage: jest.fn(),
-    notify: jest.fn(),
-    preview: true,
-    billingError: fixture.failBilling ? "料金を読み込めませんでした。" : "",
-    billingLoading: false,
-    purchaseState: fixture.purchaseState,
-    products: [
-      {
-        id: config.products.annual,
-        period: "year",
-        displayPrice: "￥2,400",
-        price: 2400,
-        currency: "JPY",
-        eligibility: fixture.eligibility,
-        trialDays: 7,
-      },
-      {
-        id: config.products.monthly,
-        period: "month",
-        displayPrice: "￥480",
-        price: 480,
-        currency: "JPY",
-        eligibility: fixture.eligibility,
-        trialDays: 7,
-      },
-    ],
-    repository: {
-      permission: jest.fn(),
-      selectMore: jest.fn(),
-      page: jest.fn(),
-      resolve: async () => photos[8]!,
-      inspect: jest.fn(),
-      deleteRequested: jest.fn(),
-      subscribe: () => () => {},
-    },
-    reload: jest.fn(async () => {}),
-    selectMore: jest.fn(),
-    mutate: jest.fn(async (fn) => fn(fixture.state)),
-    start: jest.fn(),
-    choose: jest.fn(),
-    undo: jest.fn(),
-    removeCandidate: jest.fn(),
-    deletePhotos: jest.fn(async () => {}),
-    stageCandidates: jest.fn(async () => {}),
-    reconcile: jest.fn(),
-    loadBilling: jest.fn(),
-    refreshEntitlement: jest.fn(),
-    purchase: jest.fn(),
-    restore: jest.fn(),
-    manage: jest.fn(),
-    settings: jest.fn(),
-    dismissPurchaseResult: jest.fn(),
-  };
-}
+import { model, photos } from "./app-model";
 const views: Record<string, React.ComponentType> = {
+  O01: Main.Welcome,
+  O02: Main.Welcome,
+  O03: Main.Welcome,
+  O04: Main.Welcome,
+  O05: Main.Welcome,
+  O06: Main.Welcome,
   N01: () => <Collection initialKind="similar" />,
   N02: () => <Collection initialKind="duplicate" />,
   N03: () => <Collection initialKind="all" />,
@@ -306,17 +236,6 @@ test("an unresolved deletion remains reachable when permission hides every candi
   mockUseApp.mockReturnValue(app);
   render(<Main.Candidates />);
   expect(screen.getByRole("button", { name: "削除結果を確認" })).toBeTruthy();
-});
-test("onboarding explains all three steps and allows skipping to photo permission", () => {
-  mockUseApp.mockReturnValue(model());
-  render(<Main.Welcome />);
-  expect(screen.getByText("1 / 3")).toBeTruthy();
-  fireEvent.press(screen.getByRole("button", { name: "次へ" }));
-  expect(screen.getByText("2 / 3")).toBeTruthy();
-  fireEvent.press(screen.getByRole("button", { name: "次へ" }));
-  expect(screen.getByText("3 / 3")).toBeTruthy();
-  fireEvent.press(screen.getByRole("button", { name: "写真を選んではじめる" }));
-  expect(router.push).toHaveBeenCalledWith("/permission");
 });
 test("lifetime plan selection shows the full one-time price and purchases its own SKU", async () => {
   const app = model();

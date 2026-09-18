@@ -1,6 +1,6 @@
 {
   "name": "photosweep",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "main": "expo-router/entry",
   "scripts": {
@@ -17,7 +17,8 @@
     "build:development": "eas build --platform ios --profile development",
     "build:preview": "eas build --platform ios --profile preview",
     "build:ios": "npm run release:check && eas build --platform ios --profile production",
-    "check:release-bundle": "node tools/check-release-bundle.mjs"
+    "check:release-bundle": "node tools/check-release-bundle.mjs",
+    "pretypecheck": "node tools/generate-route-types.cjs"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",

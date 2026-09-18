@@ -115,6 +115,7 @@ export interface Settings {
   batch: 20 | 50 | 100;
 }
 export interface ReviewState {
+  onboarding?: import('./onboarding').OnboardingState;
   version: 1;
   onboarded: boolean;
   guided: boolean;
