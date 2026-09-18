@@ -2,7 +2,7 @@
   "device": "iPhone 15",
   "iosVersionReported": "26.61",
   "iosVersionVerified": null,
-  "buildId": "939de677-450f-48b3-97f7-8c4684c63d74",
+  "buildId": "ea461f19-59f2-4db9-84c8-cf6268c21441",
   "testedAt": null,
   "tests": [
     {
@@ -616,8 +616,68 @@
       "status": "NOT_RUN",
       "evidence": null,
       "notes": "Metroなし起動・デモ除外・オフライン"
+    },
+    {
+      "id": "ONB-UPGRADE",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "旧版へ上書き後、一度だけ導入表示。判断・候補・無料枠・位置を保持"
+    },
+    {
+      "id": "ONB-RESUME",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "6段階それぞれで強制終了し、保存した段階から復帰"
+    },
+    {
+      "id": "ONB-PRACTICE",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "比較・左右スワイプ・ボタン・連打・スキップ。無料枠不変"
+    },
+    {
+      "id": "ONB-PERMISSION",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "許可済み省略、新規、拒否、部分許可、あとで"
+    },
+    {
+      "id": "ONB-ANALYSIS",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "実件数、0件、大量、失敗、途中から先へ"
+    },
+    {
+      "id": "ONB-PAYWALL",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "未設定・通信失敗・資格・キャンセル・保留・復元・既存Pro"
+    },
+    {
+      "id": "ONB-COMPLETION",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "完了後に再起動して自動導入・課金が再表示されない"
+    },
+    {
+      "id": "ONB-REPLAY",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "設定から再体験して整理位置を保持"
+    },
+    {
+      "id": "ONB-FEEDBACK",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "iPhoneの振動・追従・100操作・振動オフ・Reduce Motion"
+    },
+    {
+      "id": "ONB-ACCESSIBILITY",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "VoiceOver・文字拡大で主要情報と操作に到達"
     }
   ],
-  "appVersion": "1.1.0",
+  "appVersion": "1.2.0",
   "installation": "AWAITING_USER"
 }

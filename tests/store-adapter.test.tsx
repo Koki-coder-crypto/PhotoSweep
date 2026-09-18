@@ -126,19 +126,17 @@ test("weekly and non-consumable products are loaded from StoreKit and purchased 
   adapter.dispose();
 });
 test("a misconfigured consumable SKU cannot be sold as lifetime access", async () => {
-  jest
-    .mocked(IAP.fetchProducts)
-    .mockResolvedValue([
-      {
-        id: config.products.lifetime,
-        platform: "ios",
-        type: "in-app",
-        typeIOS: "consumable",
-        displayPrice: "￥6,000",
-        price: 6000,
-        currency: "JPY",
-      },
-    ] as any);
+  jest.mocked(IAP.fetchProducts).mockResolvedValue([
+    {
+      id: config.products.lifetime,
+      platform: "ios",
+      type: "in-app",
+      typeIOS: "consumable",
+      displayPrice: "￥6,000",
+      price: 6000,
+      currency: "JPY",
+    },
+  ] as any);
   const adapter = createBillingAdapter();
   await expect(adapter.loadProducts()).rejects.toThrow();
   adapter.dispose();
@@ -233,5 +231,21 @@ test("restore synchronizes with Apple before reading entitlements and never star
   expect(await adapter.restore()).toEqual({ kind: "free", verified: true });
   expect(IAP.syncIOS).toHaveBeenCalledTimes(1);
   expect(IAP.requestPurchase).not.toHaveBeenCalled();
+  adapter.dispose();
+});
+
+test("a deferred transaction received after reconnect marks the UI pending without an active purchase promise", async () => {
+  const adapter = createBillingAdapter();
+  const changed = jest.fn();
+  adapter.subscribe(changed);
+  const onUpdate = jest
+    .mocked(IAP.purchaseUpdatedListener)
+    .mock.calls.at(-1)![0];
+  await onUpdate({
+    productId: config.products.weekly,
+    purchaseState: "pending",
+  } as any);
+  expect(changed).toHaveBeenCalledWith("pending");
+  expect(IAP.finishTransaction).not.toHaveBeenCalled();
   adapter.dispose();
 });

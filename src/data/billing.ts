@@ -32,7 +32,7 @@ export function createBillingAdapter(): BillingAdapter {
       if (purchase.purchaseState === "pending") {
         pending?.resolve("pending");
         pending = undefined;
-        notify();
+        notify("pending");
         return;
       }
       try {
