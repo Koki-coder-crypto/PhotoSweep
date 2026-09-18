@@ -25,6 +25,12 @@ struct HomeView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 HStack(spacing: 12) { Image("BrandMark").resizable().frame(width: 48, height: 48); VStack(alignment: .leading) { Text("PhotoSweep").font(.title.bold()); Text(L("home.headline")).foregroundStyle(.secondary) }; Spacer() }
+                if app.state.onboarding?.homeHintSeen == false && app.state.onboarded {
+                    Panel {
+                        Text(L("home.orientation")).font(.headline)
+                        ActionButton(title: "ok") { Task { _ = await app.mutate { s in var n = s; n.onboarding?.homeHintSeen = true; return n } } }
+                    }
+                }
                 if !app.library.accessible { PermissionPanel() }
                 if app.loading { ProgressView(L("library.loading")) }
                 if let free = app.freeBytes, let total = app.totalBytes {

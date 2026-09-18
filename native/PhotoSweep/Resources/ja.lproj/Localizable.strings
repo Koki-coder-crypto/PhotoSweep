@@ -236,3 +236,4 @@
 "compression.error15" = "処理が変わりました。もう一度確認してください。";
 "compression.error16" = "保存できる圧縮動画がありません。";
 "settings.sound" = "控えめな操作音";
+"home.orientation" = "整理ではまとめて比較。スワイプでは月ごとに仕分け。削除候補では、消す前に確認できます。";

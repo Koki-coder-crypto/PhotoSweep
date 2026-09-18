@@ -958,5 +958,9 @@
   "settings.sound": [
     "Soft confirmation sound",
     "控えめな操作音"
+  ],
+  "home.orientation": [
+    "Organize: compare groups and videos. Swipe: review a month. To delete: check candidates before deleting.",
+    "整理ではまとめて比較。スワイプでは月ごとに仕分け。削除候補では、消す前に確認できます。"
   ]
 }

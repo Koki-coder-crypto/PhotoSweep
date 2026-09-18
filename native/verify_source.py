@@ -20,5 +20,9 @@ for file in (root/'PhotoSweep').rglob('*.plist'):
 with (root/'PhotoSweep/Resources/PrivacyInfo.xcprivacy').open('rb') as stream: plistlib.load(stream)
 icon = root/'PhotoSweep/Resources/Assets.xcassets/AppIcon.appiconset/icon.png'
 assert icon.read_bytes() == (root.parent/'assets/icon.png').read_bytes(), '05A icon must match approved asset'
+metadata = json.loads((root/'Store/metadata.json').read_text(encoding='utf-8'))
+for locale in ['ja', 'en-US']:
+    for field, limit in [('name',30),('subtitle',30),('keywords',100),('promotionalText',170),('description',4000)]:
+        if len(metadata[locale][field]) > limit: errors.append(f'{locale}/{field}: exceeds {limit} characters')
 assert not errors, '\n'.join(errors)
 print(f'PASS: {len(catalog)} bilingual keys, format arguments, property lists, 05A icon and native runtime imports.')

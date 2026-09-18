@@ -25,6 +25,7 @@ struct AssetThumbnail: View {
     @State private var request: PHImageRequestID?
     @State private var network = false
     @State private var failed = false
+    @State private var generation = UUID()
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -38,9 +39,9 @@ struct AssetThumbnail: View {
     }
     private func load() {
         if let request { app.library.images.cancelImageRequest(request) }; image = nil; failed = false
-        let expected = id
+        generation = UUID(); let expected = generation
         request = app.library.image(id, size: fit ? CGSize(width: 1200, height: 1600) : CGSize(width: 350, height: 350), network: network) { value in
-            guard expected == id else { return }; image = value; failed = value == nil
+            guard expected == generation else { return }; image = value; failed = value == nil
         }
     }
 }

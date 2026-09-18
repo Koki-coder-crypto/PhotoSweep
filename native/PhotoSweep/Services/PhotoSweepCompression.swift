@@ -12,13 +12,15 @@ final class PhotoSweepCompression {
   private let directory: URL
   private let journal: URL
   private var observer: NSObjectProtocol?
-  init() {
-    directory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("PhotoSweepCompression", isDirectory: true)
+  init(directory override: URL? = nil) {
+    directory = override ?? FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("PhotoSweepCompression", isDirectory: true)
     journal = directory.appendingPathComponent("job.json")
     try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
-    if let data = try? Data(contentsOf: journal), let saved = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-      job = saved
-      if ["preparing", "encoding"].contains(job["phase"] as? String ?? "") { job["phase"] = "cancelled"; job["message"] = L("compression.error1") }
+    if FileManager.default.fileExists(atPath: journal.path) {
+      if let data = try? Data(contentsOf: journal), let saved = try? JSONSerialization.jsonObject(with: data) as? [String: Any], saved["phase"] is String, saved["id"] is String {
+        job = saved
+        if ["preparing", "encoding"].contains(job["phase"] as? String ?? "") { job["phase"] = "cancelled"; job["message"] = L("compression.error1") }
+      } else { job = ["id": "unreadable", "assetId": "", "phase": "unknown", "message": L("compression.error2")] }
     }
     observer = NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { [weak self] _ in self?.cancel() }
   }
@@ -35,7 +37,14 @@ final class PhotoSweepCompression {
     if job["phase"] as? String == "saving", Date().timeIntervalSince1970 - (job["saveRequestedAt"] as? Double ?? 0) > 30 {
       job["phase"] = "unknown"; job["message"] = L("compression.error2"); try? persist()
     }
-    return job
+    var localized = job
+    if let message = job["message"] as? String, let path = Bundle.main.path(forResource: "ja", ofType: "lproj"), let japanese = Bundle(path: path) {
+      for index in 1...16 {
+        let key = "compression.error\(index)"
+        if japanese.localizedString(forKey: key, value: nil, table: nil) == message { localized["message"] = L(key); break }
+      }
+    }
+    return localized
   }
   func start(_ assetId: String, preset: String) throws -> [String: Any] {
     lock.lock(); defer { lock.unlock() }

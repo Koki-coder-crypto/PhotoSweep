@@ -1,0 +1,19 @@
+{
+  "status": "DRAFT_NOT_SUBMITTED",
+  "version": "2.0.0",
+  "releaseMode": "MANUAL",
+  "ja": {
+    "name": "PhotoSweep：写真整理・動画圧縮",
+    "subtitle": "似た写真を比較、月ごとにスワイプ整理",
+    "keywords": "重複,スクリーンショット,アルバム,容量,空き容量,削除,片付け,カメラロール,画面収録,ストレージ",
+    "promotionalText": "あの月の写真を、すっと見返す。似た写真の比較も、大きい動画の整理も。削除する前に確認できるPhotoSweepで、残したい思い出を選びましょう。",
+    "description": "写真も動画も、見てから整理。\n\nPhotoSweepは、残したい思い出を選ぶための写真・動画整理アプリです。\n\n■ 月を選んで、左右にスワイプ\n月別のサムネイルから整理を開始。左は削除候補、右は残す。取り消しやスキップもでき、途中の月は続きから再開できます。\n\n■ 似た写真・同じ画像を見比べる\n端末内で解析したグループを比較し、残したい写真を自分で選べます。解析対象はアクセスを許可された、端末で取得できる写真です。すべての重複を検出する保証はありません。\n\n■ 大きい動画から選ぶ\nサイズを確認できた動画を大きい順に表示。スクリーンショットや画面収録も、専用の一覧から見返せます。サイズを取得できない項目は、その旨を表示します。\n\n■ 残したい動画を小さくする【Pro】\n対応する通常のSDR動画を、最大1080pまたは720pのコピーへ変換。出力を見比べてから保存でき、原本は自分で削除候補にするまで残ります。HDR・スローモーション・特殊な編集形式などは対象外です。画質やサイズの変化は動画によって異なります。\n\n■ 最後に確認してから削除\n候補を見直し、iOSの確認を経て削除。削除した件数と、確認できたデータのサイズを表示します。\n\n【無料・Pro】\n無料は1日写真30枚・動画5本まで新規の仕分けができます。候補確認・削除・取り消し・再判断には追加の枠を使いません。Proでは仕分け上限の解除、期間指定、並び替え、区切り件数の変更、対応動画の圧縮を利用できます。月額と買い切りを用意し、料金・対象者の無料体験・更新条件は購入画面にApp Storeの情報を表示します。月額は解約しない限り自動更新されます。買い切りに自動更新はありません。\n\n【写真と容量について】\n解析は端末内で行い、写真を開発者へ送りません。iCloud原本の表示・再生・圧縮には通信が必要な場合があります。削除した項目は通常「最近削除した項目」に30日間残り、iCloud写真では同じApple Accountのほかの端末にも削除が反映されます。削除対象のサイズと同じ量の空き容量が増えることは保証しません。\n\niPhone専用。iOS 16.4以降。"
+  },
+  "en-US": {
+    "name": "PhotoSweep: Photo Cleaner",
+    "subtitle": "Sort photos. Compress videos.",
+    "keywords": "duplicate,similar,screenshot,storage,album,declutter,swipe,delete,camera roll,screen recording",
+    "promotionalText": "A month at a time, a little more organized. Compare similar photos, review large videos and choose what to keep—with a final check before anything is deleted.",
+    "description": "Keep the moments. Clear the rest.\n\nPhotoSweep helps you review and organize photos and videos with clear choices and a final check before deletion.\n\nCHOOSE A MONTH. START SWIPING.\nTap a monthly thumbnail, swipe left to add a deletion candidate or right to keep it. Undo, skip and resume where you left off.\n\nCOMPARE SIMILAR PHOTOS AND DUPLICATE IMAGES\nReview groups found by on-device analysis and choose the photos you want to keep. Analysis covers accessible, locally available photos and does not guarantee detection of every duplicate.\n\nSTART WITH LARGE VIDEOS\nBrowse videos by size when their size can be verified. Dedicated lists help you review screenshots and screen recordings. Unknown file sizes are identified clearly.\n\nMAKE A SMALLER VIDEO COPY WITH PRO\nCompress supported standard SDR videos to a maximum of 1080p or 720p. Compare the output before saving it. Your original stays until you choose to put it in deletion candidates. HDR, slow motion and special edited formats are excluded. Results and quality changes vary by video.\n\nREVIEW BEFORE YOU DELETE\nCheck your candidates, then confirm the iOS deletion request. See the number of items deleted and the size of data that could be measured.\n\nFREE AND PRO\nFree sorting includes 30 photos and 5 videos per day. Reviewing candidates, deleting, undoing and rejudging use no extra allowance. Pro adds unlimited sorting, date filters, sorting order, larger batches and supported video compression. Monthly and lifetime options are available. Prices, any eligible free trial and renewal terms are displayed from the App Store before purchase. Monthly subscriptions renew automatically unless cancelled. Lifetime purchases do not renew.\n\nYOUR PHOTOS AND STORAGE\nAnalysis runs on your iPhone. PhotoSweep does not send your photos to the developer. Viewing, playing or compressing iCloud originals may require an internet connection. Deleted items normally remain in Recently Deleted for 30 days. iCloud Photos syncs deletion across devices on the same Apple Account. Deleted file size does not guarantee an equal increase in available device storage.\n\nFor iPhone. Requires iOS 16.4 or later."
+  }
+}

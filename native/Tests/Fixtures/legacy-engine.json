@@ -1,0 +1,2179 @@
+[
+  {
+    "name": "photo-0-plus-one",
+    "input": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "operation": "stage",
+    "ids": [
+      "new-photo"
+    ],
+    "pro": false,
+    "expected": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "new-photo": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "selection-1790000000000"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "new-photo"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "error": false
+  },
+  {
+    "name": "photo-0-pro",
+    "input": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "operation": "stage",
+    "ids": [
+      "new-photo"
+    ],
+    "pro": true,
+    "expected": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "new-photo": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "selection-1790000000000"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "error": false
+  },
+  {
+    "name": "photo-29-plus-one",
+    "input": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "p0",
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8",
+        "p9",
+        "p10",
+        "p11",
+        "p12",
+        "p13",
+        "p14",
+        "p15",
+        "p16",
+        "p17",
+        "p18",
+        "p19",
+        "p20",
+        "p21",
+        "p22",
+        "p23",
+        "p24",
+        "p25",
+        "p26",
+        "p27",
+        "p28"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "operation": "stage",
+    "ids": [
+      "new-photo"
+    ],
+    "pro": false,
+    "expected": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "new-photo": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "selection-1790000000000"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "p0",
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8",
+        "p9",
+        "p10",
+        "p11",
+        "p12",
+        "p13",
+        "p14",
+        "p15",
+        "p16",
+        "p17",
+        "p18",
+        "p19",
+        "p20",
+        "p21",
+        "p22",
+        "p23",
+        "p24",
+        "p25",
+        "p26",
+        "p27",
+        "p28",
+        "new-photo"
+      ],
+      "quotaNoticeDay": "2026-09-21",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "error": false
+  },
+  {
+    "name": "photo-29-pro",
+    "input": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "p0",
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8",
+        "p9",
+        "p10",
+        "p11",
+        "p12",
+        "p13",
+        "p14",
+        "p15",
+        "p16",
+        "p17",
+        "p18",
+        "p19",
+        "p20",
+        "p21",
+        "p22",
+        "p23",
+        "p24",
+        "p25",
+        "p26",
+        "p27",
+        "p28"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "operation": "stage",
+    "ids": [
+      "new-photo"
+    ],
+    "pro": true,
+    "expected": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "new-photo": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "selection-1790000000000"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "p0",
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8",
+        "p9",
+        "p10",
+        "p11",
+        "p12",
+        "p13",
+        "p14",
+        "p15",
+        "p16",
+        "p17",
+        "p18",
+        "p19",
+        "p20",
+        "p21",
+        "p22",
+        "p23",
+        "p24",
+        "p25",
+        "p26",
+        "p27",
+        "p28"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "error": false
+  },
+  {
+    "name": "photo-30-plus-one",
+    "input": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "p0",
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8",
+        "p9",
+        "p10",
+        "p11",
+        "p12",
+        "p13",
+        "p14",
+        "p15",
+        "p16",
+        "p17",
+        "p18",
+        "p19",
+        "p20",
+        "p21",
+        "p22",
+        "p23",
+        "p24",
+        "p25",
+        "p26",
+        "p27",
+        "p28",
+        "p29"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "operation": "stage",
+    "ids": [
+      "new-photo"
+    ],
+    "pro": false,
+    "error": true
+  },
+  {
+    "name": "photo-30-pro",
+    "input": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "p0",
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8",
+        "p9",
+        "p10",
+        "p11",
+        "p12",
+        "p13",
+        "p14",
+        "p15",
+        "p16",
+        "p17",
+        "p18",
+        "p19",
+        "p20",
+        "p21",
+        "p22",
+        "p23",
+        "p24",
+        "p25",
+        "p26",
+        "p27",
+        "p28",
+        "p29"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "operation": "stage",
+    "ids": [
+      "new-photo"
+    ],
+    "pro": true,
+    "expected": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "new-photo": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "selection-1790000000000"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "p0",
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8",
+        "p9",
+        "p10",
+        "p11",
+        "p12",
+        "p13",
+        "p14",
+        "p15",
+        "p16",
+        "p17",
+        "p18",
+        "p19",
+        "p20",
+        "p21",
+        "p22",
+        "p23",
+        "p24",
+        "p25",
+        "p26",
+        "p27",
+        "p28",
+        "p29"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "error": false
+  },
+  {
+    "name": "photo-31-plus-one",
+    "input": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "p0",
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8",
+        "p9",
+        "p10",
+        "p11",
+        "p12",
+        "p13",
+        "p14",
+        "p15",
+        "p16",
+        "p17",
+        "p18",
+        "p19",
+        "p20",
+        "p21",
+        "p22",
+        "p23",
+        "p24",
+        "p25",
+        "p26",
+        "p27",
+        "p28",
+        "p29",
+        "p30"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "operation": "stage",
+    "ids": [
+      "new-photo"
+    ],
+    "pro": false,
+    "error": true
+  },
+  {
+    "name": "photo-31-pro",
+    "input": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "p0",
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8",
+        "p9",
+        "p10",
+        "p11",
+        "p12",
+        "p13",
+        "p14",
+        "p15",
+        "p16",
+        "p17",
+        "p18",
+        "p19",
+        "p20",
+        "p21",
+        "p22",
+        "p23",
+        "p24",
+        "p25",
+        "p26",
+        "p27",
+        "p28",
+        "p29",
+        "p30"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "operation": "stage",
+    "ids": [
+      "new-photo"
+    ],
+    "pro": true,
+    "expected": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "new-photo": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "selection-1790000000000"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "p0",
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8",
+        "p9",
+        "p10",
+        "p11",
+        "p12",
+        "p13",
+        "p14",
+        "p15",
+        "p16",
+        "p17",
+        "p18",
+        "p19",
+        "p20",
+        "p21",
+        "p22",
+        "p23",
+        "p24",
+        "p25",
+        "p26",
+        "p27",
+        "p28",
+        "p29",
+        "p30"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "error": false
+  },
+  {
+    "name": "photo-50-plus-one",
+    "input": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "p0",
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8",
+        "p9",
+        "p10",
+        "p11",
+        "p12",
+        "p13",
+        "p14",
+        "p15",
+        "p16",
+        "p17",
+        "p18",
+        "p19",
+        "p20",
+        "p21",
+        "p22",
+        "p23",
+        "p24",
+        "p25",
+        "p26",
+        "p27",
+        "p28",
+        "p29",
+        "p30",
+        "p31",
+        "p32",
+        "p33",
+        "p34",
+        "p35",
+        "p36",
+        "p37",
+        "p38",
+        "p39",
+        "p40",
+        "p41",
+        "p42",
+        "p43",
+        "p44",
+        "p45",
+        "p46",
+        "p47",
+        "p48",
+        "p49"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "operation": "stage",
+    "ids": [
+      "new-photo"
+    ],
+    "pro": false,
+    "error": true
+  },
+  {
+    "name": "photo-50-pro",
+    "input": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "p0",
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8",
+        "p9",
+        "p10",
+        "p11",
+        "p12",
+        "p13",
+        "p14",
+        "p15",
+        "p16",
+        "p17",
+        "p18",
+        "p19",
+        "p20",
+        "p21",
+        "p22",
+        "p23",
+        "p24",
+        "p25",
+        "p26",
+        "p27",
+        "p28",
+        "p29",
+        "p30",
+        "p31",
+        "p32",
+        "p33",
+        "p34",
+        "p35",
+        "p36",
+        "p37",
+        "p38",
+        "p39",
+        "p40",
+        "p41",
+        "p42",
+        "p43",
+        "p44",
+        "p45",
+        "p46",
+        "p47",
+        "p48",
+        "p49"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "operation": "stage",
+    "ids": [
+      "new-photo"
+    ],
+    "pro": true,
+    "expected": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "new-photo": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "selection-1790000000000"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "p0",
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8",
+        "p9",
+        "p10",
+        "p11",
+        "p12",
+        "p13",
+        "p14",
+        "p15",
+        "p16",
+        "p17",
+        "p18",
+        "p19",
+        "p20",
+        "p21",
+        "p22",
+        "p23",
+        "p24",
+        "p25",
+        "p26",
+        "p27",
+        "p28",
+        "p29",
+        "p30",
+        "p31",
+        "p32",
+        "p33",
+        "p34",
+        "p35",
+        "p36",
+        "p37",
+        "p38",
+        "p39",
+        "p40",
+        "p41",
+        "p42",
+        "p43",
+        "p44",
+        "p45",
+        "p46",
+        "p47",
+        "p48",
+        "p49"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "error": false
+  },
+  {
+    "name": "video-0-mixed",
+    "input": {
+      "version": 2,
+      "mediaKinds": {
+        "new-video": "video"
+      },
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "operation": "stage",
+    "ids": [
+      "new-video",
+      "new-photo"
+    ],
+    "pro": false,
+    "expected": {
+      "version": 2,
+      "mediaKinds": {
+        "new-video": "video"
+      },
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "new-video": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "selection-1790000000000"
+        },
+        "new-photo": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "selection-1790000000000"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "new-video",
+        "new-photo"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "error": false
+  },
+  {
+    "name": "video-4-mixed",
+    "input": {
+      "version": 2,
+      "mediaKinds": {
+        "v0": "video",
+        "v1": "video",
+        "v2": "video",
+        "v3": "video",
+        "new-video": "video"
+      },
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "v0",
+        "v1",
+        "v2",
+        "v3"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "operation": "stage",
+    "ids": [
+      "new-video",
+      "new-photo"
+    ],
+    "pro": false,
+    "expected": {
+      "version": 2,
+      "mediaKinds": {
+        "v0": "video",
+        "v1": "video",
+        "v2": "video",
+        "v3": "video",
+        "new-video": "video"
+      },
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "new-video": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "selection-1790000000000"
+        },
+        "new-photo": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "selection-1790000000000"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "v0",
+        "v1",
+        "v2",
+        "v3",
+        "new-video",
+        "new-photo"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "error": false
+  },
+  {
+    "name": "video-5-mixed",
+    "input": {
+      "version": 2,
+      "mediaKinds": {
+        "v0": "video",
+        "v1": "video",
+        "v2": "video",
+        "v3": "video",
+        "v4": "video",
+        "new-video": "video"
+      },
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "v0",
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "operation": "stage",
+    "ids": [
+      "new-video",
+      "new-photo"
+    ],
+    "pro": false,
+    "error": true
+  },
+  {
+    "name": "video-6-mixed",
+    "input": {
+      "version": 2,
+      "mediaKinds": {
+        "v0": "video",
+        "v1": "video",
+        "v2": "video",
+        "v3": "video",
+        "v4": "video",
+        "v5": "video",
+        "new-video": "video"
+      },
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "v0",
+        "v1",
+        "v2",
+        "v3",
+        "v4",
+        "v5"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": []
+    },
+    "operation": "stage",
+    "ids": [
+      "new-video",
+      "new-photo"
+    ],
+    "pro": false,
+    "error": true
+  },
+  {
+    "name": "keep",
+    "input": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": [],
+      "session": {
+        "id": "fixture-session",
+        "ids": [
+          "a",
+          "b"
+        ],
+        "cursor": 0,
+        "target": 2,
+        "scope": {
+          "month": "2026-09",
+          "order": "newest"
+        },
+        "startedAt": 1790000000000,
+        "status": "active",
+        "steps": []
+      }
+    },
+    "operation": "keep",
+    "ids": [
+      "a"
+    ],
+    "pro": false,
+    "expected": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "a": {
+          "choice": "keep",
+          "at": 1790000000000,
+          "sessionId": "fixture-session"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "a"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": [],
+      "session": {
+        "id": "fixture-session",
+        "ids": [
+          "a",
+          "b"
+        ],
+        "cursor": 1,
+        "target": 2,
+        "scope": {
+          "month": "2026-09",
+          "order": "newest"
+        },
+        "startedAt": 1790000000000,
+        "status": "active",
+        "steps": [
+          {
+            "id": "a",
+            "choice": "keep",
+            "cursor": 0
+          }
+        ]
+      }
+    },
+    "error": false
+  },
+  {
+    "name": "skip",
+    "input": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": [],
+      "session": {
+        "id": "fixture-session",
+        "ids": [
+          "a",
+          "b"
+        ],
+        "cursor": 0,
+        "target": 2,
+        "scope": {
+          "month": "2026-09",
+          "order": "newest"
+        },
+        "startedAt": 1790000000000,
+        "status": "active",
+        "steps": []
+      }
+    },
+    "operation": "skip",
+    "ids": [
+      "a"
+    ],
+    "pro": false,
+    "expected": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": [],
+      "session": {
+        "id": "fixture-session",
+        "ids": [
+          "a",
+          "b"
+        ],
+        "cursor": 1,
+        "target": 2,
+        "scope": {
+          "month": "2026-09",
+          "order": "newest"
+        },
+        "startedAt": 1790000000000,
+        "status": "active",
+        "steps": [
+          {
+            "id": "a",
+            "cursor": 0
+          }
+        ]
+      }
+    },
+    "error": false
+  },
+  {
+    "name": "undo-preserves-used",
+    "input": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "a": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "fixture-session"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "a"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": [],
+      "session": {
+        "id": "fixture-session",
+        "ids": [
+          "a",
+          "b"
+        ],
+        "cursor": 1,
+        "target": 2,
+        "scope": {
+          "month": "2026-09",
+          "order": "newest"
+        },
+        "startedAt": 1790000000000,
+        "status": "active",
+        "steps": [
+          {
+            "id": "a",
+            "choice": "candidate",
+            "cursor": 0
+          }
+        ]
+      }
+    },
+    "operation": "undo",
+    "ids": [],
+    "pro": false,
+    "expected": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "a"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": [],
+      "session": {
+        "id": "fixture-session",
+        "ids": [
+          "a",
+          "b"
+        ],
+        "cursor": 0,
+        "target": 2,
+        "scope": {
+          "month": "2026-09",
+          "order": "newest"
+        },
+        "startedAt": 1790000000000,
+        "status": "active",
+        "steps": []
+      }
+    },
+    "error": false
+  },
+  {
+    "name": "rejudge-does-not-charge",
+    "input": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "a": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "fixture-session"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "a"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": [],
+      "session": {
+        "id": "fixture-session",
+        "ids": [
+          "a",
+          "b"
+        ],
+        "cursor": 1,
+        "target": 2,
+        "scope": {
+          "month": "2026-09",
+          "order": "newest"
+        },
+        "startedAt": 1790000000000,
+        "status": "active",
+        "steps": [
+          {
+            "id": "a",
+            "choice": "candidate",
+            "cursor": 0
+          }
+        ]
+      }
+    },
+    "operation": "stage",
+    "ids": [
+      "a"
+    ],
+    "pro": false,
+    "expected": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "a": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "selection-1790000000000"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "a"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": [],
+      "session": {
+        "id": "fixture-session",
+        "ids": [
+          "a",
+          "b"
+        ],
+        "cursor": 1,
+        "target": 2,
+        "scope": {
+          "month": "2026-09",
+          "order": "newest"
+        },
+        "startedAt": 1790000000000,
+        "status": "active",
+        "steps": [
+          {
+            "id": "a",
+            "choice": "candidate",
+            "cursor": 0
+          }
+        ]
+      }
+    },
+    "error": false
+  },
+  {
+    "name": "cancel-deletion",
+    "input": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "a": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "fixture-session"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "a"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": [],
+      "session": {
+        "id": "fixture-session",
+        "ids": [
+          "a",
+          "b"
+        ],
+        "cursor": 1,
+        "target": 2,
+        "scope": {
+          "month": "2026-09",
+          "order": "newest"
+        },
+        "startedAt": 1790000000000,
+        "status": "active",
+        "steps": [
+          {
+            "id": "a",
+            "choice": "candidate",
+            "cursor": 0
+          }
+        ]
+      },
+      "deletion": {
+        "id": "fixture-deletion",
+        "ids": [
+          "a"
+        ],
+        "at": 1790000000000,
+        "status": "pending",
+        "deleted": [],
+        "remaining": [
+          "a"
+        ]
+      }
+    },
+    "operation": "cancel",
+    "ids": [],
+    "pro": false,
+    "expected": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "a": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "fixture-session"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "a"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": [],
+      "session": {
+        "id": "fixture-session",
+        "ids": [
+          "a",
+          "b"
+        ],
+        "cursor": 1,
+        "target": 2,
+        "scope": {
+          "month": "2026-09",
+          "order": "newest"
+        },
+        "startedAt": 1790000000000,
+        "status": "active",
+        "steps": [
+          {
+            "id": "a",
+            "choice": "candidate",
+            "cursor": 0
+          }
+        ]
+      },
+      "deletion": {
+        "id": "fixture-deletion",
+        "ids": [
+          "a"
+        ],
+        "at": 1790000000000,
+        "status": "cancelled",
+        "deleted": [],
+        "remaining": [
+          "a"
+        ]
+      }
+    },
+    "error": false
+  },
+  {
+    "name": "unknown-deletion",
+    "input": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "a": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "fixture-session"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "a"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": [],
+      "session": {
+        "id": "fixture-session",
+        "ids": [
+          "a",
+          "b"
+        ],
+        "cursor": 1,
+        "target": 2,
+        "scope": {
+          "month": "2026-09",
+          "order": "newest"
+        },
+        "startedAt": 1790000000000,
+        "status": "active",
+        "steps": [
+          {
+            "id": "a",
+            "choice": "candidate",
+            "cursor": 0
+          }
+        ]
+      },
+      "deletion": {
+        "id": "fixture-deletion",
+        "ids": [
+          "a"
+        ],
+        "at": 1790000000000,
+        "status": "pending",
+        "deleted": [],
+        "remaining": [
+          "a"
+        ]
+      }
+    },
+    "operation": "unknown",
+    "ids": [],
+    "pro": false,
+    "expected": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "a": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "fixture-session"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "a"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": [],
+      "session": {
+        "id": "fixture-session",
+        "ids": [
+          "a",
+          "b"
+        ],
+        "cursor": 1,
+        "target": 2,
+        "scope": {
+          "month": "2026-09",
+          "order": "newest"
+        },
+        "startedAt": 1790000000000,
+        "status": "active",
+        "steps": [
+          {
+            "id": "a",
+            "choice": "candidate",
+            "cursor": 0
+          }
+        ]
+      },
+      "deletion": {
+        "id": "fixture-deletion",
+        "ids": [
+          "a"
+        ],
+        "at": 1790000000000,
+        "status": "unknown",
+        "deleted": [],
+        "remaining": [
+          "a"
+        ]
+      }
+    },
+    "error": false
+  },
+  {
+    "name": "confirmed-deletion",
+    "input": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {
+        "a": {
+          "choice": "candidate",
+          "at": 1790000000000,
+          "sessionId": "fixture-session"
+        }
+      },
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "a"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 0,
+      "history": [],
+      "session": {
+        "id": "fixture-session",
+        "ids": [
+          "a",
+          "b"
+        ],
+        "cursor": 1,
+        "target": 2,
+        "scope": {
+          "month": "2026-09",
+          "order": "newest"
+        },
+        "startedAt": 1790000000000,
+        "status": "active",
+        "steps": [
+          {
+            "id": "a",
+            "choice": "candidate",
+            "cursor": 0
+          }
+        ]
+      },
+      "deletion": {
+        "id": "fixture-deletion",
+        "ids": [
+          "a"
+        ],
+        "at": 1790000000000,
+        "status": "pending",
+        "deleted": [],
+        "remaining": [
+          "a"
+        ]
+      }
+    },
+    "operation": "delete",
+    "ids": [
+      "a"
+    ],
+    "pro": false,
+    "expected": {
+      "version": 2,
+      "mediaKinds": {},
+      "monthSessions": {},
+      "sizes": {},
+      "outcomes": [
+        {
+          "id": "fixture-deletion",
+          "at": 1790000000000,
+          "photoCount": 1,
+          "videoCount": 0,
+          "knownBytes": 0,
+          "unknownCount": 1,
+          "estimated": false
+        }
+      ],
+      "onboarded": false,
+      "guided": false,
+      "decisions": {},
+      "day": "2026-09-21",
+      "lastWallTime": 1790000000000,
+      "timezoneOffset": -540,
+      "blockResetThrough": "",
+      "used": [
+        "a"
+      ],
+      "quotaNoticeDay": "",
+      "settings": {
+        "haptics": true,
+        "sound": false,
+        "reduceMotion": false,
+        "weekly": false,
+        "trialReminder": false,
+        "batch": 20
+      },
+      "deletedCount": 1,
+      "history": [],
+      "session": {
+        "id": "fixture-session",
+        "ids": [
+          "b"
+        ],
+        "cursor": 0,
+        "target": 2,
+        "scope": {
+          "month": "2026-09",
+          "order": "newest"
+        },
+        "startedAt": 1790000000000,
+        "status": "paused",
+        "steps": []
+      },
+      "deletion": {
+        "id": "fixture-deletion",
+        "ids": [
+          "a"
+        ],
+        "at": 1790000000000,
+        "status": "done",
+        "deleted": [
+          "a"
+        ],
+        "remaining": []
+      }
+    },
+    "error": false
+  }
+]

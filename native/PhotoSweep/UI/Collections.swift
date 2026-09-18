@@ -90,10 +90,12 @@ struct ResultView: View {
     @Environment(\.requestReview) var requestReview
     @Environment(\.scenePhase) var phase
     @State private var interacted = false
+    @State private var appeared = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     var body: some View {
         ScrollView { VStack(spacing: 24) {
             if let job = app.state.deletion, let outcome = app.state.outcomes.first(where: { $0.id == job.id }), !job.deleted.isEmpty {
-                Image(systemName: "checkmark.circle.fill").font(.system(size: 76)).foregroundStyle(.tint)
+                Image(systemName: "checkmark.circle.fill").font(.system(size: 76)).foregroundStyle(.tint).scaleEffect(appeared || reduceMotion || app.state.settings.reduceMotion ? 1 : 0.85).opacity(appeared ? 1 : 0)
                 Text(String(format: L("result.title"), outcome.photoCount + outcome.videoCount)).font(.largeTitle.bold()).multilineTextAlignment(.center)
                 Panel { Text(L("result.data")); Text(bytesText(outcome.knownBytes)).font(.system(.largeTitle, design: .rounded).bold()); Text(String(format: L("result.breakdown"), outcome.photoCount, outcome.videoCount)); if outcome.unknownCount > 0 { Text(String(format: L("result.unknown"), outcome.unknownCount)).font(.footnote) }; if outcome.estimated { Text(L("size.estimated")).font(.footnote) } }
                 if let before = outcome.freeBefore, let after = outcome.freeAfter { Panel { Text(L("result.measured")); Text(bytesText(before) + " → " + bytesText(after)); Text(L("result.measureNote")).font(.caption) } }
@@ -104,6 +106,7 @@ struct ResultView: View {
             NavigationLink(L("restore.title")) { HelpDetailView(kind: "restore") }
         }.padding(24) }.navigationTitle(L("result.heading")).navigationBarTitleDisplayMode(.inline)
             .toolbar { Button(L("done")) { dismiss() } }
+            .onAppear { withAnimation(.easeOut(duration: reduceMotion || app.state.settings.reduceMotion ? 0.12 : 0.45)) { appeared = true } }
             .simultaneousGesture(DragGesture(minimumDistance: 0).onChanged { _ in interacted = true })
             .task {
                 try? await Task.sleep(nanoseconds: 2_150_000_000)

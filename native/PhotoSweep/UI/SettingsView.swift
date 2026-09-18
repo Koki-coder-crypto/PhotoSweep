@@ -33,7 +33,7 @@ struct SettingsView: View {
         #if DEBUG
         Section { NavigationLink("Development catalog") { CatalogView() } }
         #endif
-    }.navigationTitle(L("settings.title")) }
+    }.disabled(app.busy).navigationTitle(L("settings.title")) }
     private func binding(_ path: WritableKeyPath<Settings, Bool>) -> Binding<Bool> { Binding(get: { app.state.settings[keyPath: path] }, set: { value in Task { await app.settings { $0[keyPath: path] = value } } }) }
 }
 struct PlanView: View {

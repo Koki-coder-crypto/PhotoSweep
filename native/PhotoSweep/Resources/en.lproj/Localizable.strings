@@ -236,3 +236,4 @@
 "compression.error15" = "The job has changed. Please check again.";
 "compression.error16" = "There is no compressed video ready to save.";
 "settings.sound" = "Soft confirmation sound";
+"home.orientation" = "Organize: compare groups and videos. Swipe: review a month. To delete: check candidates before deleting.";
