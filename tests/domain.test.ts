@@ -352,3 +352,21 @@ for (const count of [1000, 10000])
     assert.equal(Object.keys((await store.load())!.decisions).length, count);
     native.close();
   });
+
+
+test("1.2 SQL migration failure preserves original records and retries atomically", async () => {
+  const { native, db } = sqlite(); const store = new SqlReviewPersistence(db); await store.init();
+  const legacy = { ...decide(active(), 'p0', 'candidate', free, c), version: 1 as const, onboarded: true, guided: true };
+  await store.save(initialState(c), legacy);
+  const before = native.prepare("SELECT value FROM meta WHERE key = 'state'").get() as { value: string };
+  native.exec("CREATE TRIGGER fail_migration BEFORE UPDATE ON meta BEGIN SELECT RAISE(ABORT, 'disk full'); END;");
+  await assert.rejects(() => store.load(), /disk full/);
+  assert.equal((native.prepare("SELECT value FROM meta WHERE key = 'state'").get() as { value: string }).value, before.value);
+  native.exec('DROP TRIGGER fail_migration');
+  const migrated = (await store.load())!;
+  assert.equal(migrated.version, 2); assert.deepEqual(migrated.decisions, legacy.decisions);
+  assert.deepEqual(migrated.used, legacy.used); assert.deepEqual(migrated.session, legacy.session);
+  assert.equal(migrated.onboarded, true); assert.equal(migrated.guided, true);
+  assert.deepEqual(await new SqlReviewPersistence(db).load(), migrated);
+  native.close();
+});

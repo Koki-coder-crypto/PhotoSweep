@@ -1,3 +1,20 @@
+# PhotoSweep 1.3 — 2026-09-18
+
+月別サークル・再開、写真30枚／動画5本の無料枠、動画整理・端末容量・正確な削除結果、Pro動画圧縮、成果後の公式レビュー依頼を実装。1.2の保存データと導入完了を保持。
+
+- Node/SQLite 68件＋Jest172件＝240件PASS。型検査、Expo Doctor21項目、iOS Hermes生成とデモ除外PASS。
+- Webカタログ87状態。360／390／430幅の主要画面、月移動と再開、100操作で候補数と位置の復元を確認。
+- 写真枠終了後に大量写真の後ろの動画を探せない問題、Pro失効後の再開枠、月変更とカード退出の競合を修正。移行時の保存失敗では元データ保持と再試行を実SQLiteで確認。
+- EAS無料枠を確認して内部配布previewを作成。Xcode ARCHIVE SUCCEEDED。Swiftのサイズ取得・圧縮を含めコンパイル成功。
+- 1.3.0（2）、15,310,050 bytes、Hermes 4,530,445 bytes。登録端末1台、プロファイル有効期限2027-03-17。Windowsでは署名の暗号学的検証は未実施。
+- iPhone実機の操作感・写真/動画削除・圧縮品質・VoiceOver/文字拡大・Sandbox購入はNOT_RUN。商品登録状況も本人確認が必要。未実行項目を合格にはしていない。
+
+[インストール](https://expo.dev/accounts/koki_123/projects/photosweep/builds/f72c0512-4924-4957-ab3a-c8fbac4893da) · [実機確認手順](DEVICE_TESTING.md) · [詳細と制約](UX_UPGRADE_1_3.md) · [検証記録](ux13-verification.json)
+
+実装コミット: a631ca2。配布IPA: artifacts/PhotoSweep-1.3.0-preview.ipa。検証証跡: artifacts/ux13-check-final.log、ux13-ipa-inspection.json、ux13-xcode.txt、ux13-qa/。
+
+以下は旧版の履歴。
+
 # 実装・検証の記録 — 2026-09-17
 
 ## 2026-09-18 — 1.2 体験型オンボーディング

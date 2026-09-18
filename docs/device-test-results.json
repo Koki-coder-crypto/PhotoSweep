@@ -2,7 +2,7 @@
   "device": "iPhone 15",
   "iosVersionReported": "26.61",
   "iosVersionVerified": null,
-  "buildId": "4c84db67-ae76-4824-b850-4076c351b0e6",
+  "buildId": "f72c0512-4924-4957-ab3a-c8fbac4893da",
   "testedAt": null,
   "tests": [
     {
@@ -676,8 +676,86 @@
       "status": "NOT_RUN",
       "evidence": null,
       "notes": "VoiceOver・文字拡大で主要情報と操作に到達"
+    },
+    {
+      "id": "UP13-MIGRATE",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "1.2から上書き。判断・候補・位置・導入完了・使用数を保持。"
+    },
+    {
+      "id": "UP13-MONTH",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "月切替、再開、追加写真と進捗リング、強制終了。"
+    },
+    {
+      "id": "UP13-100",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "実機で100操作。指追従、誤確定、保存後の振動、読み込み待ち。"
+    },
+    {
+      "id": "UP13-QUOTA",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "写真29→30→31・動画4→5→6、再判断、日付変更、Pro失効。"
+    },
+    {
+      "id": "UP13-MEDIA",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "部分許可・取消、iCloudのみ、Live Photo、画面収録のOS分類。"
+    },
+    {
+      "id": "UP13-DELETE",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "OSキャンセル・部分成功・結果不明、対象サイズと空き容量の区別、二重計上防止。"
+    },
+    {
+      "id": "UP13-COMPRESS",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "SDR縦横／音声有無／1080p・720p、実再生、サイズ・向き・長さ・音声。"
+    },
+    {
+      "id": "UP13-COMPRESS-FAIL",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "低容量・HDR非対応・通信断・バックグラウンド中断・小さくならない出力。"
+    },
+    {
+      "id": "UP13-SAVE",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "保存成功／失敗／結果不明と再起動、重複保存なし、保存前の原本保持。"
+    },
+    {
+      "id": "UP13-PRO",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "StoreKitの商品価格・週額・買い切り、購入／保留／キャンセル／復元／失効。"
+    },
+    {
+      "id": "UP13-REVIEW",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "成果後の公式レビュー呼出し。表示を保証しない。操作・離脱で取消。"
+    },
+    {
+      "id": "UP13-ACCESSIBILITY",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "文字拡大、VoiceOver、Reduce Motion、振動OFF。"
+    },
+    {
+      "id": "UP13-STANDALONE",
+      "status": "NOT_RUN",
+      "evidence": null,
+      "notes": "PCを切断し、機内モードと再起動後の主要動線。"
     }
   ],
-  "appVersion": "1.2.0",
+  "appVersion": "1.3.0",
   "installation": "AWAITING_USER"
 }

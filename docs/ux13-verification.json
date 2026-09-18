@@ -1,0 +1,89 @@
+{
+  "version": "1.3.0",
+  "date": "2026-09-18",
+  "sourceCommit": "a631ca2b2ad706fb99e80b86c883ab3567a5d371",
+  "automated": {
+    "typecheck": "PASS",
+    "nodeTests": {
+      "passed": 68,
+      "failed": 0
+    },
+    "jestTests": {
+      "passed": 172,
+      "failed": 0
+    },
+    "expoDoctor": {
+      "passed": 21,
+      "failed": 0
+    },
+    "iosExport": "PASS",
+    "releaseDemoExclusion": "PASS"
+  },
+  "browser": {
+    "widths": [
+      360,
+      390,
+      430
+    ],
+    "catalogStates": 87,
+    "checked": [
+      "month circles",
+      "month picker",
+      "month switch and resume",
+      "swipe hint and dismiss",
+      "100 button operations with restored cursor and candidate count",
+      "large video size ordering and selection",
+      "confirmed deletion results",
+      "compression comparison/saved/unknown branches"
+    ],
+    "actualNativeGesturesAndHaptics": "NOT_RUN",
+    "evidence": "artifacts/ux13-qa/"
+  },
+  "build": {
+    "id": "f72c0512-4924-4957-ab3a-c8fbac4893da",
+    "status": "FINISHED",
+    "version": "1.3.0",
+    "number": "2",
+    "profile": "preview",
+    "distribution": "INTERNAL",
+    "url": "https://expo.dev/accounts/koki_123/projects/photosweep/builds/f72c0512-4924-4957-ab3a-c8fbac4893da",
+    "archive": "ARCHIVE SUCCEEDED",
+    "freePlanOnly": true,
+    "iosFreeUsageBefore": {
+      "used": 3,
+      "limit": 15
+    },
+    "ipa": {
+      "bundleId": "com.kokicoder.photosweep",
+      "version": "1.3.0",
+      "buildNumber": "2",
+      "minimumOS": "16.4",
+      "embeddedHermesBundleBytes": 4530445,
+      "developmentMarkers": [],
+      "versionedOnboardingPresent": true,
+      "codeSignaturePresent": true,
+      "provisioningProfilePresent": true,
+      "registeredDeviceCount": 1,
+      "profileExpiresAt": "2027-03-17T00:11:42Z",
+      "debuggable": false,
+      "ipaBytes": 15310050,
+      "sha256": "2bbd16ec35f97ba9ed8f93a3028c5975c57f39e93ddc4aaf24e29991d2528e82",
+      "cryptographicSignatureValidation": "NOT_RUN (requires Apple tooling)",
+      "actualDeviceExecution": "NOT_RUN"
+    }
+  },
+  "manual": {
+    "iPhone15": "NOT_RUN",
+    "Sandbox": "NOT_RUN",
+    "compressionQuality": "NOT_RUN",
+    "VoiceOverAndDynamicType": "NOT_RUN",
+    "actualOSDeletion": "NOT_RUN"
+  },
+  "limitations": [
+    "App Store Connect商品登録状況未確認。Pro購入と圧縮の実機検証には実商品/Sandbox権利が必要。",
+    "保存結果不明の圧縮は重複保存防止のため次の処理も停止。権限と保存IDの再確認で復旧できない場合がある。",
+    "HDR・スローモーション・タイムラプス・シネマティック・編集済み動画は対象外。",
+    "AVFoundation同期読込/旧export APIの非推奨警告あり。iOS 16.4以降でコンパイル成功、将来SDKでは非同期API移行が必要。",
+    "正式な問い合わせ窓口と公開URLの確定、ストア提出は未実施。"
+  ]
+}
