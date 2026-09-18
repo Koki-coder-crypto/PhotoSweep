@@ -1,0 +1,49 @@
+name: PhotoSweep
+options:
+  bundleIdPrefix: com.kokicoder
+  deploymentTarget:
+    iOS: '16.4'
+  developmentLanguage: en
+settings:
+  base:
+    SWIFT_VERSION: '5.9'
+    IPHONEOS_DEPLOYMENT_TARGET: '16.4'
+    DEVELOPMENT_TEAM: 7LXRYTBS7L
+    MARKETING_VERSION: 2.0.0
+    CURRENT_PROJECT_VERSION: 20001
+    TARGETED_DEVICE_FAMILY: '1'
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+targets:
+  PhotoSweep:
+    type: application
+    platform: iOS
+    sources: [PhotoSweep]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.kokicoder.photosweep
+        INFOPLIST_FILE: PhotoSweep/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CODE_SIGN_STYLE: Automatic
+        SUPPORTS_MACCATALYST: NO
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: NO
+    dependencies:
+      - sdk: libsqlite3.tbd
+  PhotoSweepTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [Tests]
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: PhotoSweep
+schemes:
+  PhotoSweep:
+    build:
+      targets:
+        PhotoSweep: all
+    test:
+      targets: [PhotoSweepTests]
+      gatherCoverageData: true
+    archive:
+      config: Release

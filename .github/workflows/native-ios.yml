@@ -1,0 +1,43 @@
+name: Native iOS verification
+on:
+  push:
+    branches: ['codex/swiftui-2']
+    paths: ['native/**', '.github/workflows/native-ios.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: native-ios-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    if: github.event.repository.private == false
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate native project
+        run: |
+          brew install xcodegen
+          xcodebuild -version
+          xcodegen generate --spec native/project.yml
+      - name: Choose available iPhone simulator
+        run: |
+          DEVICE=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin); print(next(x["udid"] for values in d["devices"].values() for x in values if "iPhone" in x["name"]))')
+          echo "SIMULATOR_ID=$DEVICE" >> "$GITHUB_ENV"
+      - name: Native XCTest
+        run: |
+          set -o pipefail
+          xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweep -destination "platform=iOS Simulator,id=$SIMULATOR_ID" -resultBundlePath "$RUNNER_TEMP/NativeTests.xcresult" CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/native-build.log"
+      - name: Release build without signing
+        run: |
+          set -o pipefail
+          xcodebuild build -project native/PhotoSweep.xcodeproj -scheme PhotoSweep -configuration Release -sdk iphoneos -destination generic/platform=iOS CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/native-release.log"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-verification
+          path: |
+            ${{ runner.temp }}/native-*.log
+            ${{ runner.temp }}/NativeTests.xcresult
+          retention-days: 3
