@@ -111,6 +111,6 @@ struct ResultView: View {
                       app.state.deletion?.status == "done", ReviewEngine.mayRequestReview(app.state, version: "2.0.0") else { return }
                 let ok = await app.mutate { s in var n = s; n.reviewPrompt = ReviewPrompt(at: WallClock().now, version: "2.0.0"); return n }
                 if ok && !Task.isCancelled && !interacted && phase == .active { requestReview() }
-            }.onChange(of: phase) { if $0 != .active { interacted = true } }
+            }.onChange(of: phase) { if $0 != .active { interacted = true } }.onDisappear { interacted = true }
     }
 }

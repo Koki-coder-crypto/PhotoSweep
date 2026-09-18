@@ -21,12 +21,15 @@ protocol BillingAdapter {
     @Published var autoRenew = false
     @Published var trial = false
     @Published var entitlementName = "plan.free"
+    var allowsPro: Bool { hasPro && (entitlementName == "plan.lifetime" || (expiry.map { $0 > Date() } ?? false)) }
+    private let pendingFile = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("PhotoSweepPurchasePending.json")
     private var updates: Task<Void, Never>?
     init() {
+        pending = FileManager.default.fileExists(atPath: pendingFile.path)
         updates = Task { [weak self] in
             for await result in Transaction.updates {
                 guard let self, case .verified(let transaction) = result, Self.supportedIDs.contains(transaction.productID) else { continue }
-                await self.refresh(); await transaction.finish(); self.pending = false
+                await self.refresh(); await transaction.finish(); self.pending = false; try? FileManager.default.removeItem(at: self.pendingFile)
             }
         }
     }
@@ -74,7 +77,10 @@ protocol BillingAdapter {
                 guard case .verified(let transaction) = result, Self.supportedIDs.contains(transaction.productID) else { message = L("billing.unverified"); return }
                 await refresh(); await transaction.finish()
                 message = hasPro ? L("billing.success") : L("billing.unverified")
-            case .pending: pending = true; message = L("billing.pending")
+            case .pending:
+                pending = true; message = L("billing.pending")
+                try? FileManager.default.createDirectory(at: pendingFile.deletingLastPathComponent(), withIntermediateDirectories: true)
+                try? JSONEncoder().encode(["productID": product.id]).write(to: pendingFile, options: .atomic)
             case .userCancelled: message = nil
             @unknown default: message = L("billing.unverified")
             }

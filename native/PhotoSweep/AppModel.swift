@@ -30,7 +30,13 @@ import UserNotifications
     private var loadTask: Task<Void, Never>?
     private var generation = UUID()
     init(persistence: any ReviewPersistence = SQLitePersistence()) {
+        #if DEBUG
+        if let testID = ProcessInfo.processInfo.environment["PHOTOSWEEP_UI_TEST"] {
+            self.persistence = SQLitePersistence(documents: FileManager.default.temporaryDirectory.appendingPathComponent("UITests-" + testID))
+        } else { self.persistence = persistence }
+        #else
         self.persistence = persistence
+        #endif
         library.changed = { [weak self] in self?.reload() }
     }
     func launch() async {
@@ -91,20 +97,22 @@ import UserNotifications
         return scope.order == "oldest" ? list.reversed() : list
     }
     func begin(_ scope: Scope) async {
-        let items = matching(scope), pro = billing.hasPro
+        let pro = billing.allowsPro
+        let safeScope = pro ? scope : Scope(month: scope.month, screenshotsOnly: scope.screenshotsOnly, mediaKind: scope.mediaKind, recordingsOnly: scope.recordingsOnly)
+        let items = matching(safeScope)
         if await mutate({ s in
             var next = s; for item in items { next.mediaKinds[item.id] = item.kind }
-            return try ReviewEngine.start(next, ids: items.map(\.id), scope: scope, pro: pro)
+            return try ReviewEngine.start(next, ids: items.map(\.id), scope: safeScope, pro: pro)
         }) { tab = 1 }
     }
     func decide(_ id: String, choice: Choice?) async -> Bool {
-        let pro = billing.hasPro
+        let pro = billing.allowsPro
         let ok = await mutate({ try ReviewEngine.decide($0, id: id, choice: choice, pro: pro) }, haptic: choice != nil)
         if let session = state.session { library.prefetch(Array(session.ids.dropFirst(session.cursor).prefix(3))) }
         return ok
     }
     func stage(_ ids: [String]) async -> Bool {
-        let pro = billing.hasPro
+        let pro = billing.allowsPro
         return await mutate({ s in
             var next = s
             for item in self.photos where ids.contains(item.id) { next.mediaKinds[item.id] = item.kind }

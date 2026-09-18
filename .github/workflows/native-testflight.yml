@@ -1,0 +1,84 @@
+name: Native TestFlight delivery
+on:
+  workflow_dispatch:
+    inputs:
+      build_number:
+        description: 'Unique native build number (20002 or greater)'
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  testflight:
+    if: github.event.repository.private == false
+    runs-on: macos-15
+    environment: apple-distribution
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require configured signing secrets
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+          IOS_CERTIFICATE_BASE64: ${{ secrets.IOS_CERTIFICATE_BASE64 }}
+          IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+          IOS_PROFILE_BASE64: ${{ secrets.IOS_PROFILE_BASE64 }}
+          BUILD_NUMBER: ${{ inputs.build_number }}
+        run: |
+          python3 - <<'PY'
+          import os
+          required = ['ASC_KEY_ID','ASC_ISSUER_ID','ASC_PRIVATE_KEY','IOS_CERTIFICATE_BASE64','IOS_CERTIFICATE_PASSWORD','IOS_PROFILE_BASE64']
+          missing = [name for name in required if not os.environ.get(name)]
+          assert not missing, 'Configure protected secrets: ' + ', '.join(missing)
+          assert os.environ['BUILD_NUMBER'].isdigit() and int(os.environ['BUILD_NUMBER']) >= 20002
+          PY
+      - name: Install signing material in an ephemeral keychain
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+          IOS_CERTIFICATE_BASE64: ${{ secrets.IOS_CERTIFICATE_BASE64 }}
+          IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+          IOS_PROFILE_BASE64: ${{ secrets.IOS_PROFILE_BASE64 }}
+        run: |
+          set -euo pipefail
+          sudo xcode-select -s /Applications/Xcode_26.3.app/Contents/Developer
+          brew install xcodegen
+          python3 - <<'PY'
+          import os,base64,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          (root/'distribution.p12').write_bytes(base64.b64decode(os.environ['IOS_CERTIFICATE_BASE64']))
+          (root/'distribution.mobileprovision').write_bytes(base64.b64decode(os.environ['IOS_PROFILE_BASE64']))
+          keys=pathlib.Path.home()/'.appstoreconnect/private_keys'; keys.mkdir(parents=True,exist_ok=True)
+          (keys/('AuthKey_'+os.environ['ASC_KEY_ID']+'.p8')).write_text(os.environ['ASC_PRIVATE_KEY'])
+          PY
+          KEYCHAIN_PASSWORD=$(openssl rand -hex 24)
+          echo "::add-mask::$KEYCHAIN_PASSWORD"
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$RUNNER_TEMP/signing.keychain-db"
+          security set-keychain-settings -lut 21600 "$RUNNER_TEMP/signing.keychain-db"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$RUNNER_TEMP/signing.keychain-db"
+          security import "$RUNNER_TEMP/distribution.p12" -P "$IOS_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k "$RUNNER_TEMP/signing.keychain-db"
+          security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" "$RUNNER_TEMP/signing.keychain-db" >/dev/null
+          security list-keychains -d user -s "$RUNNER_TEMP/signing.keychain-db"
+          security cms -D -i "$RUNNER_TEMP/distribution.mobileprovision" > "$RUNNER_TEMP/profile.plist"
+          python3 native/prepare_signing.py
+      - name: Archive native app
+        env:
+          BUILD_NUMBER: ${{ inputs.build_number }}
+        run: |
+          python3 native/generate_localizations.py
+          python3 native/verify_source.py
+          xcodegen generate --spec native/project.yml
+          xcodebuild archive -project native/PhotoSweep.xcodeproj -scheme PhotoSweep -configuration Release -destination generic/platform=iOS -archivePath "$RUNNER_TEMP/PhotoSweep.xcarchive" CURRENT_PROJECT_VERSION="$BUILD_NUMBER" CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY='Apple Distribution' PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID"
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/PhotoSweep.xcarchive" -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" -exportPath "$RUNNER_TEMP/export"
+      - name: Upload only to TestFlight
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: xcrun altool --upload-app -f "$RUNNER_TEMP/export/PhotoSweep.ipa" -t ios --apiKey "$ASC_KEY_ID" --apiIssuer "$ASC_ISSUER_ID"
+      - name: Remove temporary signing material
+        if: always()
+        run: |
+          security delete-keychain "$RUNNER_TEMP/signing.keychain-db" || true
+          rm -f "$RUNNER_TEMP/distribution.p12" "$RUNNER_TEMP/distribution.mobileprovision" "$RUNNER_TEMP/profile.plist"
+          rm -f "$HOME/.appstoreconnect/private_keys/"*.p8

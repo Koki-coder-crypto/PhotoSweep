@@ -37,13 +37,22 @@ targets:
         GENERATE_INFOPLIST_FILE: YES
     dependencies:
       - target: PhotoSweep
+  PhotoSweepUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [UITests]
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: PhotoSweep
 schemes:
   PhotoSweep:
     build:
       targets:
         PhotoSweep: all
     test:
-      targets: [PhotoSweepTests]
+      targets: [PhotoSweepTests, PhotoSweepUITests]
       gatherCoverageData: true
     archive:
       config: Release

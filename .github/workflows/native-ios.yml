@@ -21,6 +21,7 @@ jobs:
           sudo xcode-select -s /Applications/Xcode_26.3.app/Contents/Developer
           brew install xcodegen
           python3 native/generate_localizations.py
+          python3 native/verify_source.py
           xcodebuild -version
           xcodegen generate --spec native/project.yml
       - name: Choose available iPhone simulator
@@ -35,6 +36,9 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild build -project native/PhotoSweep.xcodeproj -scheme PhotoSweep -configuration Release -sdk iphoneos -destination generic/platform=iOS CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/native-release.log"
+      - name: Export UI test captures
+        if: always()
+        run: xcrun xcresulttool export attachments --path "$RUNNER_TEMP/NativeTests.xcresult" --output-path "$RUNNER_TEMP/native-captures" || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -42,4 +46,5 @@ jobs:
           path: |
             ${{ runner.temp }}/native-*.log
             ${{ runner.temp }}/NativeTests.xcresult
+            ${{ runner.temp }}/native-captures
           retention-days: 3

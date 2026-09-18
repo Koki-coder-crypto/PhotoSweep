@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "bundleID": "com.kokicoder.photosweep",
+  "team": "7LXRYTBS7L",
+  "releaseMode": "MANUAL",
+  "operatorName": "",
+  "supportEmail": "",
+  "supportURL": "",
+  "privacyURL": "",
+  "termsURL": "",
+  "appStoreConnectAppID": "",
+  "approvedBinaryBuild": "",
+  "evidence": {
+    "nativeCI": "PENDING",
+    "simulatorJapaneseEnglish": "PENDING",
+    "oldAppUpgradeOnIPhone": "NOT_RUN",
+    "oneHundredGesturesAndHaptics": "NOT_RUN",
+    "limitedAccessAndRevocation": "NOT_RUN",
+    "realDeletionAndUnknownResult": "NOT_RUN",
+    "compressionQualityAudioOrientation": "NOT_RUN",
+    "sandboxPurchaseRestorePending": "NOT_RUN",
+    "voiceOverAndLargeText": "NOT_RUN",
+    "storeScreenshotsFourteen": "NOT_RUN",
+    "privacyLegalAndRegionalDeclarations": "NOT_RUN"
+  }
+}

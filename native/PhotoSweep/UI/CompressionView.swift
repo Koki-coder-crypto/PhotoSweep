@@ -47,8 +47,8 @@ struct CompressionView: View {
                 }
             } else {
                 if let message = job["message"] as? String, !message.isEmpty, same { Text(message).font(.footnote) }
-                ActionButton(title: billing.hasPro ? "compression.begin" : "compression.pro") {
-                    if billing.hasPro { perform { try app.compression.start(assetId, preset: preset) } } else { app.paywall = true }
+                ActionButton(title: billing.allowsPro ? "compression.begin" : "compression.pro") {
+                    if billing.allowsPro { perform { try app.compression.start(assetId, preset: preset) } } else { app.paywall = true }
                 }
             }
         }.padding(20) }.navigationTitle(L("category.compression")).navigationBarTitleDisplayMode(.inline)
