@@ -10,6 +10,8 @@ Validation:
 - iOS Hermes export passed.
 - Release bundle check passed: no development catalog, mock products or demo photos.
 - Browser onboarding shows the selected icon at its actual in-app size.
+- EAS preview 1.3.0 (4) finished successfully. Downloaded IPA inspection passed: embedded Hermes bundle, distribution profile for the registered device, signature resources, and no development fixtures.
+- The IPA contains the exact selected in-app PNG; both native AppIcon PNGs differ from the previous preview. Cryptographic signature validation requires Apple tooling and was not run on Windows.
 - Device launch and home-screen appearance still require iPhone confirmation.
 
 Build: https://expo.dev/accounts/koki_123/projects/photosweep/builds/0eba5eb0-859a-4fda-9ba0-e9c8f14b50a2
