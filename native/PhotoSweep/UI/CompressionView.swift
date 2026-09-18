@@ -40,6 +40,12 @@ struct CompressionView: View {
                 }
                 if phase == "ready" { ActionButton(title: "compression.save") { perform { try app.compression.save(job["id"] as? String ?? "") } } }
                 if phase == "not-smaller" { Text(L("compression.not-smaller")) }
+                if phase == "ready" || phase == "not-smaller" {
+                    Button(L("compression.retrySettings")) {
+                        if billing.allowsPro { perform { try app.compression.start(assetId, preset: preset) } } else { app.paywall = true }
+                    }.frame(minHeight: 44)
+                    Text(L("compression.retryNote")).font(.footnote).foregroundStyle(.secondary)
+                }
                 if phase == "saved", job["savedId"] as? String != nil {
                     Text(L("compression.saved")).font(.headline); Text(L("compression.bothNote"))
                     ActionButton(title: "compression.stageOriginal") { Task { if await app.stage([assetId]) { app.reload(); app.tab = 2; dismiss() } } }

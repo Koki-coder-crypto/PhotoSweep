@@ -237,3 +237,8 @@
 "compression.error16" = "There is no compressed video ready to save.";
 "settings.sound" = "Soft confirmation sound";
 "home.orientation" = "Organize: compare groups and videos. Swipe: review a month. To delete: check candidates before deleting.";
+"media.playFailed" = "This video could not be loaded. Check photo access and your connection, then try again.";
+"zoom.in" = "Zoom in";
+"zoom.out" = "Zoom out";
+"compression.retrySettings" = "Convert with selected settings";
+"compression.retryNote" = "Replaces this unsaved preview. Your original remains unchanged.";

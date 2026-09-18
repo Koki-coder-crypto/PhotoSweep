@@ -36,6 +36,6 @@ Compression retains the original `ApplicationSupport/PhotoSweepCompression/job.j
 
 ## Before distribution
 
-App Store Connect registration, monthly/lifetime product configuration and secure signing credentials are not yet confirmed. The user has not supplied official operator/contact information. TestFlight, Sandbox purchases, real-device migration and haptic/quality evaluation must remain unverified until actually performed. Legal/contact placeholders prevent store submission; they are not publishable final disclosures.
+App Store Connect app 6813565278 is registered under the existing Bundle ID. Version 2.0.0, manual release, and Japanese/English description drafts have been saved. Monthly/lifetime product configuration and secure signing credentials are not yet confirmed. The user has not supplied official operator/contact information. TestFlight, Sandbox purchases, real-device migration and haptic/quality evaluation must remain unverified until actually performed. Legal/contact placeholders prevent store submission; they are not publishable final disclosures.
 
 The screenshot attachments produced by UI tests are QA evidence only. App Store promotional images must use verified final screens with licensed library media and actual result values; these QA captures must not be submitted as the seven-image storefront set.

@@ -11,4 +11,4 @@ The current native target uses the same app identity as the installed preview: `
 7. Supply the formal operator name, working support email and public support/privacy/terms URLs. Complete agreements/tax/bank details and legal regional declarations yourself using accurate information.
 8. Only after all release evidence and 14 real screenshots are ready, submit with release mode **manual**. After approval, review listing/prices/regions with the user before publishing.
 
-App Store name availability, bundle registration, product availability, agreements, API access and signing are not currently confirmed. A successful unsigned build is not a TestFlight upload or a signature verification.
+2026-09-19: App registered as **PhotoSweep：写真整理・動画圧縮**, app ID **6813565278**, SKU **photosweep-ios**, with the existing bundle. Version **2.0.0** and **manual release** saved; Japanese and English promotional text, descriptions and keywords saved as drafts. No submission or publication. Product availability, agreements, API access and signing are not yet confirmed. A successful unsigned build is not a TestFlight upload or a signature verification.

@@ -158,6 +158,6 @@ struct FilterView: View {
     @State private var oldest = false
     var body: some View { Form {
         Section { DatePicker(L("filter.start"), selection: $start, displayedComponents: .date); DatePicker(L("filter.end"), selection: $end, in: start..., displayedComponents: .date); Toggle(L("filter.oldest"), isOn: $oldest) }
-        Section { if billing.hasPro { ActionButton(title: "filter.begin") { Task { let exclusive = Calendar.current.date(byAdding: .day, value: 1, to: Calendar.current.startOfDay(for: end))!; await app.begin(Scope(start: Calendar.current.startOfDay(for: start).timeIntervalSince1970 * 1000, end: exclusive.timeIntervalSince1970 * 1000, order: oldest ? "oldest" : "newest")); dismiss() } } } else { Text(L("filter.pro")); Button(L("pro.see")) { app.paywall = true } } }
+        Section { if billing.allowsPro { ActionButton(title: "filter.begin") { Task { let exclusive = Calendar.current.date(byAdding: .day, value: 1, to: Calendar.current.startOfDay(for: end))!; await app.begin(Scope(start: Calendar.current.startOfDay(for: start).timeIntervalSince1970 * 1000, end: exclusive.timeIntervalSince1970 * 1000, order: oldest ? "oldest" : "newest")); dismiss() } } } else { Text(L("filter.pro")); Button(L("pro.see")) { app.paywall = true } } }
     }.navigationTitle(L("filter.title")) }
 }

@@ -51,19 +51,42 @@ struct MediaPlayerView: View {
     var id: String?; var url: URL? = nil
     @State private var player: AVPlayer?
     @State private var loading = false
+    @State private var failed = false
+    @State private var loadingTask: Task<Void, Never>?
     var body: some View {
         VStack {
             if let player { VideoPlayer(player: player).frame(minHeight: 220) }
-            else { Button { Task { loading = true; defer { loading = false }; if let url { player = AVPlayer(url: url) } else if let id, let item = await app.library.video(id) { player = AVPlayer(playerItem: item) } } } label: { Label(L(loading ? "media.loading" : "media.play"), systemImage: "play.circle.fill").font(.title3).frame(maxWidth: .infinity, minHeight: 80) }.disabled(loading) }
+            else { Button(action: load) { Label(L(loading ? "media.loading" : "media.play"), systemImage: "play.circle.fill").font(.title3).frame(maxWidth: .infinity, minHeight: 80) }.disabled(loading) }
+            if failed { Text(L("media.playFailed")).font(.footnote).foregroundStyle(.secondary) }
             Text(L("media.network")).font(.caption).foregroundStyle(.secondary)
-        }.onDisappear { player?.pause(); player = nil }.onChange(of: phase) { if $0 != .active { player?.pause() } }
+        }.onDisappear { loadingTask?.cancel(); loading = false; player?.pause(); player = nil }.onChange(of: phase) { if $0 != .active { loadingTask?.cancel(); loading = false; player?.pause() } }
+    }
+    private func load() {
+        loadingTask?.cancel(); loading = true; failed = false
+        loadingTask = Task {
+            let result: AVPlayer?
+            if let url { result = AVPlayer(url: url) }
+            else if let id, let item = await app.library.video(id) { result = AVPlayer(playerItem: item) }
+            else { result = nil }
+            guard !Task.isCancelled else { return }
+            player = result; failed = result == nil; loading = false
+        }
     }
 }
 struct ZoomView: View {
     var id: String; var kind: MediaKind
     @State private var scale: CGFloat = 1
     var body: some View {
-        VStack { if kind == .video { MediaPlayerView(id: id) } else { AssetThumbnail(id: id, fit: true).scaleEffect(scale).gesture(MagnificationGesture().onChanged { scale = min(4, max(1, $0)) }).clipped(); Button(L("zoom.reset")) { scale = 1 } } }
+        VStack { if kind == .video { MediaPlayerView(id: id) } else {
+            AssetThumbnail(id: id, fit: true).scaleEffect(scale).gesture(MagnificationGesture().onChanged { scale = min(4, max(1, $0)) }).clipped()
+                .accessibilityValue(String(format: "%.0f%%", scale * 100))
+                .accessibilityAdjustableAction { direction in switch direction { case .increment: scale = min(4, scale + 0.5); case .decrement: scale = max(1, scale - 0.5); @unknown default: break } }
+            HStack {
+                Button { scale = max(1, scale - 0.5) } label: { Image(systemName: "minus.magnifyingglass").frame(minWidth: 44, minHeight: 44) }.accessibilityLabel(L("zoom.out")).disabled(scale <= 1)
+                Spacer(); Button(L("zoom.reset")) { scale = 1 }.frame(minHeight: 44); Spacer()
+                Button { scale = min(4, scale + 0.5) } label: { Image(systemName: "plus.magnifyingglass").frame(minWidth: 44, minHeight: 44) }.accessibilityLabel(L("zoom.in")).disabled(scale >= 4)
+            }
+        } }
             .padding().navigationTitle(L("media.preview")).navigationBarTitleDisplayMode(.inline)
     }
 }

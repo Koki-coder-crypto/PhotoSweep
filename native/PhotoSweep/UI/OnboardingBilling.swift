@@ -47,7 +47,7 @@ struct OnboardingView: View {
         Task { _ = await app.mutate { s in var n = s; var i = n.onboarding ?? Onboarding(); i.step = steps[index]; n.onboarding = i; return n } }
     }
     private func advance() {
-        if intro.step == "discover" && (billing.hasPro || app.photos.isEmpty || !app.library.accessible) { Task { await app.finishOnboarding() }; return }
+        if intro.step == "discover" && (billing.allowsPro || app.photos.isEmpty || !app.library.accessible) { Task { await app.finishOnboarding() }; return }
         if intro.step == "swipe" && app.library.accessible { move(2) } else { move(1) }
     }
 }
@@ -73,7 +73,7 @@ struct PaywallContent: View {
             Label(L("pro.unlimited"), systemImage: "checkmark.circle")
             Label(L("pro.compress"), systemImage: "checkmark.circle")
             Label(L("pro.filters"), systemImage: "checkmark.circle")
-            if billing.hasPro { Text(L("billing.active")); ActionButton(title: "continue", action: onFinish) }
+            if billing.allowsPro { Text(L("billing.active")); ActionButton(title: "continue", action: onFinish) }
             else if billing.pending { Text(L("billing.pending")); Button(L("billing.recheck")) { Task { await billing.refresh() } } }
             else {
                 ForEach(billing.products, id: \.id) { product in
@@ -83,12 +83,12 @@ struct PaywallContent: View {
                 }
                 if let product = billing.products.first(where: { $0.id == selected }) {
                     Text(billing.disclosure(product)).font(.footnote)
-                    ActionButton(title: "billing.purchase") { Task { await billing.purchase(product); if billing.hasPro { app.feedback(success: true); onFinish() } } }.disabled(billing.busy)
+                    ActionButton(title: "billing.purchase") { Task { await billing.purchase(product); if billing.allowsPro { app.feedback(success: true); onFinish() } } }.disabled(billing.busy)
                 } else { Text(L("billing.unavailable")).font(.footnote); Button(L("retry")) { Task { await billing.load() } } }
             }
             if let message = billing.message { Text(message).font(.footnote) }
             Button(L("billing.free"), action: onFinish).frame(maxWidth: .infinity, minHeight: 44)
-            Button(L("billing.restore")) { Task { await billing.restore(); if billing.hasPro { onFinish() } } }.disabled(billing.busy)
+            Button(L("billing.restore")) { Task { await billing.restore(); if billing.allowsPro { onFinish() } } }.disabled(billing.busy)
             Text(L("quota.policy")).font(.caption).foregroundStyle(.secondary)
             HStack { NavigationLink(L("legal.terms")) { HelpDetailView(kind: "terms") }; Spacer(); NavigationLink(L("legal.privacy")) { HelpDetailView(kind: "privacy") } }.font(.footnote)
         }.task { if billing.products.isEmpty { await billing.load() }; selected = billing.products.first?.id }

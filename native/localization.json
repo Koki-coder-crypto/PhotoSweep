@@ -962,5 +962,25 @@
   "home.orientation": [
     "Organize: compare groups and videos. Swipe: review a month. To delete: check candidates before deleting.",
     "整理ではまとめて比較。スワイプでは月ごとに仕分け。削除候補では、消す前に確認できます。"
+  ],
+  "media.playFailed": [
+    "This video could not be loaded. Check photo access and your connection, then try again.",
+    "動画を読み込めませんでした。写真へのアクセスと通信を確認して、もう一度お試しください。"
+  ],
+  "zoom.in": [
+    "Zoom in",
+    "拡大"
+  ],
+  "zoom.out": [
+    "Zoom out",
+    "縮小"
+  ],
+  "compression.retrySettings": [
+    "Convert with selected settings",
+    "選んだ設定で変換し直す"
+  ],
+  "compression.retryNote": [
+    "Replaces this unsaved preview. Your original remains unchanged.",
+    "未保存のプレビューを作り直します。原本はそのまま残ります。"
   ]
 }

@@ -16,7 +16,7 @@ struct SettingsView: View {
             Toggle(L("settings.sound"), isOn: binding(\.sound))
             Toggle(L("settings.reduceMotion"), isOn: binding(\.reduceMotion))
             Button(L("settings.testHaptic")) { app.feedback() }
-            Picker(L("settings.batch"), selection: Binding(get: { app.state.settings.batch }, set: { value in if billing.hasPro { Task { await app.settings { $0.batch = value } } } else { app.paywall = true } })) { ForEach([20, 50, 100], id: \.self) { Text("\($0)").tag($0) } }
+            Picker(L("settings.batch"), selection: Binding(get: { app.state.settings.batch }, set: { value in if billing.allowsPro { Task { await app.settings { $0.batch = value } } } else { app.paywall = true } })) { ForEach([20, 50, 100], id: \.self) { Text("\($0)").tag($0) } }
         }
         Section(L("settings.notifications")) { Toggle(L("settings.weekly"), isOn: binding(\.weekly)); Toggle(L("settings.trialReminder"), isOn: binding(\.trialReminder)) }
         Section(L("permission.title")) {
@@ -41,7 +41,7 @@ struct PlanView: View {
     @EnvironmentObject var app: AppModel
     var body: some View { Form {
         Section { Text(L(billing.entitlementName)).font(.title2.bold()); if let expiry = billing.expiry { Text(expiry, style: .date); Text(L(billing.autoRenew ? "plan.renews" : "plan.ends")) }; QuotaLabel() }
-        Section { if !billing.hasPro { Button(L("pro.see")) { app.paywall = true } }; Button(L("billing.restore")) { Task { await billing.restore() } }; Button(L("plan.manage")) { Task { await billing.manage() } } }
+        Section { if !billing.allowsPro { Button(L("pro.see")) { app.paywall = true } }; Button(L("billing.restore")) { Task { await billing.restore() } }; Button(L("plan.manage")) { Task { await billing.manage() } } }
         if let message = billing.message { Text(message) }
     }.navigationTitle(L("plan.title")) }
 }

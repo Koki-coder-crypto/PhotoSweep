@@ -47,7 +47,7 @@ struct HomeView: View {
                 }
                 Panel { Text(L("home.months")).font(.title2.bold()); Text(L("home.monthsDetail")); ActionButton(title: app.state.session == nil ? "swipe.start" : "swipe.resume", symbol: "rectangle.stack") { app.tab = 1 } }
                 QuotaLabel()
-                if !billing.hasPro { Button(L("pro.see")) { app.paywall = true }.frame(maxWidth: .infinity, minHeight: 44) }
+                if !billing.allowsPro { Button(L("pro.see")) { app.paywall = true }.frame(maxWidth: .infinity, minHeight: 44) }
             }.padding(16)
         }.background(Color(uiColor: .systemGroupedBackground)).navigationTitle(L("tab.organize")).navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .navigationBarTrailing) { NavigationLink { SettingsView() } label: { Image(systemName: "gearshape").accessibilityLabel(L("settings.title")) } } }
@@ -58,7 +58,7 @@ struct QuotaLabel: View {
     @EnvironmentObject var app: AppModel
     @EnvironmentObject var billing: Billing
     var body: some View {
-        Text(billing.hasPro ? L("quota.unlimited") : String(format: L("quota.remaining"), ReviewEngine.remaining(ReviewEngine.refresh(app.state, WallClock()), .photo), ReviewEngine.remaining(ReviewEngine.refresh(app.state, WallClock()), .video)))
+        Text(billing.allowsPro ? L("quota.unlimited") : String(format: L("quota.remaining"), ReviewEngine.remaining(ReviewEngine.refresh(app.state, WallClock()), .photo), ReviewEngine.remaining(ReviewEngine.refresh(app.state, WallClock()), .video)))
             .font(.footnote).foregroundStyle(.secondary).frame(maxWidth: .infinity).accessibilityIdentifier("quota.remaining")
     }
 }

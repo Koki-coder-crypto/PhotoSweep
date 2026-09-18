@@ -237,3 +237,8 @@
 "compression.error16" = "保存できる圧縮動画がありません。";
 "settings.sound" = "控えめな操作音";
 "home.orientation" = "整理ではまとめて比較。スワイプでは月ごとに仕分け。削除候補では、消す前に確認できます。";
+"media.playFailed" = "動画を読み込めませんでした。写真へのアクセスと通信を確認して、もう一度お試しください。";
+"zoom.in" = "拡大";
+"zoom.out" = "縮小";
+"compression.retrySettings" = "選んだ設定で変換し直す";
+"compression.retryNote" = "未保存のプレビューを作り直します。原本はそのまま残ります。";
