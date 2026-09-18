@@ -26,6 +26,7 @@ import UserNotifications
     let persistence: any ReviewPersistence
     let analysis = AnalysisService()
     let compression = PhotoSweepCompression()
+    let feedbackService = FeedbackService()
     private var loadTask: Task<Void, Never>?
     private var generation = UUID()
     init(persistence: any ReviewPersistence = SQLitePersistence()) {
@@ -47,9 +48,7 @@ import UserNotifications
         catch { self.error = error.localizedDescription; return false }
     }
     func feedback(success: Bool = false) {
-        guard state.settings.haptics else { return }
-        if success { UINotificationFeedbackGenerator().notificationOccurred(.success) }
-        else { UIImpactFeedbackGenerator(style: .light).impactOccurred() }
+        feedbackService.play(state.settings, success: success)
     }
     func reload() {
         loadTask?.cancel(); generation = UUID(); let token = generation

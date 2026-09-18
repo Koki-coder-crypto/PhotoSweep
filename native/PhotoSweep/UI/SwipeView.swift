@@ -5,11 +5,13 @@ struct SwipeView: View {
     @Environment(\.accessibilityReduceMotion) var reduceMotion
     @State private var drag: CGFloat = 0
     @State private var committing = false
+    @State private var outgoing: MediaItem?
     @State private var help = false
     @State private var hintOffset: CGFloat = 0
     @State private var hintTask: Task<Void, Never>?
     private var months: [String] { Array(Set(app.photos.map(\.month))).sorted(by: >) }
     private var current: MediaItem? {
+        if let outgoing { return outgoing }
         guard let session = app.state.session, session.ids.indices.contains(session.cursor) else { return nil }
         return app.photos.first { $0.id == session.ids[session.cursor] }
     }
@@ -24,18 +26,19 @@ struct SwipeView: View {
                     }.padding(.horizontal, 16)
                 }
                 if let session = app.state.session {
-                    if session.status == "summary" { SummaryView() }
+                    if session.status == "summary" && outgoing == nil { SummaryView() }
                     else if let current {
                         HStack { Text(session.scope.month ?? L("tab.swipe")).font(.headline); Spacer(); Text("\(session.cursor + 1) / \(session.target)").monospacedDigit(); Button { showHint() } label: { Image(systemName: "questionmark.circle").frame(minWidth: 44, minHeight: 44) }.accessibilityLabel(L("swipe.help")) }.padding(.horizontal, 16)
                         GeometryReader { geo in
                             ZStack {
-                                if session.cursor + 1 < session.ids.count {
-                                    AssetThumbnail(id: session.ids[session.cursor + 1], fit: true).clipShape(RoundedRectangle(cornerRadius: 24)).scaleEffect(0.95 + min(abs(drag) / geo.size.width, 1) * 0.05).offset(y: 8)
+                                let nextIndex = session.cursor + (outgoing == nil ? 1 : 0)
+                                if nextIndex < session.ids.count {
+                                    AssetThumbnail(id: session.ids[nextIndex], fit: true).clipShape(RoundedRectangle(cornerRadius: 24)).scaleEffect(0.95 + min(abs(drag) / geo.size.width, 1) * 0.05).offset(y: 8)
                                 }
                                 AssetThumbnail(id: current.id, fit: true)
                                     .clipShape(RoundedRectangle(cornerRadius: 24))
                                     .overlay(alignment: drag < 0 ? .topLeading : .topTrailing) {
-                                        if abs(drag) > 12 { Text(L(drag < 0 ? "action.candidate" : "action.keep")).font(.title2.bold()).padding(12).background((drag < 0 ? coral : Color.accentColor).opacity(0.95), in: Capsule()).foregroundStyle(.white).padding(16).opacity(min(abs(drag) / 90, 1)) }
+                                        if abs(drag) > 12 { Text(L(drag < 0 ? "action.candidate" : "action.keep")).font(SwiftUI.Font.title2.bold()).padding(12).background((drag < 0 ? coral : Color.accentColor).opacity(0.95), in: Capsule()).foregroundStyle(Color.white).padding(16).opacity(Double(min(abs(drag) / 90, 1))) }
                                     }
                                     .offset(x: reduced ? 0 : drag + hintOffset)
                                     .rotationEffect(.degrees(reduced ? 0 : Double(max(-12, min(12, drag / geo.size.width * 12)))))
@@ -88,13 +91,14 @@ struct SwipeView: View {
         stopHint(); Task { await app.begin(Scope(month: month)); if !app.state.monthHintSeen, app.state.session?.scope.month == month { showHint(); _ = await app.mutate { s in var n = s; n.monthHintSeen = true; return n } } }
     }
     private func commit(_ id: String, choice: Choice, width: CGFloat = 390) {
-        guard !committing, !app.busy else { return }; stopHint(); committing = true
+        guard !committing, !app.busy else { return }; stopHint(); committing = true; outgoing = current
         Task {
             if await app.decide(id, choice: choice) {
                 // The transaction has committed. Animate only presentation, never durability.
-                withAnimation(.easeOut(duration: reduced ? 0.12 : 0.22)) { drag = 0 }
-            } else { withAnimation(.spring(response: 0.3)) { drag = 0 } }
-            try? await Task.sleep(nanoseconds: 220_000_000); committing = false
+                withAnimation(.easeOut(duration: reduced ? 0.12 : 0.22)) { drag = (choice == .candidate ? -1 : 1) * width * 1.3 }
+                try? await Task.sleep(nanoseconds: reduced ? 120_000_000 : 220_000_000)
+            } else { withAnimation(.spring(response: 0.3)) { drag = 0 }; try? await Task.sleep(nanoseconds: 300_000_000) }
+            outgoing = nil; drag = 0; committing = false
         }
     }
     private func showHint() {

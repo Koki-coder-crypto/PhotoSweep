@@ -61,6 +61,6 @@ struct PermissionPanel: View {
     var body: some View { Panel {
         Label(L("permission.title"), systemImage: "photo.badge.checkmark").font(.title2.bold())
         Text(L("permission.detail"))
-        ActionButton(title: "permission.choose") { Task { if app.permission == .notDetermined { await app.requestPhotos() } else { UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!) } } }
+        ActionButton(title: "permission.choose") { Task { if app.permission == .notDetermined { await app.requestPhotos() } else { await UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!) } } }
     } }
 }

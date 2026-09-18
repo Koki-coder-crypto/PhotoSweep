@@ -52,22 +52,23 @@ enum PhotoSweepAnalysis {
   static func digests(_ ids: [String]) -> [[String: String]] {
     guard allowed() else { return [] }
     let assets = PHAsset.fetchAssets(withLocalIdentifiers: Array(ids.prefix(8)), options: nil)
-    let options = PHImageRequestOptions()
-    options.isSynchronous = true
-    options.isNetworkAccessAllowed = false
-    options.deliveryMode = .highQualityFormat
-    options.version = .original
     var result: [[String: String]] = []
     assets.enumerateObjects { asset, _, _ in
       autoreleasepool {
         guard allowed(), !asset.mediaSubtypes.contains(.photoLive) else { return }
         let resources = PHAssetResource.assetResources(for: asset)
         guard resources.count == 1, resources.first?.type == .photo else { return }
-        PHImageManager.default().requestImageDataAndOrientation(for: asset, options: options) { data, _, _, info in
-          guard let data, info?[PHImageErrorKey] == nil else { return }
-          let digest = SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
-          result.append(["id": asset.localIdentifier, "digest": digest])
+        let options = PHAssetResourceRequestOptions(); options.isNetworkAccessAllowed = false
+        let semaphore = DispatchSemaphore(value: 0), lock = NSLock()
+        var hasher = SHA256(), failed = false, active = true
+        let request = PHAssetResourceManager.default().requestData(for: resources[0], options: options, dataReceivedHandler: { data in
+          lock.lock(); defer { lock.unlock() }; if active { hasher.update(data: data) }
+        }, completionHandler: { error in lock.lock(); failed = error != nil; lock.unlock(); semaphore.signal() })
+        if semaphore.wait(timeout: .now() + 20) == .timedOut {
+          lock.lock(); active = false; lock.unlock(); PHAssetResourceManager.default().cancelDataRequest(request); return
         }
+        lock.lock(); let success = !failed; let digest = hasher.finalize().map { String(format: "%02x", $0) }.joined(); lock.unlock()
+        if success { result.append(["id": asset.localIdentifier, "digest": digest]) }
       }
     }
     return allowed() ? result : []
