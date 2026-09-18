@@ -3,6 +3,7 @@ import SwiftUI
 struct SwipeView: View {
     @EnvironmentObject var app: AppModel
     @Environment(\.accessibilityReduceMotion) var reduceMotion
+    @Environment(\.dynamicTypeSize) var dynamicTypeSize
     @State private var drag: CGFloat = 0
     @State private var committing = false
     @State private var outgoing: MediaItem?
@@ -17,6 +18,7 @@ struct SwipeView: View {
     }
     private var reduced: Bool { reduceMotion || app.state.settings.reduceMotion }
     var body: some View {
+        GeometryReader { viewport in
         ScrollView {
             VStack(spacing: 16) {
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -60,13 +62,8 @@ struct SwipeView: View {
                                     VStack(spacing: 8) { Image(systemName: "hand.draw.fill").font(.largeTitle); Text(L("swipe.instructions")).font(.headline); Text(L("delete.safe")).font(.caption); Button(L("ok")) { stopHint() } }.padding(20).background(.regularMaterial, in: RoundedRectangle(cornerRadius: 20)).padding()
                                 }
                             }
-                        }.frame(height: 390).padding(.horizontal, 16)
+                        }.frame(height: max(180, min(420, viewport.size.height * 0.53))).padding(.horizontal, 16)
                         if current.kind == .video { MediaPlayerView(id: current.id).id(current.id).padding(.horizontal, 16) }
-                        HStack(spacing: 12) {
-                            Button { commit(current.id, choice: .candidate) } label: { Label(L("action.candidate"), systemImage: "trash").frame(maxWidth: .infinity, minHeight: 48) }.tint(coral)
-                            Button { Task { _ = await app.mutate({ try ReviewEngine.undo($0) }, haptic: true) } } label: { Image(systemName: "arrow.uturn.backward").frame(minWidth: 44, minHeight: 48) }.disabled(session.steps.isEmpty).accessibilityLabel(L("action.undo"))
-                            Button { commit(current.id, choice: .keep) } label: { Label(L("action.keep"), systemImage: "heart").frame(maxWidth: .infinity, minHeight: 48) }
-                        }.buttonStyle(.bordered).disabled(app.busy || committing).padding(.horizontal, 16)
                         HStack {
                             Button(L("action.skip")) { Task { _ = await app.decide(current.id, choice: nil) } }.disabled(app.busy || committing)
                             Spacer()
@@ -84,10 +81,24 @@ struct SwipeView: View {
                 QuotaLabel()
                 NavigationLink(L("filter.title")) { FilterView() }.padding()
             }.padding(.vertical, 16)
+        }.safeAreaInset(edge: .bottom, spacing: 0) {
+            if let session = app.state.session, let current, session.status != "summary" || outgoing != nil {
+                decisionControls(current, session: session).padding(.vertical, 10).background(.bar)
+            }
+        }
         }.navigationTitle(L("tab.swipe")).navigationBarTitleDisplayMode(.inline)
             .onDisappear { stopHint() }
     }
+    private func decisionControls(_ current: MediaItem, session: Session) -> some View {
+        let layout = dynamicTypeSize.isAccessibilitySize ? AnyLayout(VStackLayout(spacing: 8)) : AnyLayout(HStackLayout(spacing: 12))
+        return layout {
+                            Button { commit(current.id, choice: .candidate) } label: { Label(L("action.candidate"), systemImage: "trash").frame(maxWidth: .infinity, minHeight: 48) }.tint(coral).accessibilityIdentifier("swipe.candidate")
+                            Button { Task { _ = await app.mutate({ try ReviewEngine.undo($0) }, haptic: true) } } label: { Image(systemName: "arrow.uturn.backward").frame(minWidth: 44, minHeight: 48) }.disabled(session.steps.isEmpty).accessibilityLabel(L("action.undo")).accessibilityIdentifier("swipe.undo")
+                            Button { commit(current.id, choice: .keep) } label: { Label(L("action.keep"), systemImage: "heart").frame(maxWidth: .infinity, minHeight: 48) }.accessibilityIdentifier("swipe.keep")
+                        }.buttonStyle(.bordered).disabled(app.busy || committing).padding(.horizontal, 16)
+    }
     private func choose(_ month: String) {
+        guard !committing, !app.busy else { return }
         stopHint(); Task { await app.begin(Scope(month: month)); if !app.state.monthHintSeen, app.state.session?.scope.month == month { showHint(); _ = await app.mutate { s in var n = s; n.monthHintSeen = true; return n } } }
     }
     private func commit(_ id: String, choice: Choice, width: CGFloat = 390) {

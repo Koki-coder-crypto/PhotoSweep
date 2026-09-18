@@ -31,6 +31,10 @@ jobs:
       - name: Native XCTest
         run: |
           set -o pipefail
+          swift native/make_qa_media.swift "$RUNNER_TEMP/qa-media"
+          xcrun simctl boot "$SIMULATOR_ID" || true
+          xcrun simctl bootstatus "$SIMULATOR_ID" -b
+          xcrun simctl addmedia "$SIMULATOR_ID" "$RUNNER_TEMP/qa-media/"*.png
           xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweep -destination "platform=iOS Simulator,id=$SIMULATOR_ID" -resultBundlePath "$RUNNER_TEMP/NativeTests.xcresult" CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/native-build.log"
       - name: Release build without signing
         run: |

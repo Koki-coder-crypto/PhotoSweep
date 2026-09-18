@@ -37,4 +37,34 @@ final class FlowTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["見比べて、選んでみよう。"].waitForExistence(timeout: 10)); capture("ja-02-compare-practice")
         tap("スキップ", app: app); capture("ja-03-swipe-practice")
     }
+    func testPhotoLibrarySortingUndoAndLargeTextResume() {
+        let app = XCUIApplication(); app.launchEnvironment["PHOTOSWEEP_UI_TEST"] = UUID().uuidString
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]; app.launch()
+        tap("Continue", app: app); tap("Skip", app: app); tap("Skip", app: app)
+        tap("Skip", app: app); tap("Continue", app: app)
+        tap("Choose photo access", app: app)
+        let system = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let allow = system.buttons.matching(NSPredicate(format: "label == %@ OR label == %@", "Allow Full Access", "Allow Access to All Photos")).firstMatch
+        XCTAssertTrue(allow.waitForExistence(timeout: 15)); allow.tap()
+        app.tabBars.buttons["Swipe"].tap(); tap("Start swiping", app: app)
+        let keep = app.buttons["swipe.keep"], undo = app.buttons["swipe.undo"], candidate = app.buttons["swipe.candidate"]
+        XCTAssertTrue(keep.waitForExistence(timeout: 15)); XCTAssertTrue(keep.isHittable)
+        capture("en-07-real-library-swipe")
+        keep.tap()
+        XCTAssertTrue(undo.waitForExistence(timeout: 5))
+        let enabled = NSPredicate(format: "enabled == true")
+        expectation(for: enabled, evaluatedWith: undo); waitForExpectations(timeout: 10)
+        undo.tap()
+        expectation(for: enabled, evaluatedWith: candidate); waitForExpectations(timeout: 10)
+        candidate.tap()
+        expectation(for: enabled, evaluatedWith: keep); waitForExpectations(timeout: 10)
+        app.swipeUp()
+        XCTAssertTrue(app.staticTexts["Today: 29 photos and 5 videos left"].waitForExistence(timeout: 10), "Undo and rejudging must not charge again")
+        capture("en-08-real-library-after-rejudge")
+        app.terminate()
+        app.launchArguments += ["-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"]
+        app.launch(); XCTAssertTrue(app.tabBars.buttons["Swipe"].waitForExistence(timeout: 15)); app.tabBars.buttons["Swipe"].tap()
+        XCTAssertTrue(keep.waitForExistence(timeout: 15)); XCTAssertTrue(keep.isHittable); XCTAssertTrue(candidate.isHittable); XCTAssertTrue(undo.isHittable)
+        capture("en-09-large-text-resumed-session")
+    }
 }
