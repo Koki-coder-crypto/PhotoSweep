@@ -41,7 +41,7 @@
     "screenshots": "artifacts/onboarding-qa"
   },
   "native": {
-    "build": "PENDING",
+    "build": "FINISHED",
     "device": "iPhone 15",
     "upgrade": "NOT_RUN",
     "hapticStrength": "NOT_RUN",
@@ -54,7 +54,32 @@
       "id": "ea461f19-59f2-4db9-84c8-cf6268c21441",
       "status": "CANCELED",
       "reason": "Replace with deferred purchase event fix"
-    }
+    },
+    "buildId": "4c84db67-ae76-4824-b850-4076c351b0e6",
+    "installationPage": "https://expo.dev/accounts/koki_123/projects/photosweep/builds/4c84db67-ae76-4824-b850-4076c351b0e6",
+    "profile": "preview / Release / internal",
+    "releaseArchiveSucceeded": true,
+    "nativePhotoAnalysisCompiled": true,
+    "ipa": {
+      "bundleId": "com.kokicoder.photosweep",
+      "version": "1.2.0",
+      "buildNumber": "1",
+      "minimumOS": "16.4",
+      "embeddedHermesBundleBytes": 4231474,
+      "developmentMarkers": [],
+      "versionedOnboardingPresent": true,
+      "codeSignaturePresent": true,
+      "provisioningProfilePresent": true,
+      "registeredDeviceCount": 1,
+      "profileExpiresAt": "2027-03-17T00:11:42Z",
+      "debuggable": false,
+      "ipaBytes": 14500668,
+      "sha256": "d2a7d5e60bdec011be515125adf80d36dbee3d4d90de6d2519f8df95c2525126",
+      "cryptographicSignatureValidation": "NOT_RUN (requires Apple tooling)",
+      "actualDeviceExecution": "NOT_RUN"
+    },
+    "freeBuildQuotaBeforeRun": "2 / 15 iOS builds on Free plan",
+    "completedAt": "2026-09-18T08:15:18.188Z"
   },
   "fixes": [
     "Legacy onboarded flag no longer suppresses version 2 onboarding",
@@ -65,5 +90,7 @@
     "Windows Expo route type generation is refreshed before typecheck",
     "Paywall removes repeated benefit text to expose choices sooner",
     "Reproduced and fixed delayed StoreKit pending notifications after reconnect; pending UI suppresses a second purchase"
-  ]
+  ],
+  "recordedAt": "2026-09-18T08:18:16.187930+00:00",
+  "sourceCommit": "7334c53af57217151bc376dbe436d3a92f550712"
 }

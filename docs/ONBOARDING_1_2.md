@@ -41,4 +41,12 @@ Pro案内は操作体験と写真解析の後。購入・閉じる・無料継�
 
 自動検証結果：型検査、Node/SQLite 58件、Jest 140件、Expo診断21項目が成功。iOS Hermes出力と開発素材除外検査も成功。Webでは360／390／430幅、途中再読み込み、無料継続、設定からの再体験、完了後の再起動を確認。詳細は `docs/onboarding-verification.json`。端末での振動・追従・OS許可・Sandboxは別途実行待ち。
 
-追加の回帰テストで、StoreKit再接続後の保留イベントが画面へ保留状態を通知しない問題を再現し、修正した。修正前1件失敗→修正後成功を確認してから配布用ビルドを作り直す。
+追加の回帰テストで、StoreKit再接続後の保留イベントが画面へ保留状態を通知しない問題を再現し、修正した。修正前1件失敗→修正後成功を確認してから配布用ビルドを作り直した。
+
+## 配布版
+
+[PhotoSweep 1.2をインストール](https://expo.dev/accounts/koki_123/projects/photosweep/builds/4c84db67-ae76-4824-b850-4076c351b0e6)
+
+登録済みiPhoneのSafariで開き、Installを選ぶ。既存アプリを削除せず上書きする。PC・Metro接続不要のpreview Release。ビルド成功とIPAの1.2.0 (1)／Hermes同梱／署名資源・端末用プロファイル／開発用データ除外を確認済み。実機での起動確認は未実行。
+
+IPA: 14,500,668 bytes。SHA256: `d2a7d5e60bdec011be515125adf80d36dbee3d4d90de6d2519f8df95c2525126`。ローカル: `artifacts/PhotoSweep-1.2.0-preview.ipa`。

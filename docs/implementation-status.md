@@ -1,5 +1,21 @@
 # 実装・検証の記録 — 2026-09-17
 
+## 2026-09-18 — 1.2 体験型オンボーディング
+
+旧版の説明済みフラグでも更新後に一度表示する版管理、比較・左右スワイプの練習、権限、実解析、解析後のPro案内、ホームの役割説明を実装。中断からの復帰と設定からの再体験を保持。実写真・無料枠・整理位置を練習で変更しない。詳細は [実装と手順](ONBOARDING_1_2.md)、[検証記録](onboarding-verification.json)。
+
+- Node/SQLite 58件、UI/Provider/StoreKit/振動 140件、合計198件PASS。型検査とExpo Doctor21項目PASS。
+- 開発カタログ76状態。360／390／430幅、練習、再読み込み、無料継続、再体験、完了後の再起動をWebで確認。実機の触覚・追従とは区別。
+- StoreKit再接続後の保留通知の反映漏れを追加テストで再現して修正。最初のビルドを中止し、修正版で作成。
+- 無料枠確認後のpreview ReleaseがFINISHED。Xcode ARCHIVE SUCCEEDED、Swift写真解析のコンパイルを確認。
+- IPA 1.2.0 (1)、iOS16.4以降、14,500,668 bytes。Hermes同梱、版管理オンボーディングあり、開発カタログ・デモ除外、署名資源と登録端末プロファイルを確認。
+- 実機起動・OS許可・触覚・100操作・VoiceOver/Dynamic Type・SandboxはNOT_RUN。商品設定・正式公開情報の確定も残る。ストア提出・公開は未実施。
+
+[1.2の配布ページ](https://expo.dev/accounts/koki_123/projects/photosweep/builds/4c84db67-ae76-4824-b850-4076c351b0e6)
+
+証跡: `artifacts/onboarding-ui-tests.txt`、`onboarding-check.txt`、`onboarding-export.txt`、`onboarding-release-check.txt`、`onboarding-pending-regression.txt`（修正前の再現）、`onboarding-xcode.txt`、`onboarding-ipa-verification.json`、`onboarding-qa/`。
+
+
 ## 現行版：1.1.0
 Cleanup使用録画を参照して画面と動線を刷新。端末内の類似・重複解析をSwiftで追加した。詳細は [CLEANUP_REDESIGN.md](CLEANUP_REDESIGN.md)。
 
