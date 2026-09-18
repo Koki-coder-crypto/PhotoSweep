@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { BrandMark } from "../ui/BrandMark";
 import {
   AccessibilityInfo,
   Linking,
@@ -570,6 +571,7 @@ export function Onboarding() {
               }
             />
           ) : null}
+          <BrandMark size={28} />
           <Text style={[s.heading, { fontSize: 18 }]}>PhotoSweep</Text>
         </View>
         <Pressable

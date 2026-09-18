@@ -9,6 +9,7 @@ import {
 import { useApp } from "../state/AppContext";
 import { Button, Page, StateView } from "./components";
 import { palette as p, styles as s } from "./theme";
+import { BrandMark } from "./BrandMark";
 export function Root({ children }: PropsWithChildren) {
   const app = useApp();
   useEffect(() => {
@@ -38,6 +39,7 @@ export function Root({ children }: PropsWithChildren) {
           gap: 18,
         }}
       >
+        <BrandMark size={88} />
         <Text style={s.heading}>PhotoSweep</Text>
         <ActivityIndicator color={p.purple} />
       </View>

@@ -1,5 +1,6 @@
 import { MonthStories } from "../ui/MonthStories";
 import { StorageCard } from "../ui/StorageCard";
+import { BrandMark } from "../ui/BrandMark";
 import React, { useEffect, useMemo, useState } from "react";
 import {
   Linking,
@@ -283,7 +284,7 @@ export function Home() {
     <Page style={{ gap: 18 }}>
       <View style={s.between}>
         <View style={[s.row, { gap: 8, flexShrink: 1 }]}>
-          <Icon name="sparkles" color={p.cyan} size={24} />
+          <BrandMark size={34} />
           <Text style={[s.heading, { fontSize: 25, flexShrink: 1 }]}>
             PhotoSweep
           </Text>

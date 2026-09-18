@@ -1,7 +1,13 @@
 import fs from 'node:fs';
-import { Resvg } from '@resvg/resvg-js';
-const source = fs.readFileSync(new URL('../assets/icon.svg', import.meta.url), 'utf8');
+import { fileURLToPath } from 'node:url';
+import { generateImageAsync } from '@expo/image-utils';
+const projectRoot = fileURLToPath(new URL('../', import.meta.url));
+const src = fileURLToPath(new URL('../assets/brand/photosweep-broom.png', import.meta.url));
+// Only production sizing/encoding. The original generated artwork is kept intact.
 for (const [name, size] of [['icon.png', 1024], ['splash-icon.png', 512]]) {
-  fs.writeFileSync(new URL(`../assets/${name}`, import.meta.url), new Resvg(source, { fitTo: { mode: 'width', value: size } }).render().asPng());
+  const { source } = await generateImageAsync({ projectRoot }, {
+    src, name, width: size, height: size, resizeMode: 'contain', removeTransparency: true,
+  });
+  fs.writeFileSync(new URL(`../assets/${name}`, import.meta.url), source);
 }
-console.log('Rendered original vector artwork to iOS icon and splash assets.');
+console.log('Generated iOS icon and splash sizes from the PhotoSweep broom master.');

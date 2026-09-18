@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Linking, Platform, Switch, Text, View } from "react-native";
 import * as Clipboard from "expo-clipboard";
+import Constants from "expo-constants";
 import * as Haptics from "expo-haptics";
 import { useApp } from "../state/AppContext";
 import { hasPro } from "../domain/policy";
@@ -103,7 +104,7 @@ export function SettingsScreen() {
           onPress={() => go("/catalog")}
         />
       ) : null}
-      <Text style={[s.caption, { textAlign: "center" }]}>PhotoSweep 1.2.0</Text>
+      <Text style={[s.caption, { textAlign: "center" }]}>PhotoSweep {Constants.expoConfig?.version}</Text>
     </Page>
   );
 }
