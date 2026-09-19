@@ -10,7 +10,7 @@ assert info['CFBundleIdentifier'] == 'com.kokicoder.photosweep'
 assert info['CFBundleShortVersionString'] == '2.0.0'
 assert info['CFBundleVersion'] == sys.argv[2]
 assert info['MinimumOSVersion'] == '16.4'
-assert info['UIDeviceFamily'] == [1]
+assert info['UIDeviceFamily'] == [1], f"Expected iPhone-only archive; got UIDeviceFamily={info['UIDeviceFamily']}"
 assert (app/'embedded.mobileprovision').is_file()
 for item in app.rglob('*'):
     assert item.suffix.lower() not in ('.jsbundle', '.js', '.p8', '.p12'), 'Unexpected runtime or signing material in archive'

@@ -14,6 +14,7 @@ This file records evidence, not desired outcomes. No TestFlight upload, iPhone t
 | e066415 | https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35409980695 | FAIL: 17 unit + 2 earlier UI cases passed. Failure capture shows Settings, not a permission sheet; changing button-label lookup alone did not fix the case. |
 | bae8c4b | https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35410547004 | PASS: 17 unit cases, 3 UI cases and unsigned device Release. PhotoKit permission, keep/undo/rejudge, unchanged second quota charge and large-text relaunch passed. |
 | 13a9ec1 | https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35411327433 | PASS: native verification after the large-text layout and Reduce Motion follow-up. Physical-device feedback is still outstanding. |
+| e4670b7 / build 20002 | https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35413030919 | FAIL after successful native tests and signed archive: archive verifier rejected UIDeviceFamily. actool output explicitly targeted both iPhone and iPad. Export/upload did not run. Fix: put TARGETED_DEVICE_FAMILY=1 at the app target level, overriding generator defaults. |
 
 PhotoKit follow-up passed after isolating OS photo authorization between UI cases with XCTest's reset API and deferring PhotoKit change observation until access is granted. The earlier failure showed the denied/settings branch was taken; the exact source of the prior privacy decision was not established.
 
