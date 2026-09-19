@@ -4,7 +4,7 @@
   "activeStep": "Verify large-text swipe layout adjustment, then signed native device delivery",
   "lastFullPass": {"commit":"bae8c4b","run":35410547004,"scope":"17 unit tests, 3 UI tests including real PhotoKit sorting/undo/relaunch, unsigned Release"},
   "currentFailure": null,
-  "pendingVerification": "Visual follow-up: large-text session heading and card height; Reduce Motion next-card scaling and failed-save return",
+  "pendingVerification": {"commit":"13a9ec1","run":35411327433,"status":"running","scope":"Large-text session heading and card height; Reduce Motion next-card scaling and failed-save return"},
   "apple": {"appID":"6813565278","bundleID":"com.kokicoder.photosweep","version":"2.0.0","release":"manual","jaEnVersionCopy":"drafts saved","englishName":"name-conflict/unconfirmed","products":"monthly/lifetime created, Japan 1500/6000 JPY, one-week monthly trial, JA/EN labels and world availability saved; review screenshots and Sandbox pending","submitted":false},
   "signing": {"environment":"apple-distribution","certificateAndAdHocProfile":"configured in GitHub Secrets","apiIdentifiers":"configured in GitHub Secrets","apiPrivateFile":"download requested, file not located","appStoreProfile":"not configured"},
   "userInputPending": ["Confirm downloaded API key file location (contents must not be sent)","Formal public operator/support contact and private Apple review contact", "Native iPhone/Sandbox validation after distribution"],
