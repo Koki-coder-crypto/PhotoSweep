@@ -52,8 +52,10 @@ final class FlowTests: XCTestCase {
         let systemAllow = system.buttons.matching(permissionLabel).firstMatch
         let appAllow = app.buttons.matching(permissionLabel).firstMatch
         // OS versions expose the permission sheet under either the app or SpringBoard.
-        let appeared = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in systemAllow.exists || appAllow.exists }, object: nil)
-        let found = XCTWaiter.wait(for: [appeared], timeout: 15) == .completed
+        // Use XCTest's element wait so the OS accessibility snapshot is refreshed.
+        // CI can present the privacy sheet late; diagnostics showed the correct
+        // button just after the previous 15-second custom predicate timed out.
+        let found = systemAllow.waitForExistence(timeout: 30) || appAllow.waitForExistence(timeout: 5)
         if !found {
             capture("photo-permission-failure")
             print("Permission sheet system buttons: \(system.buttons.allElementsBoundByIndex.map(\.label))")

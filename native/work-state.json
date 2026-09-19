@@ -1,9 +1,9 @@
 {
   "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
   "branch": "codex/swiftui-2",
-  "activeStep": "Fix target-level iPhone device family, deliver native-testflight-20003 and verify Apple processing",
+  "activeStep": "Deliver native-testflight-20004 with iPhone target fix and reliable OS permission wait; verify Apple processing",
   "lastFullPass": {"commit":"13a9ec1","run":35411327433,"scope":"17 unit tests, 3 UI tests, unsigned Release; includes large-text swipe layout follow-up"},
-  "currentFailure": {"run":35413030919,"build":20002,"detail":"Signed archive succeeded; verification stopped on UIDeviceFamily. actool included both iPhone and iPad because target defaults overrode project-level setting. Fixed with explicit target-level iPhone family; rerun pending."},
+  "currentFailure": {"run":35414241135,"build":20003,"detail":"Photo permission UI custom wait timed out; subsequent diagnostic snapshot contains exact expected Allow Full Access button. Switched to XCTest element wait. iPhone-only target fix retained; rerun pending."},
   "pendingVerification": null,
   "apple": {"appID":"6813565278","bundleID":"com.kokicoder.photosweep","version":"2.0.0","release":"manual","jaEnVersionCopy":"drafts saved","englishName":"name-conflict/unconfirmed","products":"monthly/lifetime created, Japan 1500/6000 JPY, one-week monthly trial, JA/EN labels and world availability saved; review screenshots and Sandbox pending","submitted":false},
   "signing": {"environment":"apple-distribution","certificateAndAdHocProfile":"configured in GitHub Secrets","apiIdentifiers":"replacement installed and authenticated for the exact PhotoSweep app/bundle","revokedKeyID":"64XR4Y4F32","replacementKeyID":"UMZ8ZP68ML","replacementKeyName":"PhotoSweep GitHub Delivery v2","apiPrivateFile":"C:/Users/koki/Downloads/AuthKey_UMZ8ZP68ML.p8; verified, installed via stdin, never print contents","appStoreProfile":"S9ZHSZA67D, IOS_APP_STORE, installed in IOS_PROFILE_BASE64; matches existing certificate 553368FCYU; no existing certificate changed"},
