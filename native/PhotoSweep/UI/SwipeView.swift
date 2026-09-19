@@ -30,12 +30,12 @@ struct SwipeView: View {
                 if let session = app.state.session {
                     if session.status == "summary" && outgoing == nil { SummaryView() }
                     else if let current {
-                        HStack { Text(session.scope.month ?? L("tab.swipe")).font(.headline); Spacer(); Text("\(session.cursor + 1) / \(session.target)").monospacedDigit(); Button { showHint() } label: { Image(systemName: "questionmark.circle").frame(minWidth: 44, minHeight: 44) }.accessibilityLabel(L("swipe.help")) }.padding(.horizontal, 16)
+                        sessionHeader(session)
                         GeometryReader { geo in
                             ZStack {
                                 let nextIndex = session.cursor + (outgoing == nil ? 1 : 0)
                                 if nextIndex < session.ids.count {
-                                    AssetThumbnail(id: session.ids[nextIndex], fit: true).clipShape(RoundedRectangle(cornerRadius: 24)).scaleEffect(0.95 + min(abs(drag) / geo.size.width, 1) * 0.05).offset(y: 8)
+                                    AssetThumbnail(id: session.ids[nextIndex], fit: true).clipShape(RoundedRectangle(cornerRadius: 24)).scaleEffect(reduced ? 1 : 0.95 + min(abs(drag) / geo.size.width, 1) * 0.05).offset(y: reduced ? 0 : 8)
                                 }
                                 AssetThumbnail(id: current.id, fit: true)
                                     .clipShape(RoundedRectangle(cornerRadius: 24))
@@ -62,7 +62,9 @@ struct SwipeView: View {
                                     VStack(spacing: 8) { Image(systemName: "hand.draw.fill").font(.largeTitle); Text(L("swipe.instructions")).font(.headline); Text(L("delete.safe")).font(.caption); Button(L("ok")) { stopHint() } }.padding(20).background(.regularMaterial, in: RoundedRectangle(cornerRadius: 20)).padding()
                                 }
                             }
-                        }.frame(height: max(180, min(420, viewport.size.height * 0.53))).padding(.horizontal, 16)
+                        }.frame(height: dynamicTypeSize.isAccessibilitySize
+                            ? max(150, min(240, viewport.size.height * 0.27))
+                            : max(180, min(420, viewport.size.height * 0.53))).padding(.horizontal, 16)
                         if current.kind == .video { MediaPlayerView(id: current.id).id(current.id).padding(.horizontal, 16) }
                         HStack {
                             Button(L("action.skip")) { Task { _ = await app.decide(current.id, choice: nil) } }.disabled(app.busy || committing)
@@ -89,6 +91,22 @@ struct SwipeView: View {
         }.navigationTitle(L("tab.swipe")).navigationBarTitleDisplayMode(.inline)
             .onDisappear { stopHint() }
     }
+    private func sessionHeader(_ session: Session) -> some View {
+        let layout = dynamicTypeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 8))
+            : AnyLayout(HStackLayout(spacing: 12))
+        return layout {
+            Text(session.scope.month ?? L("tab.swipe")).font(.headline)
+                .fixedSize(horizontal: false, vertical: true)
+            HStack {
+                Spacer(minLength: 0)
+                Text("\(session.cursor + 1) / \(session.target)").monospacedDigit()
+                Button { showHint() } label: {
+                    Image(systemName: "questionmark.circle").frame(minWidth: 44, minHeight: 44)
+                }.accessibilityLabel(L("swipe.help"))
+            }
+        }.padding(.horizontal, 16)
+    }
     private func decisionControls(_ current: MediaItem, session: Session) -> some View {
         let layout = dynamicTypeSize.isAccessibilitySize ? AnyLayout(VStackLayout(spacing: 8)) : AnyLayout(HStackLayout(spacing: 12))
         return layout {
@@ -108,7 +126,7 @@ struct SwipeView: View {
                 // The transaction has committed. Animate only presentation, never durability.
                 withAnimation(.easeOut(duration: reduced ? 0.12 : 0.22)) { drag = (choice == .candidate ? -1 : 1) * width * 1.3 }
                 try? await Task.sleep(nanoseconds: reduced ? 120_000_000 : 220_000_000)
-            } else { withAnimation(.spring(response: 0.3)) { drag = 0 }; try? await Task.sleep(nanoseconds: 300_000_000) }
+            } else { withAnimation(reduced ? .linear(duration: 0.12) : .spring(response: 0.3)) { drag = 0 }; try? await Task.sleep(nanoseconds: reduced ? 120_000_000 : 300_000_000) }
             outgoing = nil; drag = 0; committing = false
         }
     }

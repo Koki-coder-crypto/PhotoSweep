@@ -12,8 +12,11 @@ This file records evidence, not desired outcomes. No TestFlight upload, iPhone t
 | 1ec274f | https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35366573043 | Workflow passed after media recovery/accessibility changes |
 | c7c55ac | https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35367489452 | FAIL: 17 unit + 2 earlier UI cases passed; new PhotoKit case could not locate OS permission button; Release skipped |
 | e066415 | https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35409980695 | FAIL: 17 unit + 2 earlier UI cases passed. Failure capture shows Settings, not a permission sheet; changing button-label lookup alone did not fix the case. |
+| bae8c4b | https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35410547004 | PASS: 17 unit cases, 3 UI cases and unsigned device Release. PhotoKit permission, keep/undo/rejudge, unchanged second quota charge and large-text relaunch passed. |
 
-Follow-up: isolate OS photo authorization between UI cases with XCTest's reset API and defer PhotoKit change observation until access is granted. The failure showed the denied/settings branch was taken; the exact source of the prior privacy decision is not established. This patch must pass native CI before being treated as resolved.
+PhotoKit follow-up passed after isolating OS photo authorization between UI cases with XCTest's reset API and deferring PhotoKit change observation until access is granted. The earlier failure showed the denied/settings branch was taken; the exact source of the prior privacy decision was not established.
+
+Visual QA of `artifacts/native-bae8c4b/captures` confirmed readable default-size swipe controls and successful saved progress. The maximum text-size capture exposed a split month heading despite the controls being hittable. The follow-up stacks the heading/progress, reduces the card height at accessibility text sizes, and removes next-card scaling/failed-save spring under Reduce Motion. A new native run is required for this follow-up.
 
 The 17 unit cases include 21 old-production-engine fixture comparisons within one parity case. They also cover WAL import, migration transaction rollback/retry, corrupt legacy data, quota boundaries, undo/rejudging, timezone/clock rollback, 1,000/10,000 items, deletion reconciliation and interrupted/unknown compression journals. They do not establish real media encoding quality or live StoreKit correctness.
 
@@ -36,7 +39,9 @@ The first two UI cases cover Japanese introduction and English introduction, tab
 
 App ID 6813565278, existing Bundle ID com.kokicoder.photosweep, SKU photosweep-ios. Version 2.0.0 and manual release saved. Japanese/English version descriptions, promotional copy and keywords saved as drafts. Japanese subtitle and Utilities / Photo & Video category selection saved. The proposed English localized names received a name-conflict error and have not been confirmed saved; the current local English name remains a proposal.
 
-A dedicated App Manager delivery key was created with explicit user authorization. Its downloaded private file has not yet been located or installed in GitHub Secrets. Key identifiers, the existing distribution certificate and the existing ad hoc profile are installed in the `apple-distribution` environment. An App Store provisioning profile is still missing. No key/certificate contents are tracked in this repository. Browser interaction later became blocked while a Windows file chooser was open; ask the user to close the chooser before continuing.
+A dedicated App Manager delivery key was created with explicit user authorization. Its downloaded private file has not yet been located or installed in GitHub Secrets. Key identifiers, the existing distribution certificate and the existing ad hoc profile are installed in the `apple-distribution` environment. An App Store provisioning profile is still missing. No key/certificate contents are tracked in this repository. Browser interaction resumed successfully on September 19.
+
+Monthly and lifetime products are now registered under the production IDs. Saved Japan prices are JPY 1,500/month and JPY 6,000 lifetime; the monthly introductory offer is one week free for eligible subscribers. Japanese/English product names and descriptions, both subscription-group localizations and all current product territories are saved. See `Store/product-setup.json` for IDs and outstanding steps. Product registration is not Sandbox verification, approval or availability for public sale.
 
 ## Website
 

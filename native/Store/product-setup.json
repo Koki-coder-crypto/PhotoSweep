@@ -1,0 +1,34 @@
+{
+  "checkedAt": "2026-09-19",
+  "appID": "6813565278",
+  "subscriptionGroupID": "22396441",
+  "products": [
+    {
+      "id": "com.kokicoder.photosweep.pro.monthly",
+      "appleID": "6813714786",
+      "type": "auto-renewable subscription",
+      "period": "one month",
+      "japanPriceJPY": 1500,
+      "localizedNamesAndDescriptions": ["ja", "en-US"],
+      "introductoryOffer": {"type":"free trial","duration":"one week","start":"2026-09-19","end":null},
+      "availabilityConfirmed": true,
+      "status": "draft; not submitted or Sandbox verified"
+    },
+    {
+      "id": "com.kokicoder.photosweep.pro.lifetime",
+      "appleID": "6813716201",
+      "type": "non-consumable",
+      "japanPriceJPY": 6000,
+      "localizedNamesAndDescriptions": ["ja", "en-US"],
+      "availabilityConfirmed": true,
+      "status": "draft; not submitted or Sandbox verified"
+    }
+  ],
+  "remaining": [
+    "Real purchase-screen review screenshots from the final binary",
+    "Agreements and tax/bank readiness",
+    "Sandbox product loading, price/eligibility, purchase and restore",
+    "Submit with the first reviewed app version"
+  ],
+  "note": "Prices are saved in App Store Connect; the app must continue displaying StoreKit values, never this setup record. No legacy product was deleted or changed."
+}
