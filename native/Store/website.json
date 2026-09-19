@@ -1,0 +1,70 @@
+{
+  "ja": {
+    "nav": {"index":"アプリ","support":"使い方","privacy":"プライバシー","terms":"利用条件"},
+    "navigation":"ページ一覧","contact":"お問い合わせ","notReady":"正式情報の確認中","draft":"公開前の確認用です。このページはまだ公開していません。",
+    "pages": {
+      "index": {"title":"残したい思い出を、選ぼう。","description":"写真も動画も、見てから整理。月別スワイプと比較で、自分のペースで進められるiPhoneアプリです。","sections":[
+        ["あの月の写真を、左右に。",["月の丸いサムネイルを選んだら、右へ残す、左へ削除候補。取り消しやスキップもでき、途中の月は続きから再開できます。"]],
+        ["見比べて、残す一枚を。",["端末内で見つかった似た写真や重複画像を比較。大きい動画、スクリーンショット、画面収録も一覧から選べます。"]],
+        ["残したい動画を、小さく。",["Proでは対応するSDR動画を最大1080p・720pのコピーに変換。再生して確かめ、保存してから原本を残すか選べます。HDR・スローモーション・特殊な編集形式などは対象外です。"]],
+        ["最後に、もう一度確認。",["候補を見直してからiOSの確認画面へ。削除した件数と確認できたデータのサイズを表示します。空き容量が同じ量だけ増えることは保証しません。"]],
+        ["無料で少しずつ。Proでまとめて。",["無料の新規仕分けは1日写真30枚・動画5本。確認・削除・取り消し・再判断には追加の枠を使いません。Proは仕分け上限解除、期間指定、並び替え、区切り件数の変更、対応動画の圧縮を利用できます。料金と無料体験の対象条件はアプリの購入画面に表示します。"]]
+      ]},
+      "support": {"title":"迷ったら、ここから。","description":"写真へのアクセス、削除、購入についての使い方です。","sections":[
+        ["写真が表示されない",["iPhoneの設定からPhotoSweepの写真へのアクセスを確認してください。一部の写真だけ許可した場合は、その範囲だけが表示されます。iCloud原本の表示・再生には通信が必要な場合があります。"]],
+        ["スワイプだけでは削除されません",["左に動かすと削除候補、右に動かすと残す。「削除候補」タブで見直し、iOSの確認を経て削除します。"]],
+        ["削除した写真を戻したい",["通常は写真アプリの「最近削除した項目」から30日間復元できます。iCloud写真を利用している場合、同じApple Accountのほかの端末にも削除が同期されます。PhotoSweepから「最近削除した項目」を空にすることはできません。"]],
+        ["削除したのに空き容量が変わらない",["「最近削除した項目」やiCloudの管理、ほかのアプリの使用状況で端末の測定値は変わります。削除対象のサイズと端末の空き容量は別々の情報です。"]],
+        ["Proの復元・解約",["購入時と同じApple Accountで「購入を復元」を選んでください。月額の管理・解約はiPhoneの設定のサブスクリプションから行えます。アプリを削除しても月額契約は解約されません。購入保留はApple側の承認をお待ちください。"]],
+        ["圧縮ができない",["通常のSDR動画が対象です。空き容量不足、端末の温度、通信状態、対応外の形式では変換を開始できません。変換中はアプリを開いたままにしてください。原本は保存と確認の前に削除しません。"]]
+      ]},
+      "privacy": {"title":"写真は、あなたのiPhoneに。","description":"PhotoSweep 2.0のデータの扱いについて説明します。","sections":[
+        ["写真と解析",["アクセスを許可された写真・動画をPhotoKitで読み取り、比較やサイズ確認、圧縮を端末内で行います。写真・動画を開発者のサーバーへ送信しません。外部の広告・行動分析SDKは組み込んでいません。"]],
+        ["端末に保存する記録",["仕分けの判断、候補、進行位置、無料枠、設定、整理結果、レビュー依頼の実行記録をアプリ内に保存します。未確定の削除・圧縮保存を再起動時に自動で繰り返さないため、処理の状態も保存します。"]],
+        ["Appleのサービス",["購入と復元はStoreKit、評価の依頼はAppleの提供機能を使います。決済情報を開発者が受け取ることはありません。iCloud写真の取得・同期ではAppleのサービスとの通信が発生する場合があります。"]],
+        ["通知とアクセスの変更",["通知は任意です。アプリの設定とiPhoneの設定から変更できます。写真へのアクセス範囲もiPhoneの設定から変更できます。端末上のアプリデータを消す操作は元に戻せない場合があるため、必要な記録を確認してください。"]],
+        ["お問い合わせとWebページ",["お問い合わせで送信したメールアドレスと内容は、回答・問題解決に必要な範囲で扱います。写真や購入用パスワードを送る必要はありません。この案内サイトには広告や解析用スクリプトを置きません。サイト配信にはGitHub Pagesを使用し、接続時の情報は配信サービス側でも処理されます。"]]
+      ]},
+      "terms": {"title":"ご利用の前に。","description":"PhotoSweepの機能・購入・データ整理の条件です。Appleの標準使用許諾契約も適用されます。","sections":[
+        ["整理する項目は、自分で確認",["似た写真の解析結果は、削除するべき写真を保証するものではありません。大切な項目を確認し、候補を見直してから削除してください。容量の削減量や解析の完全性は保証しません。"]],
+        ["無料とPro",["無料の新規仕分けは1日写真30枚・動画5本です。Proには月額と買い切りがあり、実際の価格、更新周期、対象者の無料体験は購入画面のApp Store情報をご確認ください。既存の購入権利はStoreKitで検証します。"]],
+        ["月額の更新・購入管理",["月額は解約しない限り自動更新されます。更新・解約はAppleのサブスクリプション設定で管理してください。買い切りに自動更新はありません。返金はAppleの窓口から申請できます。"]],
+        ["動画圧縮",["対応する通常のSDR動画を変換します。圧縮で画質が変わり、動画によっては小さくならないことがあります。保存後も原本を削除候補にしない限り原本を残します。両方残した場合、空き容量が増えるとは限りません。"]]
+      ]}
+    }
+  },
+  "en": {
+    "nav": {"index":"App","support":"Help","privacy":"Privacy","terms":"Terms"},
+    "navigation":"Pages","contact":"Contact","notReady":"Formal contact information pending","draft":"Private preview. This page has not been published.",
+    "pages": {
+      "index": {"title":"Keep the moments. Clear the rest.","description":"Review your photos and videos, a month at a time. Clear choices, at your own pace.","sections":[
+        ["Your month. One swipe at a time.",["Choose a monthly thumbnail. Swipe right to keep, left to add a deletion candidate. Undo, skip and pick up where you left off."]],
+        ["Compare. Keep your favorite.",["Review similar photos and duplicate images found on your iPhone. Dedicated lists help you browse large videos, screenshots and screen recordings."]],
+        ["A smaller copy. Still your moment.",["Pro converts supported SDR videos to a maximum of 1080p or 720p. Preview and save the copy before deciding what to do with the original. HDR, slow motion and special edited formats are excluded."]],
+        ["One last look before deleting.",["Review your candidates, then confirm with iOS. See the deleted item count and the size that could be verified. Deleted file size does not guarantee an equal increase in available device storage."]],
+        ["A little each day. More with Pro.",["Free sorting includes 30 photos and 5 videos per day. Reviewing, deleting, undoing and rejudging use no extra allowance. Pro adds unlimited sorting, date filters, sorting order, larger batches and supported video compression. Prices and eligible trial terms appear before purchase."]]
+      ]},
+      "support": {"title":"A little help, right here.","description":"Answers about photo access, deletion, compression and purchases.","sections":[
+        ["Photos are missing",["Check PhotoSweep's photo access in iPhone Settings. Limited access only shows the items you selected. Viewing or playing iCloud originals may require an internet connection."]],
+        ["Swiping does not delete",["Left adds a deletion candidate. Right keeps the item. Open To delete, review your choices and confirm the iOS request before deletion."]],
+        ["Recover a deleted item",["Items normally remain recoverable in the Photos app's Recently Deleted album for 30 days. iCloud Photos syncs deletion across devices on the same Apple Account. PhotoSweep cannot empty Recently Deleted."]],
+        ["Available storage has not changed",["Recently Deleted, iCloud management and other apps can affect your device's measured free space. Deleted file size and available device storage are separate measurements."]],
+        ["Restore or cancel Pro",["Use Restore purchases with the same Apple Account used to buy Pro. Manage or cancel a monthly subscription in iPhone Settings. Uninstalling the app does not cancel a subscription. Pending purchases await Apple's approval process."]],
+        ["A video cannot be compressed",["Compression supports standard SDR videos. Low storage, device temperature, connectivity and unsupported formats can prevent conversion. Keep the app open during conversion. Originals remain until saving and review are complete."]]
+      ]},
+      "privacy": {"title":"Your photos stay on your iPhone.","description":"How PhotoSweep 2.0 handles data.","sections":[
+        ["Photos and analysis",["PhotoSweep uses PhotoKit to read the photos and videos you allow. Comparison, size inspection and compression run on your device. Your photos and videos are not sent to the developer's servers. The app includes no external advertising or behavioral analytics SDK."]],
+        ["Records on your device",["Sorting decisions, candidates, progress, daily allowance, settings, cleanup results and review-request attempts are stored within the app. Pending deletion and compression-save states are recorded to prevent automatic repeated operations after a restart."]],
+        ["Apple services",["Purchases and restoration use StoreKit. Rating requests use Apple's provided interface. The developer does not receive your payment details. Fetching and syncing iCloud Photos may communicate with Apple services."]],
+        ["Notifications and permissions",["Notifications are optional and can be changed in the app and iPhone Settings. Photo access can also be changed in iPhone Settings. Check any records you need before erasing app data, as erasure may not be reversible."]],
+        ["Support and this website",["The email address and information you send for support are used to respond and investigate the issue. You do not need to send photos or purchase passwords. This site includes no advertising or analytics scripts. It is hosted using GitHub Pages; connection information is also processed by the hosting service."]]
+      ]},
+      "terms": {"title":"Before you start.","description":"Conditions for PhotoSweep's features, purchases and media organization. Apple's standard end user licence agreement also applies.","sections":[
+        ["Review your own choices",["Similarity results do not guarantee that an item should be deleted. Check important items and review candidates before deleting. We do not guarantee storage savings or detection of every duplicate."]],
+        ["Free and Pro",["Free new sorting includes 30 photos and 5 videos per day. Pro offers monthly and lifetime options. Check the App Store information displayed before purchase for actual prices, renewal periods and any eligible trial. Existing purchase rights are verified with StoreKit."]],
+        ["Renewal and purchase management",["Monthly subscriptions renew automatically unless cancelled. Manage renewal and cancellation through Apple's subscription settings. Lifetime purchases do not renew. Refund requests can be made through Apple."]],
+        ["Video compression",["Compression converts supported standard SDR videos. Quality may change, and some videos may not become smaller. Your original remains unless you add it to deletion candidates and confirm deletion. Keeping both copies does not imply an increase in free storage."]]
+      ]}
+    }
+  }
+}

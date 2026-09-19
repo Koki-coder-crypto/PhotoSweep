@@ -44,8 +44,19 @@ final class FlowTests: XCTestCase {
         tap("Skip", app: app); tap("Continue", app: app)
         tap("Choose photo access", app: app)
         let system = XCUIApplication(bundleIdentifier: "com.apple.springboard")
-        let allow = system.buttons.matching(NSPredicate(format: "label == %@ OR label == %@", "Allow Full Access", "Allow Access to All Photos")).firstMatch
-        XCTAssertTrue(allow.waitForExistence(timeout: 15)); allow.tap()
+        let permissionLabel = NSPredicate(format: "label IN %@", ["Allow Full Access", "Allow Access to All Photos", "Allow All Photos"])
+        let systemAllow = system.buttons.matching(permissionLabel).firstMatch
+        let appAllow = app.buttons.matching(permissionLabel).firstMatch
+        // OS versions expose the permission sheet under either the app or SpringBoard.
+        let appeared = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in systemAllow.exists || appAllow.exists }, object: nil)
+        let found = XCTWaiter.wait(for: [appeared], timeout: 15) == .completed
+        if !found {
+            capture("photo-permission-failure")
+            print("Permission sheet system buttons: \(system.buttons.allElementsBoundByIndex.map(\.label))")
+            print("Permission sheet app buttons: \(app.buttons.allElementsBoundByIndex.map(\.label))")
+        }
+        XCTAssertTrue(found, "Full photo access permission control must be present")
+        (systemAllow.exists ? systemAllow : appAllow).tap()
         app.tabBars.buttons["Swipe"].tap(); tap("Start swiping", app: app)
         let keep = app.buttons["swipe.keep"], undo = app.buttons["swipe.undo"], candidate = app.buttons["swipe.candidate"]
         XCTAssertTrue(keep.waitForExistence(timeout: 15)); XCTAssertTrue(keep.isHittable)

@@ -1,0 +1,12 @@
+{
+  "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
+  "branch": "codex/swiftui-2",
+  "activeStep": "Fix PhotoKit permission UI test and produce verified signed device build",
+  "lastFullPass": {"commit":"1ec274f","run":35366573043,"scope":"17 unit tests, 2 UI tests and unsigned Release"},
+  "currentFailure": {"commit":"c7c55ac","run":35367489452,"location":"native/UITests/FlowTests.swift:48","detail":"Full-photo-access system button not found; 17 unit tests and the other 2 UI tests passed"},
+  "apple": {"appID":"6813565278","bundleID":"com.kokicoder.photosweep","version":"2.0.0","release":"manual","jaEnVersionCopy":"drafts saved","englishName":"name-conflict/unconfirmed","products":"not configured","submitted":false},
+  "signing": {"environment":"apple-distribution","certificateAndAdHocProfile":"configured in GitHub Secrets","apiIdentifiers":"configured in GitHub Secrets","apiPrivateFile":"download requested, file not located","appStoreProfile":"not configured"},
+  "userInputPending": ["Close Windows file chooser / confirm downloaded API key file location (contents must not be sent)","Formal public operator/support contact and private Apple review contact", "Native iPhone/Sandbox validation after distribution"],
+  "preserve": ["Full port rather than a minimal shell", "Existing data, identity, icon 05A and legacy paid entitlements", "30 photos / 5 videos free per day", "Monthly 1500 JPY / lifetime 6000 JPY proposals, real StoreKit prices", "Free standard macOS runners only"],
+  "avoidRepeating": ["App registration", "Broad source reads", "Full CI for documentation-only changes", "Full xcresult download unless lightweight evidence is insufficient", "Unverified success claims"]
+}

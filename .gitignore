@@ -8,6 +8,7 @@ web-build/
 *.jks
 *.p8
 *.p12
+credentials.json
 *.mobileprovision
 *.cer
 .DS_Store

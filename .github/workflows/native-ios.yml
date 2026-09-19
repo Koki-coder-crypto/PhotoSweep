@@ -2,7 +2,17 @@ name: Native iOS verification
 on:
   push:
     branches: ['codex/swiftui-2']
-    paths: ['native/**', '.github/workflows/native-ios.yml']
+    paths:
+      - 'native/PhotoSweep/**'
+      - 'native/Tests/**'
+      - 'native/UITests/**'
+      - 'native/project.yml'
+      - 'native/localization.json'
+      - 'native/generate_localizations.py'
+      - 'native/verify_source.py'
+      - 'native/make_qa_media.swift'
+      - 'tools/native_harness.py'
+      - '.github/workflows/native-ios.yml'
   workflow_dispatch:
 permissions:
   contents: read
@@ -16,6 +26,18 @@ jobs:
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Select required checks
+        env:
+          NATIVE_BASE_REF: ${{ github.event.before }}
+        run: |
+          python3 tools/native_harness.py self-test
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            python3 tools/native_harness.py ci --force
+          else
+            python3 tools/native_harness.py ci --base "$NATIVE_BASE_REF"
+          fi
       - name: Generate native project
         run: |
           sudo xcode-select -s /Applications/Xcode_26.3.app/Contents/Developer
@@ -31,11 +53,16 @@ jobs:
       - name: Native XCTest
         run: |
           set -o pipefail
-          swift native/make_qa_media.swift "$RUNNER_TEMP/qa-media"
-          xcrun simctl boot "$SIMULATOR_ID" || true
-          xcrun simctl bootstatus "$SIMULATOR_ID" -b
-          xcrun simctl addmedia "$SIMULATOR_ID" "$RUNNER_TEMP/qa-media/"*.png
-          xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweep -destination "platform=iOS Simulator,id=$SIMULATOR_ID" -resultBundlePath "$RUNNER_TEMP/NativeTests.xcresult" CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/native-build.log"
+          TEST_ARGS=()
+          if [ "$NATIVE_CHECK_LANE" = "unit" ]; then
+            TEST_ARGS+=("-only-testing:PhotoSweepTests")
+          else
+            swift native/make_qa_media.swift "$RUNNER_TEMP/qa-media"
+            xcrun simctl boot "$SIMULATOR_ID" || true
+            xcrun simctl bootstatus "$SIMULATOR_ID" -b
+            xcrun simctl addmedia "$SIMULATOR_ID" "$RUNNER_TEMP/qa-media/"*.png
+          fi
+          xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweep -parallel-testing-enabled NO -destination "platform=iOS Simulator,id=$SIMULATOR_ID" -resultBundlePath "$RUNNER_TEMP/NativeTests.xcresult" "${TEST_ARGS[@]}" CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/native-build.log"
       - name: Release build without signing
         run: |
           set -o pipefail
@@ -46,9 +73,19 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: native-verification
+          name: native-diagnostics
           path: |
             ${{ runner.temp }}/native-*.log
-            ${{ runner.temp }}/NativeTests.xcresult
-            ${{ runner.temp }}/native-captures
+          retention-days: 3
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-ui-captures
+          path: ${{ runner.temp }}/native-captures
+          retention-days: 3
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: native-xcresult
+          path: ${{ runner.temp }}/NativeTests.xcresult
           retention-days: 3

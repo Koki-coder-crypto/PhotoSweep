@@ -1,0 +1,18 @@
+PhotoSweep organizes the user's own photos and videos. No app account or sign-in is required.
+
+Suggested review flow:
+1. Complete or skip the practice steps. They use illustrated sample cards and do not change the photo library or consume the daily allowance.
+2. Allow photo access to disposable test photos/videos. Limited access is supported. With no accessible media, continue to the free home screen.
+3. Open Swipe and choose a month. Swipe left to add a deletion candidate and right to keep. Undo and skip are also available as buttons.
+4. Open To delete to inspect the candidates. Deletion occurs only after the iOS confirmation. Please use disposable test media. The app does not empty Recently Deleted.
+5. Organize contains similar/duplicate image comparisons, screenshots, screen recordings and videos. Analysis uses locally available authorized photos; iCloud-only originals may require an explicit download. Unknown sizes are labeled.
+6. Pro provides unlimited sorting, date/order/batch options and compression of supported standard SDR videos to 1080p/720p copies. Compare the result and save it before deciding whether to stage the original for deletion. HDR, slow motion and special edited formats are not supported. Backgrounding cancels an active conversion safely.
+7. The purchase screen offers monthly and non-consumable lifetime products using StoreKit prices and eligibility. Free continuation and Restore purchases are available. Existing legacy subscription rights remain supported.
+
+Free allowance: 30 newly judged photos and 5 newly judged videos per day. Reviewing candidates, deleting, undoing, rejudging and practice do not consume additional allowance.
+
+The size of deleted items is not presented as a guaranteed increase in device free space. A separately measured device storage reading may also be shown. iCloud deletion and Recently Deleted behavior are explained in the app.
+
+This 2.0 binary is implemented in SwiftUI/PhotoKit/StoreKit 2/AVFoundation, retains the existing bundle identity, and migrates previous on-device sorting records. There are no third-party advertising/behavioral analytics SDKs, and user media is not uploaded to the developer.
+
+PRE-SUBMISSION CHECK: remove this final paragraph only after the exact submitted binary has passed device/Sandbox validation, monthly/lifetime products are ready, support/legal URLs are live, and final JA/EN screenshots match the build. This note is currently a draft and must not be used to claim unexecuted testing.
