@@ -1,5 +1,7 @@
 name: Native TestFlight delivery
 on:
+  push:
+    tags: ['native-testflight-*']
   workflow_dispatch:
     inputs:
       build_number:
@@ -8,12 +10,15 @@ on:
         type: string
 permissions:
   contents: read
+concurrency:
+  group: native-testflight-delivery
+  cancel-in-progress: false
 jobs:
   testflight:
     if: github.event.repository.private == false
     runs-on: macos-15
     environment: apple-distribution
-    timeout-minutes: 35
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - name: Require configured signing secrets
@@ -31,7 +36,9 @@ jobs:
           required = ['ASC_KEY_ID','ASC_ISSUER_ID','ASC_PRIVATE_KEY','IOS_CERTIFICATE_BASE64','IOS_CERTIFICATE_PASSWORD','IOS_PROFILE_BASE64']
           missing = [name for name in required if not os.environ.get(name)]
           assert not missing, 'Configure protected secrets: ' + ', '.join(missing)
-          assert os.environ['BUILD_NUMBER'].isdigit() and int(os.environ['BUILD_NUMBER']) >= 20002
+          build = os.environ.get('BUILD_NUMBER') or os.environ['GITHUB_REF_NAME'].removeprefix('native-testflight-')
+          assert build.isdigit() and int(build) >= 20002
+          with open(os.environ['GITHUB_ENV'], 'a') as stream: stream.write('BUILD_NUMBER='+build+'\n')
           PY
       - name: Install signing material in an ephemeral keychain
         env:
@@ -62,20 +69,36 @@ jobs:
           security list-keychains -d user -s "$RUNNER_TEMP/signing.keychain-db"
           security cms -D -i "$RUNNER_TEMP/distribution.mobileprovision" > "$RUNNER_TEMP/profile.plist"
           python3 native/prepare_signing.py
-      - name: Archive native app
-        env:
-          BUILD_NUMBER: ${{ inputs.build_number }}
+      - name: Verify the exact distribution revision
         run: |
+          set -euo pipefail
           python3 native/generate_localizations.py
           python3 native/verify_source.py
           xcodegen generate --spec native/project.yml
-          xcodebuild archive -project native/PhotoSweep.xcodeproj -scheme PhotoSweep -configuration Release -destination generic/platform=iOS -archivePath "$RUNNER_TEMP/PhotoSweep.xcarchive" CURRENT_PROJECT_VERSION="$BUILD_NUMBER" CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY='Apple Distribution' PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID"
+          DEVICE=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin); print(next(x["udid"] for values in d["devices"].values() for x in values if "iPhone" in x["name"]))')
+          swift native/make_qa_media.swift "$RUNNER_TEMP/qa-media"
+          xcrun simctl boot "$DEVICE" || true
+          xcrun simctl bootstatus "$DEVICE" -b
+          xcrun simctl addmedia "$DEVICE" "$RUNNER_TEMP/qa-media/"*.png
+          xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweep -parallel-testing-enabled NO -destination "platform=iOS Simulator,id=$DEVICE" -resultBundlePath "$RUNNER_TEMP/DeliveryTests.xcresult" CURRENT_PROJECT_VERSION="$BUILD_NUMBER" CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/delivery-tests.log"
+      - name: Archive native app
+        run: |
+          set -euo pipefail
+          xcodebuild archive -project native/PhotoSweep.xcodeproj -scheme PhotoSweep -configuration Release -destination generic/platform=iOS -archivePath "$RUNNER_TEMP/PhotoSweep.xcarchive" CURRENT_PROJECT_VERSION="$BUILD_NUMBER" CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY="$SIGNING_IDENTITY" PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" | tee "$RUNNER_TEMP/delivery-archive.log"
+          codesign --verify --deep --strict "$RUNNER_TEMP/PhotoSweep.xcarchive/Products/Applications/PhotoSweep.app"
+          python3 native/verify_archive.py "$RUNNER_TEMP/PhotoSweep.xcarchive/Products/Applications/PhotoSweep.app" "$BUILD_NUMBER"
           xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/PhotoSweep.xcarchive" -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" -exportPath "$RUNNER_TEMP/export"
       - name: Upload only to TestFlight
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
         run: xcrun altool --upload-app -f "$RUNNER_TEMP/export/PhotoSweep.ipa" -t ios --apiKey "$ASC_KEY_ID" --apiIssuer "$ASC_ISSUER_ID"
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: native-delivery-diagnostics
+          path: ${{ runner.temp }}/delivery-*.log
+          retention-days: 3
       - name: Remove temporary signing material
         if: always()
         run: |

@@ -1,13 +1,14 @@
 {
   "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
   "branch": "codex/swiftui-2",
-  "activeStep": "Save replacement Apple API key, verify authentication, configure App Store profile and deliver native TestFlight build",
+  "activeStep": "Run native-testflight-20002 tag delivery; verify processing, then native iPhone/Sandbox validation",
   "lastFullPass": {"commit":"13a9ec1","run":35411327433,"scope":"17 unit tests, 3 UI tests, unsigned Release; includes large-text swipe layout follow-up"},
   "currentFailure": null,
   "pendingVerification": null,
   "apple": {"appID":"6813565278","bundleID":"com.kokicoder.photosweep","version":"2.0.0","release":"manual","jaEnVersionCopy":"drafts saved","englishName":"name-conflict/unconfirmed","products":"monthly/lifetime created, Japan 1500/6000 JPY, one-week monthly trial, JA/EN labels and world availability saved; review screenshots and Sandbox pending","submitted":false},
-  "signing": {"environment":"apple-distribution","certificateAndAdHocProfile":"configured in GitHub Secrets","apiIdentifiers":"previous key ID still in Secrets; update together after replacement private file verifies","revokedKeyID":"64XR4Y4F32","replacementKeyID":"UMZ8ZP68ML","replacementKeyName":"PhotoSweep GitHub Delivery v2","apiPrivateFile":"Replacement created; download button remains available. User asked to download and save to Downloads. Not yet installed or authenticated.","appStoreProfile":"not configured"},
-  "userInputPending": ["Save AuthKey_UMZ8ZP68ML.p8 to Downloads or provide its actual path; never send contents", "Formal public operator/support contact and private Apple review contact", "Native iPhone/Sandbox validation after distribution"],
+  "signing": {"environment":"apple-distribution","certificateAndAdHocProfile":"configured in GitHub Secrets","apiIdentifiers":"replacement installed and authenticated for the exact PhotoSweep app/bundle","revokedKeyID":"64XR4Y4F32","replacementKeyID":"UMZ8ZP68ML","replacementKeyName":"PhotoSweep GitHub Delivery v2","apiPrivateFile":"C:/Users/koki/Downloads/AuthKey_UMZ8ZP68ML.p8; verified, installed via stdin, never print contents","appStoreProfile":"S9ZHSZA67D, IOS_APP_STORE, installed in IOS_PROFILE_BASE64; matches existing certificate 553368FCYU; no existing certificate changed"},
+  "userInputPending": ["User confirmed all operator/support/review contacts are undecided; individual developer considering dedicated Gmail. Do not invent or publish placeholders.", "Native iPhone/Sandbox validation after distribution"],
+  "modelPreference": "User explicitly requested gpt-5.6-terra for continued implementation",
   "preserve": ["Full port rather than a minimal shell", "Existing data, identity, icon 05A and legacy paid entitlements", "30 photos / 5 videos free per day", "Monthly 1500 JPY / lifetime 6000 JPY proposals, real StoreKit prices", "Free standard macOS runners only"],
   "avoidRepeating": ["App registration", "Broad source reads", "Full CI for documentation-only changes", "Full xcresult download unless lightweight evidence is insufficient", "Unverified success claims"]
 }
