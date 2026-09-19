@@ -1,7 +1,11 @@
 import XCTest
 
 final class FlowTests: XCTestCase {
-    override func setUpWithError() throws { continueAfterFailure = false }
+    override func setUpWithError() throws {
+        continueAfterFailure = false
+        // SQLite isolation does not reset the OS privacy decision between cases.
+        let app = XCUIApplication(); app.terminate(); app.resetAuthorizationStatus(for: .photos)
+    }
     private func capture(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot()); attachment.name = name; attachment.lifetime = .keepAlways; add(attachment)
     }
@@ -54,6 +58,7 @@ final class FlowTests: XCTestCase {
             capture("photo-permission-failure")
             print("Permission sheet system buttons: \(system.buttons.allElementsBoundByIndex.map(\.label))")
             print("Permission sheet app buttons: \(app.buttons.allElementsBoundByIndex.map(\.label))")
+            print("Permission sheet app text: \(app.staticTexts.allElementsBoundByIndex.map(\.label))")
         }
         XCTAssertTrue(found, "Full photo access permission control must be present")
         (systemAllow.exists ? systemAllow : appAllow).tap()

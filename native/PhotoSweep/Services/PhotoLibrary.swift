@@ -12,8 +12,18 @@ final class PhotoLibrary: NSObject, PhotoRepository, PHPhotoLibraryChangeObserve
     let images = PHCachingImageManager()
     var changed: (() -> Void)?
     private let queue = DispatchQueue(label: "PhotoSweep.library", qos: .userInitiated)
-    override init() { super.init(); PHPhotoLibrary.shared().register(self) }
-    deinit { PHPhotoLibrary.shared().unregisterChangeObserver(self) }
+    private var observing = false
+    override init() { super.init() }
+    deinit { if observing { PHPhotoLibrary.shared().unregisterChangeObserver(self) } }
+    // PhotoKit observation starts only after access is granted, never during the
+    // practice introduction. Refresh this when returning from Settings as well.
+    @MainActor func updateObservation() {
+        if accessible && !observing {
+            PHPhotoLibrary.shared().register(self); observing = true
+        } else if !accessible && observing {
+            PHPhotoLibrary.shared().unregisterChangeObserver(self); observing = false
+        }
+    }
     func photoLibraryDidChange(_ changeInstance: PHChange) { DispatchQueue.main.async { self.changed?() } }
     var permission: PHAuthorizationStatus { PHPhotoLibrary.authorizationStatus(for: .readWrite) }
     var accessible: Bool { permission == .authorized || permission == .limited }

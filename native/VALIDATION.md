@@ -11,6 +11,9 @@ This file records evidence, not desired outcomes. No TestFlight upload, iPhone t
 | a97ff27 | https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35365310158 | 17 unit cases, 2 UI cases, unsigned Release passed |
 | 1ec274f | https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35366573043 | Workflow passed after media recovery/accessibility changes |
 | c7c55ac | https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35367489452 | FAIL: 17 unit + 2 earlier UI cases passed; new PhotoKit case could not locate OS permission button; Release skipped |
+| e066415 | https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35409980695 | FAIL: 17 unit + 2 earlier UI cases passed. Failure capture shows Settings, not a permission sheet; changing button-label lookup alone did not fix the case. |
+
+Follow-up: isolate OS photo authorization between UI cases with XCTest's reset API and defer PhotoKit change observation until access is granted. The failure showed the denied/settings branch was taken; the exact source of the prior privacy decision is not established. This patch must pass native CI before being treated as resolved.
 
 The 17 unit cases include 21 old-production-engine fixture comparisons within one parity case. They also cover WAL import, migration transaction rollback/retry, corrupt legacy data, quota boundaries, undo/rejudging, timezone/clock rollback, 1,000/10,000 items, deletion reconciliation and interrupted/unknown compression journals. They do not establish real media encoding quality or live StoreKit correctness.
 

@@ -59,7 +59,8 @@ import UserNotifications
     func reload() {
         loadTask?.cancel(); generation = UUID(); let token = generation
         loadTask = Task {
-            permission = library.permission; loading = true; analysisComplete = false; groups = []
+            permission = library.permission; library.updateObservation()
+            loading = true; analysisComplete = false; groups = []
             defer { if generation == token { loading = false; analyzing = false } }
             storage()
             guard library.accessible else { photos = []; return }
