@@ -5,6 +5,16 @@ import StoreKitTest
 final class StoreCaptureTests: XCTestCase {
     private var store: SKTestSession!
     private var ja = false
+    override func tearDownWithError() throws {
+        if let result = testRun, result.failureCount > 0 {
+            capture("failure")
+            let hierarchy = XCTAttachment(string: XCUIApplication().debugDescription)
+            hierarchy.name = "failed-screen-hierarchy"; hierarchy.lifetime = .keepAlways; add(hierarchy)
+            let transactions = XCTAttachment(string: "StoreKit test transactions: \(store?.allTransactions().count ?? 0)")
+            transactions.name = "test-transaction-count"; transactions.lifetime = .keepAlways; add(transactions)
+        }
+        try super.tearDownWithError()
+    }
     private func text(_ en: String, _ jp: String) -> String { ja ? jp : en }
     private func tap(_ label: String, _ app: XCUIApplication) {
         let button = app.buttons[label].firstMatch
