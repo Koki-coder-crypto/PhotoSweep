@@ -38,10 +38,17 @@ jobs:
       - name: Capture actual flows in Japanese and English
         run: |
           set -o pipefail
-          xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweepStoreCapture -parallel-testing-enabled NO -destination "platform=iOS Simulator,id=$CAPTURE_DEVICE" -resultBundlePath "$RUNNER_TEMP/StoreCaptures.xcresult" CURRENT_PROJECT_VERSION=20008 CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/store-capture.log"
+          xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweepStoreCapture -parallel-testing-enabled NO -destination "platform=iOS Simulator,id=$CAPTURE_DEVICE" -resultBundlePath "$RUNNER_TEMP/StoreCaptures.xcresult" CURRENT_PROJECT_VERSION=20009 CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/store-capture.log"
+      - name: StoreKit regression and photo analysis evidence
+        if: always()
+        run: |
+          set -o pipefail
+          xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweepStoreBilling -parallel-testing-enabled NO -destination "platform=iOS Simulator,id=$CAPTURE_DEVICE" -resultBundlePath "$RUNNER_TEMP/StoreBilling.xcresult" CURRENT_PROJECT_VERSION=20009 CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/store-billing.log"
       - name: Export screenshots
         if: always()
-        run: xcrun xcresulttool export attachments --path "$RUNNER_TEMP/StoreCaptures.xcresult" --output-path "$RUNNER_TEMP/store-captures" || true
+        run: |
+          xcrun xcresulttool export attachments --path "$RUNNER_TEMP/StoreCaptures.xcresult" --output-path "$RUNNER_TEMP/store-captures" || true
+          xcrun xcresulttool export attachments --path "$RUNNER_TEMP/StoreBilling.xcresult" --output-path "$RUNNER_TEMP/store-billing" || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -49,4 +56,5 @@ jobs:
           path: |
             ${{ runner.temp }}/store-captures
             ${{ runner.temp }}/store-capture.log
+            ${{ runner.temp }}/store-billing
           retention-days: 7

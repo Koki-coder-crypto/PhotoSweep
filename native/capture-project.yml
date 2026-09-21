@@ -1,5 +1,18 @@
 include: project.yml
 targets:
+  PhotoSweepStoreTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: StoreTests
+      - path: StoreUITests/Capture.storekit
+        buildPhase: resources
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: PhotoSweep
+      - sdk: StoreKitTest.framework
   PhotoSweepStoreUITests:
     type: bundle.ui-testing
     platform: iOS
@@ -15,6 +28,12 @@ targets:
       - target: PhotoSweep
       - sdk: StoreKitTest.framework
 schemes:
+  PhotoSweepStoreBilling:
+    build:
+      targets:
+        PhotoSweep: all
+    test:
+      targets: [PhotoSweepStoreTests]
   PhotoSweepStoreCapture:
     build:
       targets:
