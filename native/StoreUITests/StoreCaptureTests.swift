@@ -41,7 +41,7 @@ final class StoreCaptureTests: XCTestCase {
         tap(text("Continue", "次へ"), app)
         let free = app.buttons[text("Continue for free", "無料のまま続ける")]
         if free.waitForExistence(timeout: 4) { free.tap() }
-        let access = app.buttons[text("Choose photo access", "写真へのアクセスを選ぶ")]
+        let access = app.buttons[text("Choose photo access", "写真を選ぶ")]
         if access.exists {
             access.tap()
             let names = ["Allow Full Access", "Allow Access to All Photos", "Allow All Photos", "すべての写真へのアクセスを許可", "フルアクセスを許可"]
@@ -52,7 +52,9 @@ final class StoreCaptureTests: XCTestCase {
             (system.exists ? system : own).tap()
         }
         XCTAssertTrue(app.buttons["home.category.videos"].waitForExistence(timeout: 30))
-        if app.buttons[text("OK", "OK")].exists { app.buttons["OK"].firstMatch.tap() }
+        if app.buttons[text("OK", "わかった")].exists { app.buttons[text("OK", "わかった")].firstMatch.tap() }
+        expectation(for: NSPredicate(format: "label CONTAINS '1'"), evaluatedWith: app.buttons["home.category.videos"])
+        waitForExpectations(timeout: 30)
         capture("01-organize")
         category("videos", app); capture("04-large-videos")
         app.navigationBars.buttons.firstMatch.tap()
@@ -60,6 +62,8 @@ final class StoreCaptureTests: XCTestCase {
         let choose = app.buttons[text("Select for deletion", "削除候補に選ぶ")].firstMatch
         XCTAssertTrue(choose.waitForExistence(timeout: 60)); capture("02-comparison")
         choose.tap(); tap(text("Add 1 to candidates", "1件を候補に入れる"), app)
+        app.tabBars.buttons[text("Organize", "整理")].tap()
+        app.navigationBars.buttons.firstMatch.tap()
         app.tabBars.buttons[text("Swipe", "スワイプ")].tap()
         tap(text("Start swiping", "スワイプで整理する"), app)
         XCTAssertTrue(app.buttons["swipe.keep"].waitForExistence(timeout: 20)); capture("03-monthly-swipe")
@@ -73,7 +77,6 @@ final class StoreCaptureTests: XCTestCase {
         XCTAssertTrue(app.staticTexts[text("1 items cleared", "1件を整理しました")].waitForExistence(timeout: 30))
         capture("07-result"); tap(text("Done", "完了"), app)
         app.tabBars.buttons[text("Organize", "整理")].tap()
-        if app.navigationBars.buttons.count > 1 { app.navigationBars.buttons.firstMatch.tap() }
         category("compression", app)
         tap(text("Start compression", "圧縮を開始"), app)
         tap(text("Compress with Pro", "Proで動画を圧縮する"), app)

@@ -1,5 +1,8 @@
 name: Native store captures
-on: workflow_dispatch
+on:
+  push:
+    tags: ['native-store-capture-*']
+  workflow_dispatch:
 permissions:
   contents: read
 concurrency:
