@@ -246,3 +246,7 @@
 "home.previewEmpty" = "この分類の写真・動画はありません";
 "home.silentPreview" = "無音プレビュー";
 "legal.web" = "公開ページで全文を見る";
+"billing.pendingUnknown" = "完了した購入は確認できませんでした。Apple側で手続きが続いている可能性があります。";
+"billing.pendingRetryNotice" = "やり直しても前の購入申請は取り消されません。承認待ちの申請がある場合は、状況を確認してから購入してください。";
+"billing.pendingRetry" = "プラン選択に戻る";
+"billing.restricted" = "この端末では購入が制限されています。設定の購入制限をご確認ください。";

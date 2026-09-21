@@ -246,3 +246,7 @@
 "home.previewEmpty" = "No items in this category";
 "home.silentPreview" = "Muted preview";
 "legal.web" = "Read the full policy online";
+"billing.pendingUnknown" = "No completed purchase was found. Apple may still be processing your request.";
+"billing.pendingRetryNotice" = "Retrying does not cancel your previous request. Check any outstanding approval request before purchasing again.";
+"billing.pendingRetry" = "Return to plans";
+"billing.restricted" = "Purchases are not allowed on this device. Check your purchase restrictions in Settings.";

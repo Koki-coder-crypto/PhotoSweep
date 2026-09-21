@@ -998,5 +998,21 @@
   "legal.web": [
     "Read the full policy online",
     "公開ページで全文を見る"
+  ],
+  "billing.pendingUnknown": [
+    "No completed purchase was found. Apple may still be processing your request.",
+    "完了した購入は確認できませんでした。Apple側で手続きが続いている可能性があります。"
+  ],
+  "billing.pendingRetryNotice": [
+    "Retrying does not cancel your previous request. Check any outstanding approval request before purchasing again.",
+    "やり直しても前の購入申請は取り消されません。承認待ちの申請がある場合は、状況を確認してから購入してください。"
+  ],
+  "billing.pendingRetry": [
+    "Return to plans",
+    "プラン選択に戻る"
+  ],
+  "billing.restricted": [
+    "Purchases are not allowed on this device. Check your purchase restrictions in Settings.",
+    "この端末では購入が制限されています。設定の購入制限をご確認ください。"
   ]
 }

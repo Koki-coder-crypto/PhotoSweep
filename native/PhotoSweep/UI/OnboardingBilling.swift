@@ -74,7 +74,14 @@ struct PaywallContent: View {
             Label(L("pro.compress"), systemImage: "checkmark.circle")
             Label(L("pro.filters"), systemImage: "checkmark.circle")
             if billing.allowsPro { Text(L("billing.active")); ActionButton(title: "continue", action: onFinish) }
-            else if billing.pending { Text(L("billing.pending")); Button(L("billing.recheck")) { Task { await billing.refresh() } } }
+            else if billing.pending {
+                Text(L("billing.pending"))
+                Button(L("billing.recheck")) { Task { await billing.recheckPending() } }.disabled(billing.busy)
+                if billing.pendingChecked {
+                    Text(L("billing.pendingRetryNotice")).font(.footnote)
+                    Button(L("billing.pendingRetry")) { billing.allowPurchaseRetry() }.disabled(billing.busy)
+                }
+            }
             else {
                 ForEach(billing.products, id: \.id) { product in
                     Button { selected = product.id; app.feedback() } label: {
