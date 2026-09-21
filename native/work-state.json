@@ -1,7 +1,7 @@
 {
   "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
   "branch": "codex/swiftui-2",
-  "activeStep": "Build 20008 is VALID, IN_BETA_TESTING in the existing group and selected in the store draft. Both tax forms Active; bank/paid agreement Processing. Privacy published. Capture run 35572299372 failed at comparison selection; artifact download failed after retry. See native/Store/SUBMISSION_STATUS.md.",
+  "activeStep": "Build 20008 is VALID, IN_BETA_TESTING and selected in the store draft. Tax, bank and paid agreement Active; privacy published. User approved no EU distribution: 148 territories enabled, EU27 excluded, automatic new territories disabled, DSA no-EU option saved without public contact details. Capture run 35572299372 still needs diagnosis; purchase/restore device QA pending. See native/Store/SUBMISSION_STATUS.md.",
   "lastFullPass": {
     "commit": "e71cbff",
     "run": 35569734020,
