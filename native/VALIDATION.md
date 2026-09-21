@@ -71,3 +71,13 @@ Public JA/EN support/privacy/terms pages are live at https://koki-coder-crypto.g
 Build 20005 / 040a81a: https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35565793991 passed 20 unit cases and 3 UI cases (including 30 home/swipe round trips and 100 undo/rejudge actions), signed archive verification/export and TestFlight upload. Synthetic index checks cover 500, 1000 and 10000 items; UI tests use the real small simulator PhotoKit library. This is not a measured iPhone memory or performance pass. Original crash cause remains unconfirmed while detailed log is unavailable.
 
 Apple processing for build 20005 (21150c6a-f98c-4a5b-8064-a70afd6027f6) is VALID; internal state IN_BETA_TESTING. Assigned to existing PhotoSweep Internal group; JA/EN testing notes updated. Store submission/release remain blocked pending physical-device revalidation and remaining release evidence.
+
+## Organize media preview follow-up (2026-09-21)
+
+User requested actual category imagery and short muted video previews while retaining the other screens. Home summaries are cached on library/group/size changes, show at most three assets, and use one actual analysis group for comparisons. One mostly visible local video loops up to three seconds; network requests are disabled. Preview lifetime is stopped on navigation, tab/background transitions, memory warnings, Low Power Mode and Reduce Motion.
+
+Initial run 35568412270 stopped at a new test type-name collision (XCTest Category); app compilation succeeded. Qualified the test type. Revision 7dd45bc / build 20006 / run 35568800302 then passed 23 unit tests and 3 UI tests, signed archive verification and upload. Simulator screenshot confirmed actual PhotoKit category thumbnails. Visual review caught reversed language ordering in new labels (and an existing support label); corrected at e71cbff. Final build 20007 / run 35569734020 is pending. Simulator media do not exercise actual video playback; physical playback/power/audio/memory checks remain unexecuted. See HOME_PREVIEW_QA.md.
+
+Final home preview build 20007 / e71cbff / run 35569734020 passed 23 unit cases and 3 UI cases, signed archive verification and Apple upload. Final simulator category screenshot was visually inspected: real library images and corrected English labels, no overlapping controls. No physical video playback/power/memory claim is made. Apple processing/group assignment is pending.
+
+Apple build ae44759d-b27e-45d8-a630-b5a48832b9c0 (20007) is VALID and IN_BETA_TESTING; membership in the existing internal group was read back. JA/EN testing notes saved. No App Store submission or release was performed.

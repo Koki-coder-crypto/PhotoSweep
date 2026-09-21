@@ -1,17 +1,17 @@
 {
   "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
   "branch": "codex/swiftui-2",
-  "activeStep": "Build 20005 is VALID and assigned to the existing internal group. Await iPhone home-to-swipe revalidation before final media/Sandbox QA and storefront captures; public pages and private review contacts are configured.",
+  "activeStep": "Build 20007 is VALID and IN_BETA_TESTING in the existing internal group. Actual category thumbnails and bounded muted video previews implemented; await iPhone playback/stop/power checks before remaining release QA.",
   "lastFullPass": {
-    "commit": "040a81a",
-    "run": 35565793991,
-    "scope": "20 unit tests, 3 UI tests including repeated transitions and 100 actions, signed archive and TestFlight upload"
+    "commit": "e71cbff",
+    "run": 35569734020,
+    "scope": "23 unit tests, 3 UI tests including repeated transitions and 100 actions, signed archive and TestFlight upload"
   },
   "currentFailure": {
     "build": 20004,
     "detail": "User reports slow home-to-swipe transition and crash with fewer than 1000 assets; feedback AB2mJnQlrAPe_IINV2fbit8 exists, detailed crash log unavailable (404)."
   },
-  "pendingVerification": "iPhone revalidation required; automated tests and signed upload passed",
+  "pendingVerification": "iPhone muted preview playback, navigation stop/resume, low power, Reduce Motion, memory and audio-interruption checks; deletion/compression/Sandbox release checks still pending.",
   "apple": {
     "appID": "6813565278",
     "bundleID": "com.kokicoder.photosweep",
@@ -22,17 +22,17 @@
     "products": "monthly/lifetime created, Japan 1500/6000 JPY, one-week monthly trial, JA/EN labels and world availability saved; review screenshots and Sandbox pending",
     "submitted": false,
     "delivery": {
-      "build": "20005",
-      "buildID": "21150c6a-f98c-4a5b-8064-a70afd6027f6",
+      "build": "20007",
+      "buildID": "ae44759d-b27e-45d8-a630-b5a48832b9c0",
       "processingState": "VALID",
       "internalBuildState": "IN_BETA_TESTING",
       "externalBuildState": "READY_FOR_BETA_SUBMISSION",
       "betaGroups": 1,
       "checkedDate": "2026-09-21",
       "internalGroupID": "9fed719d-dab9-4ba3-b6f9-7c6488f7628d",
-      "testers": "User-confirmed Apple Account added through App Store Connect internal tester UI; invitation sent, acceptance/device verification pending.",
+      "testers": "Existing user-confirmed internal tester retained; no additional testers invited.",
       "storeDraftBuildSelected": false,
-      "testNotes": "JA/EN performance revalidation notes saved"
+      "testNotes": "JA/EN organize media preview notes saved"
     },
     "reviewContact": "User-confirmed contact saved and read back through Apple API on 2026-09-21; private phone is not stored in this repository."
   },
@@ -76,5 +76,13 @@
     ],
     "verified": "All eight localized pages HTTP 200, operator and email match; JA support page visually inspected",
     "storeURLsSaved": true
+  },
+  "homePreview": {
+    "revision": "e71cbff",
+    "run": 35569734020,
+    "build": "20007",
+    "state": "IN_BETA_TESTING",
+    "visualQA": "Actual PhotoKit thumbnails and corrected English labels inspected in final simulator capture",
+    "devicePlayback": "Not yet verified on iPhone"
   }
 }
