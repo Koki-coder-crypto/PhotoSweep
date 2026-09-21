@@ -982,5 +982,9 @@
   "compression.retryNote": [
     "Replaces this unsaved preview. Your original remains unchanged.",
     "未保存のプレビューを作り直します。原本はそのまま残ります。"
+  ],
+  "contact.email": [
+    "メールで問い合わせ",
+    "Email support"
   ]
 }

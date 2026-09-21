@@ -60,7 +60,12 @@ struct HelpView: View {
         NavigationLink(L("restore.title")) { HelpDetailView(kind: "restore") }
         NavigationLink(L("permission.title")) { HelpDetailView(kind: "permission") }
         NavigationLink(L("plan.title")) { PlanView() }
-        Text(L("contact.pending")).font(.footnote)
+        Link(destination: URL(string: "mailto:photosweep.support@gmail.com")!) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(L("contact.email"))
+                Text("photosweep.support@gmail.com").font(.footnote).textSelection(.enabled)
+            }
+        }
     }.navigationTitle(L("help.title")) }
 }
 struct HelpDetailView: View {

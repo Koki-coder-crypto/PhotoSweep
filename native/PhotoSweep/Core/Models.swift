@@ -76,7 +76,8 @@ struct MediaItem: Identifiable, Equatable {
     var id: String; var kind: MediaKind; var createdAt: Double; var width: Int; var height: Int
     var duration: Double; var screenshot: Bool; var recording: Bool; var favorite: Bool; var modifiedAt: Double
     var month: String {
-        String(WallClock(date: Date(timeIntervalSince1970: createdAt / 1000)).day.prefix(7))
+        let parts = Calendar(identifier: .gregorian).dateComponents([.year, .month], from: Date(timeIntervalSince1970: createdAt / 1000))
+        return String(format: "%04d-%02d", parts.year ?? 1970, parts.month ?? 1)
     }
 }
 func L(_ key: String) -> String { NSLocalizedString(key, comment: "") }

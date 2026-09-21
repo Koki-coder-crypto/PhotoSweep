@@ -2,6 +2,7 @@ import SwiftUI
 import Photos
 import StoreKit
 import UserNotifications
+import OSLog
 
 @MainActor final class AppModel: ObservableObject {
     @Published var state = ReviewState()
@@ -10,6 +11,8 @@ import UserNotifications
     @Published var error: String?
     @Published var fatal: String?
     @Published var photos: [MediaItem] = []
+    private(set) var mediaIndex = MediaIndex()
+    private(set) var reviewedByMonth: [String: Int] = [:]
     @Published var loading = false
     @Published var analyzing = false
     @Published var analysisComplete = false
@@ -28,7 +31,10 @@ import UserNotifications
     let compression = PhotoSweepCompression()
     let feedbackService = FeedbackService()
     private var loadTask: Task<Void, Never>?
+    private let performanceLog = Logger(subsystem: "com.kokicoder.photosweep", category: "performance")
     private var generation = UUID()
+    private var reloadPending = false
+    private var changeTask: Task<Void, Never>?
     init(persistence: any ReviewPersistence = SQLitePersistence()) {
         #if DEBUG
         if let testID = ProcessInfo.processInfo.environment["PHOTOSWEEP_UI_TEST"] {
@@ -37,7 +43,13 @@ import UserNotifications
         #else
         self.persistence = persistence
         #endif
-        library.changed = { [weak self] in self?.reload() }
+        library.changed = { [weak self] in
+            self?.changeTask?.cancel()
+            self?.changeTask = Task { [weak self] in
+                try? await Task.sleep(nanoseconds: 300_000_000)
+                guard !Task.isCancelled else { return }; self?.reload()
+            }
+        }
     }
     func launch() async {
         guard !ready else { return }
@@ -48,7 +60,7 @@ import UserNotifications
         guard ready, !busy else { return false }; busy = true; defer { busy = false }
         do {
             var next = try transform(state); next.rememberSession()
-            try await persistence.save(next); state = next
+            try await persistence.save(next); updateProgress(next); state = next
             if haptic { feedback() }; return true
         } catch ReviewFailure.quota { paywall = true; return false }
         catch { self.error = error.localizedDescription; return false }
@@ -56,29 +68,55 @@ import UserNotifications
     func feedback(success: Bool = false) {
         feedbackService.play(state.settings, success: success)
     }
+    private func updateProgress(_ next: ReviewState) {
+        reviewedByMonth = mediaIndex.byMonth.mapValues { items in
+            items.reduce(0) { $0 + (next.decisions[$1.id] == nil ? 0 : 1) }
+        }
+    }
+    func becameActive() {
+        storage()
+        if library.permission != permission { loadTask?.cancel(); reload() }
+    }
     func reload() {
-        loadTask?.cancel(); generation = UUID(); let token = generation
+        // A change during enumeration gets one follow-up pass, not overlapping tasks.
+        if loadTask != nil { reloadPending = true; return }
+        generation = UUID(); let token = generation
         loadTask = Task {
+            let started = Date()
+            performanceLog.info("Library refresh started")
             permission = library.permission; library.updateObservation()
-            loading = true; analysisComplete = false; groups = []
-            defer { if generation == token { loading = false; analyzing = false } }
+            loading = true
+            defer {
+                performanceLog.info("Library refresh finished in \(Date().timeIntervalSince(started), privacy: .public)s; assets=\(self.photos.count, privacy: .public)")
+                loading = false; analyzing = false; loadTask = nil
+                if reloadPending { reloadPending = false; reload() }
+            }
             storage()
-            guard library.accessible else { photos = []; return }
+            guard library.accessible else {
+                mediaIndex = MediaIndex(); reviewedByMonth = [:]; photos = []; groups = []
+                analysisComplete = false; library.clearPrefetch(); return
+            }
             var all: [MediaItem] = [], offset = 0
             do {
                 while !Task.isCancelled {
                     let page = try await library.page(offset: offset, count: 250)
                     guard generation == token else { return }
-                    all += page; photos = all; offset += page.count
+                    all += page; offset += page.count
                     if page.count < 250 { break }
                 }
                 guard !Task.isCancelled else { return }
-                loading = false
-                // Kind mapping must be durable before the first quota-bearing operation.
-                _ = await mutate { s in var n = s; for photo in all { n.mediaKinds[photo.id] = photo.kind }; return n }
+                if all == photos && analysisComplete { return }
+                let snapshot = all
+                let index = await Task.detached(priority: .userInitiated) { MediaIndex(snapshot) }.value
+                guard library.permission == permission else { reloadPending = true; return }
+                mediaIndex = index; updateProgress(state); photos = all
+                loading = false; analysisComplete = false
+                // Wait rather than silently dropping durable kind metadata during a swipe.
+                while busy && !Task.isCancelled { try? await Task.sleep(nanoseconds: 20_000_000) }
+                guard await mutate({ s in var n = s; for photo in all { n.mediaKinds[photo.id] = photo.kind }; return n }) else { return }
                 analyzing = true
                 let found = await analysis.groups(all)
-                guard generation == token, !Task.isCancelled else { return }
+                guard generation == token, !Task.isCancelled, library.permission == permission else { reloadPending = true; return }
                 groups = found; analyzing = false; analysisComplete = true
             } catch { self.error = L("library.failed") }
         }
@@ -90,8 +128,9 @@ import UserNotifications
     }
     func requestPhotos() async { permission = await library.requestPermission(); reload() }
     func matching(_ scope: Scope) -> [MediaItem] {
-        let list = photos.filter { photo in
-            (scope.month == nil || scope.month == photo.month) && (scope.mediaKind == nil || scope.mediaKind == photo.kind)
+        let source = scope.month.flatMap { mediaIndex.byMonth[$0] } ?? (scope.month == nil ? photos : [])
+        let list = source.filter { photo in
+            (scope.mediaKind == nil || scope.mediaKind == photo.kind)
             && (scope.screenshotsOnly != true || photo.screenshot) && (scope.recordingsOnly != true || photo.recording)
             && (scope.start == nil || photo.createdAt >= scope.start!) && (scope.end == nil || photo.createdAt < scope.end!)
         }
@@ -123,7 +162,7 @@ import UserNotifications
     func measure(_ ids: [String]) async {
         for id in ids {
             if Task.isCancelled { return }
-            let modified = photos.first { $0.id == id }?.modifiedAt
+            let modified = mediaIndex.byID[id]?.modifiedAt
             if let cached = state.sizes[id], cached.bytes != nil, cached.modifiedAt == modified { continue }
             guard let size = await library.size(id) else { continue }
             while busy && !Task.isCancelled { try? await Task.sleep(nanoseconds: 50_000_000) }

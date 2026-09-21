@@ -26,6 +26,8 @@ struct AssetThumbnail: View {
     @State private var network = false
     @State private var failed = false
     @State private var generation = UUID()
+    @State private var targetSize = CGSize(width: 200, height: 200)
+    @Environment(\.displayScale) private var displayScale
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -33,14 +35,18 @@ struct AssetThumbnail: View {
                 if let image { Image(uiImage: image).resizable().aspectRatio(contentMode: fit ? .fit : .fill).frame(width: geometry.size.width, height: geometry.size.height).clipped() }
                 else if failed { VStack { Image(systemName: "icloud.and.arrow.down"); if fit { Button(L("media.download")) { network = true; load() }.buttonStyle(.bordered) } } }
                 else { ProgressView() }
-            }.task(id: id) { network = false; load() }
-                .onDisappear { if let request { app.library.images.cancelImageRequest(request) } }
+            }.task(id: id) {
+                    targetSize = CGSize(width: max(1, min(1200, geometry.size.width * displayScale)), height: max(1, min(1600, geometry.size.height * displayScale)))
+                    network = false; load()
+                }
+                .onDisappear { generation = UUID(); if let request { app.library.images.cancelImageRequest(request) }; request = nil; image = nil }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didReceiveMemoryWarningNotification)) { _ in app.library.clearPrefetch() }
         }.accessibilityLabel(L("media.preview"))
     }
     private func load() {
         if let request { app.library.images.cancelImageRequest(request) }; image = nil; failed = false
         generation = UUID(); let expected = generation
-        request = app.library.image(id, size: fit ? CGSize(width: 1200, height: 1600) : CGSize(width: 350, height: 350), network: network) { value in
+        request = app.library.image(id, size: targetSize, network: network) { value in
             guard expected == generation else { return }; image = value; failed = value == nil
         }
     }

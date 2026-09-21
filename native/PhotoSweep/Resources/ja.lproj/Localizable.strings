@@ -242,3 +242,4 @@
 "zoom.out" = "縮小";
 "compression.retrySettings" = "選んだ設定で変換し直す";
 "compression.retryNote" = "未保存のプレビューを作り直します。原本はそのまま残ります。";
+"contact.email" = "Email support";

@@ -1,6 +1,6 @@
 # PhotoSweep 2.0 validation ledger
 
-This file records evidence, not desired outcomes. No TestFlight upload, iPhone test, Sandbox purchase, App Store submission or release has completed yet.
+This file records evidence, not desired outcomes. Build 20004 has passed signed delivery and TestFlight upload; Apple processing is VALID and internal state is READY_FOR_BETA_TESTING. No iPhone test, Sandbox purchase, App Store submission or release has completed yet. Internal group PhotoSweep Internal is configured with build 20004; tester identity is pending.
 
 ## Completed automated runs
 
@@ -17,6 +17,8 @@ This file records evidence, not desired outcomes. No TestFlight upload, iPhone t
 | e4670b7 / build 20002 | https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35413030919 | FAIL after successful native tests and signed archive: archive verifier rejected UIDeviceFamily. actool output explicitly targeted both iPhone and iPad. Export/upload did not run. Fix: put TARGETED_DEVICE_FAMILY=1 at the app target level, overriding generator defaults. |
 | 14f5ad1 / build 20003 | https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35414241135 | FAIL: 17 unit cases passed, photo-permission UI wait timed out. Diagnostic snapshot then contained the exact SpringBoard button "Allow Full Access". Replace custom 15-second predicate polling with XCTest element wait (30 seconds, then app-hosted fallback). Archive/upload did not run. |
 
+| f7061b9 / build 20004 | https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35414805818 | PASS: 17 unit cases, 3 UI cases, signed archive, iPhone-only archive verification, export and TestFlight upload. Apple build 042755b0-39a7-44ef-acb9-147befe4b77b is VALID / READY_FOR_BETA_TESTING. |
+
 PhotoKit follow-up passed after isolating OS photo authorization between UI cases with XCTest's reset API and deferring PhotoKit change observation until access is granted. The earlier failure showed the denied/settings branch was taken; the exact source of the prior privacy decision was not established.
 
 Visual QA of `artifacts/native-bae8c4b/captures` confirmed readable default-size swipe controls and successful saved progress. The maximum text-size capture exposed a split month heading despite the controls being hittable. The follow-up stacks the heading/progress, reduces the card height at accessibility text sizes, and removes next-card scaling/failed-save spring under Reduce Motion. The follow-up native run passed; visual/device confirmation remains separate.
@@ -27,7 +29,7 @@ The first two UI cases cover Japanese introduction and English introduction, tab
 
 ## Manual and external work still required
 
-- Native signing certificate, App Store provisioning profile and secure delivery key installation.
+- Internal tester identity/invitation and installation; internal group and build assignment are complete.
 - Actual upgrade over the installed Expo app on iPhone 15; do not uninstall first.
 - 100 continuous gestures, haptic strength, image waits, VoiceOver and large text on device.
 - Limited access, permission revocation, iCloud-only files and large real libraries.
@@ -55,3 +57,11 @@ Monthly and lifetime products are now registered under the production IDs. Saved
 ## Website
 
 Eight original Japanese/English informational pages are prepared in `Store/website.json`. `python native/Store/build_website.py --preview` produces a local, explicitly marked preview under ignored `artifacts/native-site`. Production generation fails without a formal operator name and support email. No GitHub Pages site has been published.
+
+## Distribution preparation follow-up (2026-09-19)
+
+Internal group 9fed719d-dab9-4ba3-b6f9-7c6488f7628d contains build 20004. No testers were added or invited without the user's confirmed address. Japanese/English beta testing notes were saved. Version 2.0.0 draft now references the same build; it remains PREPARE_FOR_SUBMISSION with manual release. Formal contacts, device/Sandbox evidence and final 14 screenshots are still missing.
+
+## Device performance follow-up (2026-09-21)
+
+Build 20004 has a user-reported crash on home-to-swipe transition with fewer than 1,000 assets and general sluggishness. Apple feedback AB2mJnQlrAPe_IINV2fbit8 confirms iPhone15_4 / iOS 26.6.1; its crashLog endpoint returns 404. Exception/termination cause remains unconfirmed. The follow-up removes repeated per-render date formatting/full-library month filters, isolates drag presentation, serializes reloads, reuses unchanged analysis metadata, shares PhotoKit page snapshots and bounds image prefetch lifetime. Source checks pass; signed build and device validation are pending. New tests cover index timezone/deduplication/rebuild, 500/1000/10000 assets, 30 tab round trips and 100 undo/rejudge actions.

@@ -68,6 +68,14 @@ final class FlowTests: XCTestCase {
         let keep = app.buttons["swipe.keep"], undo = app.buttons["swipe.undo"], candidate = app.buttons["swipe.candidate"]
         XCTAssertTrue(keep.waitForExistence(timeout: 15)); XCTAssertTrue(keep.isHittable)
         capture("en-07-real-library-swipe")
+        // Exercise the reported transition repeatedly against real PhotoKit assets.
+        for _ in 0..<30 {
+            app.tabBars.buttons["Organize"].tap()
+            app.tabBars.buttons["Swipe"].tap()
+            XCTAssertTrue(keep.waitForExistence(timeout: 5))
+            XCTAssertEqual(app.state, .runningForeground)
+        }
+
         keep.tap()
         XCTAssertTrue(undo.waitForExistence(timeout: 5))
         let enabled = NSPredicate(format: "enabled == true")
@@ -76,6 +84,12 @@ final class FlowTests: XCTestCase {
         expectation(for: enabled, evaluatedWith: candidate); waitForExpectations(timeout: 10)
         candidate.tap()
         expectation(for: enabled, evaluatedWith: keep); waitForExpectations(timeout: 10)
+        for _ in 0..<50 {
+            expectation(for: enabled, evaluatedWith: undo); waitForExpectations(timeout: 10)
+            undo.tap()
+            expectation(for: enabled, evaluatedWith: candidate); waitForExpectations(timeout: 10)
+            candidate.tap()
+        }
         app.swipeUp()
         XCTAssertTrue(app.staticTexts["Today: 29 photos and 5 videos left"].waitForExistence(timeout: 10), "Undo and rejudging must not charge again")
         capture("en-08-real-library-after-rejudge")

@@ -13,6 +13,10 @@ final class PhotoLibrary: NSObject, PhotoRepository, PHPhotoLibraryChangeObserve
     var changed: (() -> Void)?
     private let queue = DispatchQueue(label: "PhotoSweep.library", qos: .userInitiated)
     private var observing = false
+    private var snapshot: PHFetchResult<PHAsset>?
+    private var recordingIDs = Set<String>()
+    private var prefetched: [PHAsset] = []
+    private let cacheSize = CGSize(width: 1000, height: 1400)
     override init() { super.init() }
     deinit { if observing { PHPhotoLibrary.shared().unregisterChangeObserver(self) } }
     // PhotoKit observation starts only after access is granted, never during the
@@ -31,19 +35,22 @@ final class PhotoLibrary: NSObject, PhotoRepository, PHPhotoLibraryChangeObserve
     func page(offset: Int, count: Int = 250) async throws -> [MediaItem] {
         await withCheckedContinuation { continuation in queue.async {
             guard self.accessible else { continuation.resume(returning: []); return }
-            let options = PHFetchOptions(); options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-            options.predicate = NSPredicate(format: "mediaType == %d OR mediaType == %d", PHAssetMediaType.image.rawValue, PHAssetMediaType.video.rawValue)
-            let assets = PHAsset.fetchAssets(with: options)
-            var recordings = Set<String>()
-            if let collection = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumScreenRecordings, options: nil).firstObject {
-                PHAsset.fetchAssets(in: collection, options: nil).enumerateObjects { asset, _, _ in recordings.insert(asset.localIdentifier) }
+            if offset == 0 || self.snapshot == nil {
+                let options = PHFetchOptions(); options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+                options.predicate = NSPredicate(format: "mediaType == %d OR mediaType == %d", PHAssetMediaType.image.rawValue, PHAssetMediaType.video.rawValue)
+                self.snapshot = PHAsset.fetchAssets(with: options)
+                self.recordingIDs = []
+                if let collection = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumScreenRecordings, options: nil).firstObject {
+                    PHAsset.fetchAssets(in: collection, options: nil).enumerateObjects { asset, _, _ in self.recordingIDs.insert(asset.localIdentifier) }
+                }
             }
+            guard let assets = self.snapshot else { continuation.resume(returning: []); return }
             var items: [MediaItem] = []
             if offset < assets.count { for index in offset..<min(assets.count, offset + count) {
                 let asset = assets.object(at: index)
                 items.append(MediaItem(id: asset.localIdentifier, kind: asset.mediaType == .video ? .video : .photo, createdAt: (asset.creationDate?.timeIntervalSince1970 ?? 0) * 1000,
                                        width: asset.pixelWidth, height: asset.pixelHeight, duration: asset.duration, screenshot: asset.mediaSubtypes.contains(.photoScreenshot),
-                                       recording: recordings.contains(asset.localIdentifier), favorite: asset.isFavorite, modifiedAt: (asset.modificationDate?.timeIntervalSince1970 ?? 0) * 1000))
+                                       recording: self.recordingIDs.contains(asset.localIdentifier), favorite: asset.isFavorite, modifiedAt: (asset.modificationDate?.timeIntervalSince1970 ?? 0) * 1000))
             } }
             continuation.resume(returning: items)
         } }
@@ -67,12 +74,22 @@ final class PhotoLibrary: NSObject, PhotoRepository, PHPhotoLibraryChangeObserve
     }
     func image(_ id: String, size: CGSize, network: Bool = false, completion: @escaping (UIImage?) -> Void) -> PHImageRequestID? {
         guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [id], options: nil).firstObject else { completion(nil); return nil }
-        let options = PHImageRequestOptions(); options.isNetworkAccessAllowed = network; options.deliveryMode = .highQualityFormat
+        let options = PHImageRequestOptions(); options.isNetworkAccessAllowed = network; options.deliveryMode = .highQualityFormat; options.resizeMode = .exact
         return images.requestImage(for: asset, targetSize: size, contentMode: .aspectFit, options: options) { image, _ in DispatchQueue.main.async { completion(image) } }
     }
-    func prefetch(_ ids: [String]) {
-        var assets: [PHAsset] = []; PHAsset.fetchAssets(withLocalIdentifiers: ids, options: nil).enumerateObjects { asset, _, _ in assets.append(asset) }
-        images.startCachingImages(for: assets, targetSize: CGSize(width: 1000, height: 1400), contentMode: .aspectFit, options: nil)
+    @MainActor func clearPrefetch() {
+        images.stopCachingImagesForAllAssets()
+        prefetched = []
+    }
+    @MainActor func prefetch(_ ids: [String]) {
+        let wanted = Set(ids.prefix(3))
+        let removed = prefetched.filter { !wanted.contains($0.localIdentifier) }
+        images.stopCachingImages(for: removed, targetSize: cacheSize, contentMode: .aspectFit, options: nil)
+        let existing = Set(prefetched.map(\.localIdentifier))
+        var added: [PHAsset] = []
+        PHAsset.fetchAssets(withLocalIdentifiers: Array(wanted.subtracting(existing)), options: nil).enumerateObjects { asset, _, _ in added.append(asset) }
+        prefetched = prefetched.filter { wanted.contains($0.localIdentifier) } + added
+        images.startCachingImages(for: added, targetSize: cacheSize, contentMode: .aspectFit, options: nil)
     }
     func video(_ id: String) async -> AVPlayerItem? {
         guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [id], options: nil).firstObject else { return nil }

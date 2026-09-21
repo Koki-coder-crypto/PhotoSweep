@@ -2,16 +2,27 @@ import Foundation
 
 struct PhotoGroup: Identifiable { var id: String; var ids: [String]; var recommended: String; var kind: String }
 actor AnalysisService {
+    private var cachedItems: [String: MediaItem] = [:]
+    private var cachedPrints: [String: [String: Any]] = [:]
+    private var cachedDigests: [String: String] = [:]
+
     func groups(_ photos: [MediaItem]) -> [PhotoGroup] {
         let photos = photos.filter { $0.kind == .photo }
-        var prints: [String: [String: Any]] = [:]
-        for start in stride(from: 0, to: photos.count, by: 24) {
+        let valid = Set(photos.map(\.id))
+        cachedItems = cachedItems.filter { valid.contains($0.key) }
+        cachedPrints = cachedPrints.filter { valid.contains($0.key) }
+        cachedDigests = cachedDigests.filter { valid.contains($0.key) }
+        let changed = photos.filter { cachedItems[$0.id] != $0 || cachedPrints[$0.id] == nil }
+        for photo in changed { cachedPrints.removeValue(forKey: photo.id); cachedDigests.removeValue(forKey: photo.id) }
+        var prints = cachedPrints
+        for start in stride(from: 0, to: changed.count, by: 24) {
             if Task.isCancelled { return [] }
-            for value in PhotoSweepAnalysis.fingerprints(Array(photos[start..<min(start + 24, photos.count)]).map(\.id)) {
-                if let id = value["id"] as? String { prints[id] = value }
+            for value in PhotoSweepAnalysis.fingerprints(Array(changed[start..<min(start + 24, changed.count)]).map(\.id)) {
+                if let id = value["id"] as? String { prints[id] = value; cachedPrints[id] = value }
             }
         }
-        let byID = Dictionary(uniqueKeysWithValues: photos.map { ($0.id, $0) })
+        let byID = Dictionary(photos.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        cachedItems = byID
         func quality(_ id: String) -> Double {
             guard let photo = byID[id] else { return 0 }
             return (photo.favorite ? 1e15 : 0) + Double(photo.width * photo.height) * 10 + (prints[id]?["quality"] as? Double ?? 0)
@@ -19,10 +30,12 @@ actor AnalysisService {
         var hashes: [String: [String]] = [:], digests: [String: [String]] = [:]
         for (id, value) in prints where value["exactEligible"] as? Bool == true { if let hash = value["hash"] as? String { hashes[hash, default: []].append(id) } }
         let potential = hashes.values.filter { $0.count > 1 }.flatMap { $0 }
-        for start in stride(from: 0, to: potential.count, by: 8) {
+        for id in potential { if let digest = cachedDigests[id] { digests[digest, default: []].append(id) } }
+        let uncached = potential.filter { cachedDigests[$0] == nil }
+        for start in stride(from: 0, to: uncached.count, by: 8) {
             if Task.isCancelled { return [] }
-            for value in PhotoSweepAnalysis.digests(Array(potential[start..<min(start + 8, potential.count)])) {
-                if let id = value["id"], let digest = value["digest"] { digests[digest, default: []].append(id) }
+            for value in PhotoSweepAnalysis.digests(Array(uncached[start..<min(start + 8, uncached.count)])) {
+                if let id = value["id"], let digest = value["digest"] { digests[digest, default: []].append(id); cachedDigests[id] = digest }
             }
         }
         var groups: [PhotoGroup] = [], grouped = Set<String>()
