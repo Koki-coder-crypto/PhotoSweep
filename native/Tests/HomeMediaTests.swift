@@ -30,7 +30,7 @@ final class HomeMediaTests: XCTestCase {
         XCTAssertTrue(result[.duplicate]?.ids.isEmpty == true)
     }
     @MainActor func testOnlyOneMostlyVisibleVideoCanPlay() {
-        let summaries: [Category: HomeMediaSummary] = [.videos: .init(ids: ["v"], count: 1, videoID: "v"),
+        let summaries: [PhotoSweep.Category: HomeMediaSummary] = [.videos: .init(ids: ["v"], count: 1, videoID: "v"),
                                                       .recordings: .init(ids: ["r"], count: 1, videoID: "r")]
         XCTAssertNil(HomePreviewPlayer.visibleCategory(frames: [.videos: CGRect(x: 0, y: -100, width: 300, height: 200)], height: 600, summaries: summaries))
         XCTAssertEqual(HomePreviewPlayer.visibleCategory(frames: [.videos: CGRect(x: 0, y: 0, width: 300, height: 200),
