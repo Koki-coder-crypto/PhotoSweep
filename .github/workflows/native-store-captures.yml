@@ -40,7 +40,7 @@ jobs:
           set -o pipefail
           xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweepStoreCapture -parallel-testing-enabled NO -destination "platform=iOS Simulator,id=$CAPTURE_DEVICE" -resultBundlePath "$RUNNER_TEMP/StoreCaptures.xcresult" CURRENT_PROJECT_VERSION=20010 CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/store-capture.log"
       - name: StoreKit regression and photo analysis evidence
-        if: always()
+        if: ${{ !cancelled() }}
         run: |
           set -o pipefail
           xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweepStoreBilling -only-testing:PhotoSweepStoreTests/StoreBillingTests/testCapturePhotoAnalysisEvidence -parallel-testing-enabled NO -destination "platform=iOS Simulator,id=$CAPTURE_DEVICE" -resultBundlePath "$RUNNER_TEMP/StoreBilling.xcresult" CURRENT_PROJECT_VERSION=20010 CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/store-billing.log"
