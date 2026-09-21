@@ -1,7 +1,7 @@
 {
   "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
   "branch": "codex/swiftui-2",
-  "activeStep": "20010 full verification and upload succeeded in 35609343455; awaiting Apple processing. Photo analysis regression passed in 35609289939. Store captures failed because the bottom Pro action was not rendered before scrolling; exact hierarchy confirmed and test-only fix 7fe36f2 is running in 35611307866. Actual device billing QA pending. No review submission.",
+  "activeStep": "20010 is VALID / IN_BETA_TESTING, assigned to existing group and selected as store draft candidate. 29 unit + 3 UI tests and photo analysis regression passed. Capture run 35611307866 failed; awaiting exported diagnostics. Actual device purchase/restore and media QA pending. No review submission.",
   "lastFullPass": {
     "commit": "8e25d20",
     "run": 35609343455,
@@ -22,8 +22,8 @@
     "products": "monthly/lifetime created, Japan 1500/6000 JPY, one-week monthly trial, JA/EN labels and world availability saved; review screenshots and Sandbox pending",
     "submitted": false,
     "delivery": {
-      "build": "20009",
-      "buildID": "b867f9ad-1399-4421-9c72-02e2eae684ed",
+      "build": "20010",
+      "buildID": "b90d261e-724e-4ee3-95b2-b81b0c01edc1",
       "processingState": "VALID",
       "internalBuildState": "IN_BETA_TESTING",
       "externalBuildState": "READY_FOR_BETA_SUBMISSION",
@@ -31,8 +31,8 @@
       "checkedDate": "2026-09-21",
       "internalGroupID": "9fed719d-dab9-4ba3-b6f9-7c6488f7628d",
       "testers": "Existing user-confirmed internal tester retained; no additional testers invited.",
-      "storeDraftBuildSelected": false,
-      "testNotes": "JA/EN billing verification instructions saved"
+      "storeDraftBuildSelected": true,
+      "testNotes": "JA/EN 20010 device checks saved"
     },
     "reviewContact": "User-confirmed contact saved and read back through Apple API on 2026-09-21; private phone is not stored in this repository."
   },
