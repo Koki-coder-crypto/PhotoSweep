@@ -34,7 +34,8 @@ jobs:
           from PIL import Image
           for path in Path('original').rglob('*'):
               if path.suffix == '.json':
-                  shutil.copy(path, Path('compact') / path.name)
+                  name = path.parent.name + '-' + path.name if path.name == 'manifest.json' else path.name
+                  shutil.copy(path, Path('compact') / name)
               if path.suffix.lower() in ('.png', '.jpg', '.jpeg'):
                   image = Image.open(path).convert('RGB')
                   image.thumbnail((540, 1170))
