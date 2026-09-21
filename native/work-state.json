@@ -1,7 +1,7 @@
 {
   "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
   "branch": "codex/swiftui-2",
-  "activeStep": "20010 is VALID / IN_BETA_TESTING, assigned to existing group and selected as store draft candidate. 29 unit + 3 UI tests and photo analysis regression passed. Capture run 35611307866 failed; awaiting exported diagnostics. Actual device purchase/restore and media QA pending. No review submission.",
+  "activeStep": "20010 VALID/IN_BETA_TESTING and selected as store draft candidate. Both IAPs READY_TO_SUBMIT after real paywall review screenshots uploaded. Store capture purchase UI does not close after purchase; direct StoreKit integration passed but UI failure unresolved. Evidence-enhanced capture run 35612896237 running. Need 14 final screenshots and actual device QA before submission.",
   "lastFullPass": {
     "commit": "8e25d20",
     "run": 35609343455,
@@ -19,7 +19,7 @@
     "release": "manual",
     "jaEnVersionCopy": "drafts saved",
     "englishName": "PhotoSweep: Swipe & Compress (saved)",
-    "products": "monthly/lifetime created, Japan 1500/6000 JPY, one-week monthly trial, JA/EN labels and world availability saved; review screenshots and Sandbox pending",
+    "products": "Monthly 6813714786 and lifetime 6813716201 READY_TO_SUBMIT; real English paywall review PNGs uploaded from capture 35611307866, 20010 app sources. Japan 1500/6000 JPY; eligible one-week trial and legacy rights retained. Actual device purchase/restore pending.",
     "submitted": false,
     "delivery": {
       "build": "20010",
