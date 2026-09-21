@@ -75,3 +75,6 @@ Previous assistant guidance favoring leaving treaty-benefit fields blank was not
 - Screenshot capture failed on the unrendered bottom home Pro action. Hierarchy evidence confirmed LazyVStack virtualization; test-only scrolling fix is running in 35611307866. Fourteen final screenshots and product review images are not complete yet.
 - Free app download price saved and read back; Mac and Vision distribution disabled. Existing 148 non-EU territories and manual release retained.
 - Japanese operating guide: OPERATIONS_JA.md. Physical purchase/restore and final media checks remain unconfirmed. Do not submit until the release gate passes.
+
+## Additional verification result
+Capture-only run 35619661636: app-hosted verified StoreKit setup PASSED; UI accessibility audit reported `Label not human-readable`; both full capture flows stopped at Start compression / 圧縮を開始 after capturing the earlier screens. These are not passed tests. The exact accessibility element needs inspection before deciding the production change. User-confirmed TestFlight compression is separate evidence. Manual publication has not occurred.

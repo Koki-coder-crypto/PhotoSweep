@@ -41,8 +41,8 @@
       "evidence": "2026-09-21: user explicitly confirmed TestFlight 20010 purchase, restart and Restore purchases all normal on their iPhone 15. Pending/approval/decline branches separately passed SKTestSession tests in 35607158206; no claim of real proceeds."
     },
     "voiceOverAndLargeText": {
-      "status": "PARTIAL",
-      "evidence": "20010 run 35609343455 passes resumed-session controls at AccessibilityXXXL. Physical VoiceOver output/interaction not observed."
+      "status": "NEEDS_REVIEW",
+      "evidence": "20010 native regression passes AccessibilityXXXL controls. Additional capture-only run 35619661636 failed sufficientElementDescription audit with Label not human-readable at PermissionAccessibilityTests.swift:39; exact element needs inspection. Physical VoiceOver output not observed. Not passed."
     },
     "storeScreenshotsFourteen": "NOT_RUN",
     "privacyLegalAndRegionalDeclarations": {
