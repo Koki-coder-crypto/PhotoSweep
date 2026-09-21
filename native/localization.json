@@ -984,15 +984,15 @@
     "未保存のプレビューを作り直します。原本はそのまま残ります。"
   ],
   "contact.email": [
-    "メールで問い合わせ",
-    "Email support"
+    "Email support",
+    "メールで問い合わせ"
   ],
   "home.previewEmpty": [
-    "この分類の写真・動画はありません",
-    "No items in this category"
+    "No items in this category",
+    "この分類の写真・動画はありません"
   ],
   "home.silentPreview": [
-    "無音プレビュー",
-    "Muted preview"
+    "Muted preview",
+    "無音プレビュー"
   ]
 }
