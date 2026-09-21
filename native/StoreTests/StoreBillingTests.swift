@@ -7,10 +7,12 @@ import Photos
 @MainActor final class StoreBillingTests: XCTestCase {
     func testPrepareCaptureEntitlement() async throws {
         let session = try session()
+        print("Capture setup: Apple test session initialized")
+        try session.buyProduct(productIdentifier: "com.kokicoder.photosweep.pro.lifetime")
+        print("Capture setup: Apple test transaction created")
         let billing = Billing()
-        await billing.load()
-        let product = try XCTUnwrap(billing.products.first { $0.id.hasSuffix("lifetime") })
-        await billing.purchase(product)
+        await billing.refresh()
+        print("Capture setup: production entitlement refresh completed")
         XCTAssertTrue(billing.allowsPro, "Capture setup must use a verified Apple test transaction")
         XCTAssertEqual(session.allTransactions().count, 1)
         // Keep the real StoreKit test transaction for the following UI process.

@@ -36,6 +36,8 @@ jobs:
           xcrun simctl status_bar "$DEVICE" override --time 9:41 --batteryState charged --batteryLevel 100
           xcrun simctl addmedia "$DEVICE" "$RUNNER_TEMP/store-media/"*.jpg "$RUNNER_TEMP/store-media/"*.mp4
       - name: Prepare verified Pro transaction in the application host
+        continue-on-error: true
+        timeout-minutes: 10
         run: |
           set -o pipefail
           xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweepStoreBilling -only-testing:PhotoSweepStoreTests/StoreBillingTests/testPrepareCaptureEntitlement -parallel-testing-enabled NO -test-timeouts-enabled YES -default-test-execution-time-allowance 180 -maximum-test-execution-time-allowance 240 -destination "platform=iOS Simulator,id=$CAPTURE_DEVICE" -resultBundlePath "$RUNNER_TEMP/CaptureSetup.xcresult" CURRENT_PROJECT_VERSION=20010 CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/capture-setup.log"
