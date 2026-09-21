@@ -1,7 +1,7 @@
 {
   "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
   "branch": "codex/swiftui-2",
-  "activeStep": "Finish real store captures in 35619661636 (capture-only 2a7f574; 20010 product sources unchanged). Prior capture setup timed out; do not call it passed. Three IAP/group items now in one Apple submission draft; app version not yet added.",
+  "activeStep": "Apple review submission completed for 2.0.0 (20010) at 2026-09-22 00:48 JST. WAITING_FOR_REVIEW verified via API for both version and submission. Keep MANUAL release; remaining optional/full-release checks are not passed.",
   "lastFullPass": {
     "commit": "8e25d20",
     "run": 35609343455,
@@ -11,7 +11,7 @@
     "build": 20004,
     "detail": "User reports slow home-to-swipe transition and crash with fewer than 1000 assets; feedback AB2mJnQlrAPe_IINV2fbit8 exists, detailed crash log unavailable (404)."
   },
-  "pendingVerification": "User confirmed 20010 purchase, restart, restore, saved-record preservation, test deletion and compressed video quality/audio/orientation all normal. Store screenshots, automated purchase UI diagnosis and remaining accessibility/gesture evidence remain.",
+  "pendingVerification": "Apple review pending. Manual public release still needs final user review. Full-release physical haptics/VoiceOver/limited-permission checks remain incomplete. Capture-only run 35619661636 failed separately; no claim all extended tests pass.",
   "apple": {
     "appID": "6813565278",
     "bundleID": "com.kokicoder.photosweep",
@@ -20,7 +20,7 @@
     "jaEnVersionCopy": "drafts saved",
     "englishName": "PhotoSweep: Swipe & Compress (saved)",
     "products": "Monthly 6813714786 and lifetime 6813716201 READY_TO_SUBMIT; real review images COMPLETE. JPN monthly1500/lifetime6000, eligible one-week trial. Device purchase/restore confirmed.",
-    "submitted": false,
+    "submitted": true,
     "delivery": {
       "build": "20010",
       "buildID": "b90d261e-724e-4ee3-95b2-b81b0c01edc1",
@@ -37,15 +37,16 @@
     "reviewContact": "User-confirmed contact saved and read back through Apple API on 2026-09-21; private phone is not stored in this repository.",
     "reviewDraft": {
       "id": "aa876e0b-9556-4677-9fc2-fc761c5080a5",
-      "state": "READY_FOR_REVIEW",
-      "submittedDate": null,
+      "state": "WAITING_FOR_REVIEW",
+      "submittedDate": "2026-09-21T15:48:15.741Z",
       "items": [
         "lifetime 6813716201",
         "monthly 6813714786",
         "subscription group 22396441"
       ],
-      "appVersionIncluded": false
-    }
+      "appVersionIncluded": true
+    },
+    "initialScreenshots": "JA/EN two real images each; all COMPLETE. Home and Pro. Fourteen-image expansion deferred on repeated user request to prioritize submission."
   },
   "signing": {
     "environment": "apple-distribution",

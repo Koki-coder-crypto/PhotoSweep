@@ -9,13 +9,16 @@
   "privacyURL": "https://koki-coder-crypto.github.io/PhotoSweep/ja/privacy.html",
   "termsURL": "https://koki-coder-crypto.github.io/PhotoSweep/ja/terms.html",
   "appStoreConnectAppID": "6813565278",
-  "approvedBinaryBuild": "",
+  "approvedBinaryBuild": "20010",
   "evidence": {
     "nativeCI": {
       "status": "PASS",
       "evidence": "8e25d20 / 20010: 29 unit and 3 UI tests passed; signed archive and Apple upload succeeded. https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35609343455"
     },
-    "simulatorJapaneseEnglish": "PENDING",
+    "simulatorJapaneseEnglish": {
+      "status": "PASS",
+      "evidence": "20010 native run 35609343455 passes English onboarding/tabs/resume and Japanese onboarding; initial Japanese/English home and real StoreKit paywall captures from 35611307866 visually inspected. Full seven-screen flow is separate and not claimed passed."
+    },
     "oldAppUpgradeOnIPhone": {
       "status": "PASS",
       "evidence": "2026-09-21 user confirmation on iPhone 15 / TestFlight 20010: sorting records preserved after update."
@@ -53,6 +56,15 @@
     "photoAnalysisRegression": {
       "status": "PASS",
       "evidence": "35609289939: testCapturePhotoAnalysisEvidence passed on imported local originals after replacing fastFormat with bounded highQualityFormat/exact. Store screenshot navigation failed separately and is being rerun."
+    },
+    "initialStoreScreenshots": {
+      "status": "PASS",
+      "evidence": "2026-09-22: two 1284x2778 real screenshots per locale (home, Pro), from unchanged 20010 app sources, all four Apple assets COMPLETE. Sets ja 57af1e02-1bc3-4050-adfb-c71b28864e69 / en ac6030aa-9fc2-4e65-b5fb-002e2474aec2. Transition frames were excluded. Full fourteen-image plan is deferred, not passed."
     }
+  },
+  "initialSubmission": {
+    "releaseMode": "MANUAL",
+    "reason": "User repeated priority on early review submission on 2026-09-22. Initial listing uses two inspected real screenshots per locale. Core native tests and explicitly confirmed device purchase/media checks pass. Remaining accessibility/permission/physical haptic work is retained for manual public release, not silently marked passed.",
+    "fullReleaseGateRetained": true
   }
 }

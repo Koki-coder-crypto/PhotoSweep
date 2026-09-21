@@ -1,3 +1,15 @@
+# Submitted — 2026-09-22 00:48 JST
+
+Apple API confirms WAITING_FOR_REVIEW for version 2.0.0 (build 20010) and submission aa876e0b-9556-4677-9fc2-fc761c5080a5. Submitted timestamp: 2026-09-21T15:48:15.741Z. Release type remains MANUAL.
+
+Submitted together: app version, monthly subscription, lifetime purchase and subscription group. Apple UI confirmed four items submitted. No store publication has occurred.
+
+Initial listing uses two inspected real screens per locale (home and Pro), four 1284x2778 PNGs, all Apple COMPLETE. Original video-list captures were transition frames and were excluded. The fourteen-image expansion is deferred following the user's repeated priority on immediate submission; it is not marked passed.
+
+Core 20010 native regression and user-confirmed purchase/restart/restore, record preservation, deletion and compression evidence are retained. The initial-submission checker is distinct from the unchanged full public-release gate. Physical haptics, VoiceOver and complete permission-change validation remain open; do not mark them passed. Capture-only run 35619661636 failed separately; inspect its diagnostics before any further test changes. No shipping app source was changed during submission preparation.
+
+---
+
 ## Submission draft update — 2026-09-22 JST
 
 - Apple UI confirms three items in the same draft: lifetime, monthly and subscription group. Draft ID aa876e0b-9556-4677-9fc2-fc761c5080a5, API state READY_FOR_REVIEW, submittedDate null. This is NOT a submitted app or Waiting for Review.
