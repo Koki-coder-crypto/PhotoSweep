@@ -35,3 +35,13 @@ Previous assistant guidance favoring leaving treaty-benefit fields blank was not
 - c5153bf requests bounded high-quality local thumbnails instead. No iCloud bulk download. Source checks pass; capture run 35609289939 and full delivery 20010 run 35609343455 pending.
 - Capture attempt 35609086694 was canceled early to correct test navigation / retained compression handling before continuing; no production source difference from its replacement.
 - Device purchase/restore instructions sent. All physical-device gates remain unconfirmed.
+
+
+## Commercial hardening / 20010 verification
+- Direct StoreKit 2 retained; no RevenueCat, purchase server or analytics SDK added.
+- 20010, app revision 8e25d20: 29 unit and 3 UI tests passed; signed upload succeeded in run 35609343455. Apple processing is pending at this checkpoint.
+- StoreKit integration: lifetime purchase/restore/refund, pending approval/relaunch, and declined-pending recheck/user retry passed in run 35607158206. Simulator tests do not establish actual device purchase success or revenue.
+- Bounded PhotoKit fingerprint requests fixed; dedicated imported-photo analysis test passed in 35609289939.
+- Screenshot capture failed on the unrendered bottom home Pro action. Hierarchy evidence confirmed LazyVStack virtualization; test-only scrolling fix is running in 35611307866. Fourteen final screenshots and product review images are not complete yet.
+- Free app download price saved and read back; Mac and Vision distribution disabled. Existing 148 non-EU territories and manual release retained.
+- Japanese operating guide: OPERATIONS_JA.md. Physical purchase/restore and final media checks remain unconfirmed. Do not submit until the release gate passes.

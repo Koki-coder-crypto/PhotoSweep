@@ -1,11 +1,11 @@
 {
   "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
   "branch": "codex/swiftui-2",
-  "activeStep": "20009 b99596e: 29 unit and 3 UI tests passed, signed upload succeeded, Apple VALID / IN_BETA_TESTING and assigned to existing group with bilingual notes. Three StoreKit integration tests passed in 35607158206; photo diagnostic failed with 10 local originals, 0 fingerprints and PhotoKit 3303. Fixed fastFormat to bounded highQualityFormat/exact at c5153bf. 20010 full delivery run 35609343455 and corrected capture run 35609289939 are running. Device QA requested; do not submit yet.",
+  "activeStep": "20010 full verification and upload succeeded in 35609343455; awaiting Apple processing. Photo analysis regression passed in 35609289939. Store captures failed because the bottom Pro action was not rendered before scrolling; exact hierarchy confirmed and test-only fix 7fe36f2 is running in 35611307866. Actual device billing QA pending. No review submission.",
   "lastFullPass": {
-    "commit": "b99596e",
-    "run": 35606569930,
-    "scope": "29 unit tests and 3 UI tests; signed 20009 archive and TestFlight upload succeeded. Apple processing and device validation pending."
+    "commit": "8e25d20",
+    "run": 35609343455,
+    "scope": "29 unit + 3 UI tests passed; signed 20010 upload succeeded. Apple processing / device validation pending."
   },
   "currentFailure": {
     "build": 20004,

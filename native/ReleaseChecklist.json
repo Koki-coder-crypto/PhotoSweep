@@ -13,7 +13,7 @@
   "evidence": {
     "nativeCI": {
       "status": "PASS",
-      "evidence": "b99596e / 20009: 29 unit tests and 3 UI tests passed; signed archive and upload succeeded. https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35606569930"
+      "evidence": "8e25d20 / 20010: 29 unit and 3 UI tests passed; signed archive and Apple upload succeeded. https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35609343455"
     },
     "simulatorJapaneseEnglish": "PENDING",
     "oldAppUpgradeOnIPhone": "NOT_RUN",
@@ -28,6 +28,10 @@
     "storeKitIntegration": {
       "status": "PASS",
       "evidence": "35607158206: testLifetimePurchaseRestoreAndRefund, testPendingApprovalDoesNotGrantPrematureAccess, testDeclinedPendingCanReturnToPlansAfterRecheck passed using real Billing methods and SKTestSession. Photo analysis diagnostic failed separately. Physical Sandbox still unverified."
+    },
+    "photoAnalysisRegression": {
+      "status": "PASS",
+      "evidence": "35609289939: testCapturePhotoAnalysisEvidence passed on imported local originals after replacing fastFormat with bounded highQualityFormat/exact. Store screenshot navigation failed separately and is being rerun."
     }
   }
 }
