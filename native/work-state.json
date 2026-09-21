@@ -1,7 +1,7 @@
 {
   "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
   "branch": "codex/swiftui-2",
-  "activeStep": "Build 20008 is VALID, IN_BETA_TESTING and selected in the store draft. Tax, bank and paid agreement Active; privacy published. User approved no EU distribution: 148 territories enabled, EU27 excluded, automatic new territories disabled, DSA no-EU option saved without public contact details. Capture run 35572299372 still needs diagnosis; purchase/restore device QA pending. See native/Store/SUBMISSION_STATUS.md.",
+  "activeStep": "Billing hardening implemented at b99596e. Full verification and TestFlight build 20009 running in 35606569930. StoreKit integration tests and photo-count diagnostics running with captures in 35607158206. Actual duplicate screen is empty (not a button locator failure); root cause still under investigation. App download set to free, Mac/Vision distribution disabled. Device purchase/restore and complete store imagery remain release gates.",
   "lastFullPass": {
     "commit": "e71cbff",
     "run": 35569734020,
@@ -84,5 +84,16 @@
     "state": "IN_BETA_TESTING",
     "visualQA": "Actual PhotoKit thumbnails and corrected English labels inspected in final simulator capture",
     "devicePlayback": "Not yet verified on iPhone"
+  },
+  "commercialReadiness": {
+    "billing": "Apple StoreKit 2 directly; no RevenueCat",
+    "billingRevision": "b99596e",
+    "deliveryRun": 35606569930,
+    "candidateBuild": "20009",
+    "captureAndBillingRun": 35607158206,
+    "freeDownloadPrice": "API readback JPN customerPrice 0 on 2026-09-21",
+    "macVisionAvailability": "Unchecked and saved in App Store Connect",
+    "integrationTests": "RUNNING; not passed",
+    "devicePurchaseRestore": "NOT_RUN"
   }
 }

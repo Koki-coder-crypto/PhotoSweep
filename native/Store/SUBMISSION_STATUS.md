@@ -16,7 +16,15 @@ Not submitted. Manual release remains selected.
 - Lightweight capture artifact (62 MB) download stalled, then the single retry failed with remote TCP connection closure. No full xcresult download or duplicate cloud build was started.
 - Screenshots and IAP review images still need completion and upload.
 - User reports purchase verification probably not performed. Other destructive-media and compression device checks are not individually confirmed; do not mark them passed.
-- Paid agreement must finish processing; complete product metadata and final submission checks.
+- Paid agreement is Active; product review images and final submission checks remain.
 
 ## Tax guidance correction
 Previous assistant guidance favoring leaving treaty-benefit fields blank was not a determination of eligibility or optimal tax treatment. Acceptance of a tax form is not evidence that treaty benefits were evaluated. Do not alter the user's submitted declarations without informed instructions.
+
+## Commercial hardening — 2026-09-21
+- b99596e: independent verified-entitlement policy, deterministic legacy/lifetime/grace selection, coalesced refresh, pending recheck/retry, visible payment restrictions. Six policy/migration tests added.
+- Build 20009 delivery run 35606569930 started; no pass claimed until it completes.
+- StoreKit integration and capture diagnostic run 35607158206 started. Actual failed capture hierarchy shows an empty duplicate collection, not a mismatched button label. Compact evidence recovered via run 35606822086 without rebuilding the old app.
+- App price saved and read back: JPN 0, equalized free prices. Mac and Vision availability unchecked and saved. EU exclusion unchanged.
+- Monthly price read back: JPN 1500. One-week introductory free trial configured. Products still MISSING_METADATA pending review screenshots.
+- Operations and device purchase/restore instructions added. Physical-device results remain outstanding; application remains PREPARE_FOR_SUBMISSION / MANUAL.
