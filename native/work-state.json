@@ -1,7 +1,7 @@
 {
   "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
   "branch": "codex/swiftui-2",
-  "activeStep": "20010 VALID/IN_BETA_TESTING and selected as store draft candidate. Both IAPs READY_TO_SUBMIT after real paywall review screenshots uploaded. Store capture purchase UI does not close after purchase; direct StoreKit integration passed but UI failure unresolved. Evidence-enhanced capture run 35612896237 running. Need 14 final screenshots and actual device QA before submission.",
+  "activeStep": "20010 user confirmed actual purchase/restart/restore all normal. Both IAPs READY_TO_SUBMIT. Finish 14 store captures; inspect evidence-enhanced UI run 35612896237 failure separately from successful device purchase. Do not claim remaining media/accessibility checks passed.",
   "lastFullPass": {
     "commit": "8e25d20",
     "run": 35609343455,
@@ -11,7 +11,7 @@
     "build": 20004,
     "detail": "User reports slow home-to-swipe transition and crash with fewer than 1000 assets; feedback AB2mJnQlrAPe_IINV2fbit8 exists, detailed crash log unavailable (404)."
   },
-  "pendingVerification": "iPhone muted preview playback, navigation stop/resume, low power, Reduce Motion, memory and audio-interruption checks; deletion/compression/Sandbox release checks still pending.",
+  "pendingVerification": "User confirmed 20010 purchase, restart, restore, saved-record preservation, test deletion and compressed video quality/audio/orientation all normal. Store screenshots, automated purchase UI diagnosis and remaining accessibility/gesture evidence remain.",
   "apple": {
     "appID": "6813565278",
     "bundleID": "com.kokicoder.photosweep",

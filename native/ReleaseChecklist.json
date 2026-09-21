@@ -16,12 +16,24 @@
       "evidence": "8e25d20 / 20010: 29 unit and 3 UI tests passed; signed archive and Apple upload succeeded. https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35609343455"
     },
     "simulatorJapaneseEnglish": "PENDING",
-    "oldAppUpgradeOnIPhone": "NOT_RUN",
+    "oldAppUpgradeOnIPhone": {
+      "status": "PASS",
+      "evidence": "2026-09-21 user confirmation on iPhone 15 / TestFlight 20010: sorting records preserved after update."
+    },
     "oneHundredGesturesAndHaptics": "NOT_RUN",
     "limitedAccessAndRevocation": "NOT_RUN",
-    "realDeletionAndUnknownResult": "NOT_RUN",
-    "compressionQualityAudioOrientation": "NOT_RUN",
-    "sandboxPurchaseRestorePending": "NOT_RUN",
+    "realDeletionAndUnknownResult": {
+      "status": "PASS",
+      "evidence": "2026-09-21 user confirmation on iPhone 15 / TestFlight 20010: test photo deletion succeeded; unknown-result handling is covered separately by native regression, not claimed as a physical unknown-result test."
+    },
+    "compressionQualityAudioOrientation": {
+      "status": "PASS",
+      "evidence": "2026-09-21 user confirmation on iPhone 15 / TestFlight 20010: saved compressed video quality, sound and orientation all normal."
+    },
+    "sandboxPurchaseRestorePending": {
+      "status": "PASS",
+      "evidence": "2026-09-21: user explicitly confirmed TestFlight 20010 purchase, restart and Restore purchases all normal on their iPhone 15. Pending/approval/decline branches separately passed SKTestSession tests in 35607158206; no claim of real proceeds."
+    },
     "voiceOverAndLargeText": "NOT_RUN",
     "storeScreenshotsFourteen": "NOT_RUN",
     "privacyLegalAndRegionalDeclarations": "NOT_RUN",
