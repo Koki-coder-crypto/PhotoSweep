@@ -1,7 +1,7 @@
 {
   "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
   "branch": "codex/swiftui-2",
-  "activeStep": "Finish fourteen real screenshots from unchanged 20010 app sources. Capture 35617069084 uses app-hosted verified StoreKit setup and handles the analysis Continue label. No new product features or duplicate signed build.",
+  "activeStep": "Finish real store captures in 35619661636 (capture-only 2a7f574; 20010 product sources unchanged). Prior capture setup timed out; do not call it passed. Three IAP/group items now in one Apple submission draft; app version not yet added.",
   "lastFullPass": {
     "commit": "8e25d20",
     "run": 35609343455,
@@ -34,7 +34,18 @@
       "storeDraftBuildSelected": true,
       "testNotes": "JA/EN 20010 device checks saved"
     },
-    "reviewContact": "User-confirmed contact saved and read back through Apple API on 2026-09-21; private phone is not stored in this repository."
+    "reviewContact": "User-confirmed contact saved and read back through Apple API on 2026-09-21; private phone is not stored in this repository.",
+    "reviewDraft": {
+      "id": "aa876e0b-9556-4677-9fc2-fc761c5080a5",
+      "state": "READY_FOR_REVIEW",
+      "submittedDate": null,
+      "items": [
+        "lifetime 6813716201",
+        "monthly 6813714786",
+        "subscription group 22396441"
+      ],
+      "appVersionIncluded": false
+    }
   },
   "signing": {
     "environment": "apple-distribution",

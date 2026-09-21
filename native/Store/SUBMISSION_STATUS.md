@@ -1,3 +1,9 @@
+## Submission draft update — 2026-09-22 JST
+
+- Apple UI confirms three items in the same draft: lifetime, monthly and subscription group. Draft ID aa876e0b-9556-4677-9fc2-fc761c5080a5, API state READY_FOR_REVIEW, submittedDate null. This is NOT a submitted app or Waiting for Review.
+- App version remains PREPARE_FOR_SUBMISSION; screenshots and remaining verification are incomplete.
+- Capture setup 35618387364 timed out after three minutes in testPrepareCaptureEntitlement. Reworked setup uses an official Apple test transaction then the production entitlement reader; separate UI capture is allowed to gather independent evidence even if setup fails. Run 35619661636 pending. No new signed build.
+
 # Current checkpoint — 2026-09-22 JST
 
 Not yet submitted. Build 20010 is VALID, in the existing TestFlight group and selected on the App Store version draft. Manual release remains enabled.
