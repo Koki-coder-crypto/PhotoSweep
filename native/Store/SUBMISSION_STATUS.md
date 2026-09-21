@@ -28,3 +28,10 @@ Previous assistant guidance favoring leaving treaty-benefit fields blank was not
 - App price saved and read back: JPN 0, equalized free prices. Mac and Vision availability unchecked and saved. EU exclusion unchanged.
 - Monthly price read back: JPN 1500. One-week introductory free trial configured. Products still MISSING_METADATA pending review screenshots.
 - Operations and device purchase/restore instructions added. Physical-device results remain outstanding; application remains PREPARE_FOR_SUBMISSION / MANUAL.
+
+## Follow-up verification
+- 20009: native delivery run 35606569930 SUCCESS, 29 unit + 3 UI tests passed. Apple build b867f9ad-1399-4421-9c72-02e2eae684ed is VALID / IN_BETA_TESTING, assigned to the existing internal group. Bilingual test notes saved. Store draft still selects 20008 pending final candidate.
+- Run 35607158206: lifetime purchase/restore/refund, pending approval/relaunch and declined-pending recovery all PASS. Separate photo diagnostic FAIL: 10 assets with single resources, 8 readable digests (batch bound), but zero fingerprints; PhotoKit error 3303 with fast thumbnail requests.
+- c5153bf requests bounded high-quality local thumbnails instead. No iCloud bulk download. Source checks pass; capture run 35609289939 and full delivery 20010 run 35609343455 pending.
+- Capture attempt 35609086694 was canceled early to correct test navigation / retained compression handling before continuing; no production source difference from its replacement.
+- Device purchase/restore instructions sent. All physical-device gates remain unconfirmed.

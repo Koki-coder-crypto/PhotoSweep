@@ -1,11 +1,11 @@
 {
   "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
   "branch": "codex/swiftui-2",
-  "activeStep": "Billing hardening implemented at b99596e. Full verification and TestFlight build 20009 running in 35606569930. StoreKit integration tests and photo-count diagnostics running with captures in 35607158206. Actual duplicate screen is empty (not a button locator failure); root cause still under investigation. App download set to free, Mac/Vision distribution disabled. Device purchase/restore and complete store imagery remain release gates.",
+  "activeStep": "20009 b99596e: 29 unit and 3 UI tests passed, signed upload succeeded, Apple VALID / IN_BETA_TESTING and assigned to existing group with bilingual notes. Three StoreKit integration tests passed in 35607158206; photo diagnostic failed with 10 local originals, 0 fingerprints and PhotoKit 3303. Fixed fastFormat to bounded highQualityFormat/exact at c5153bf. 20010 full delivery run 35609343455 and corrected capture run 35609289939 are running. Device QA requested; do not submit yet.",
   "lastFullPass": {
-    "commit": "e71cbff",
-    "run": 35569734020,
-    "scope": "23 unit tests, 3 UI tests including repeated transitions and 100 actions, signed archive and TestFlight upload"
+    "commit": "b99596e",
+    "run": 35606569930,
+    "scope": "29 unit tests and 3 UI tests; signed 20009 archive and TestFlight upload succeeded. Apple processing and device validation pending."
   },
   "currentFailure": {
     "build": 20004,
@@ -22,8 +22,8 @@
     "products": "monthly/lifetime created, Japan 1500/6000 JPY, one-week monthly trial, JA/EN labels and world availability saved; review screenshots and Sandbox pending",
     "submitted": false,
     "delivery": {
-      "build": "20008",
-      "buildID": "7b2afc25-dffa-4d1d-93f6-6510c9c9c87c",
+      "build": "20009",
+      "buildID": "b867f9ad-1399-4421-9c72-02e2eae684ed",
       "processingState": "VALID",
       "internalBuildState": "IN_BETA_TESTING",
       "externalBuildState": "READY_FOR_BETA_SUBMISSION",
@@ -31,8 +31,8 @@
       "checkedDate": "2026-09-21",
       "internalGroupID": "9fed719d-dab9-4ba3-b6f9-7c6488f7628d",
       "testers": "Existing user-confirmed internal tester retained; no additional testers invited.",
-      "storeDraftBuildSelected": true,
-      "testNotes": "JA/EN 20008 policy update and release QA notes saved"
+      "storeDraftBuildSelected": false,
+      "testNotes": "JA/EN billing verification instructions saved"
     },
     "reviewContact": "User-confirmed contact saved and read back through Apple API on 2026-09-21; private phone is not stored in this repository."
   },
@@ -88,12 +88,13 @@
   "commercialReadiness": {
     "billing": "Apple StoreKit 2 directly; no RevenueCat",
     "billingRevision": "b99596e",
-    "deliveryRun": 35606569930,
-    "candidateBuild": "20009",
-    "captureAndBillingRun": 35607158206,
+    "deliveryRun": 35609343455,
+    "candidateBuild": "20010",
+    "captureAndBillingRun": 35609289939,
     "freeDownloadPrice": "API readback JPN customerPrice 0 on 2026-09-21",
     "macVisionAvailability": "Unchecked and saved in App Store Connect",
-    "integrationTests": "RUNNING; not passed",
-    "devicePurchaseRestore": "NOT_RUN"
+    "integrationTests": "Three StoreKit tests PASS in 35607158206; photo diagnostic failed separately",
+    "devicePurchaseRestore": "NOT_RUN",
+    "deliveryResult": "20009 VALID / IN_BETA_TESTING; 20010 running"
   }
 }
