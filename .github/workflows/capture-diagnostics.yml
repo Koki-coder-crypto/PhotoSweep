@@ -37,9 +37,11 @@ jobs:
               for test in json.loads(manifest.read_text()):
                   for item in test['attachments']:
                       label = item['suggestedHumanReadableName']
-                      if label.startswith(('ja-review-', 'en-review-')):
+                      if label.startswith(('ja-0', 'en-0', 'ja-review-', 'en-review-')):
                           source = manifest.parent / item['exportedFileName']
-                          shutil.copy(source, Path('compact') / label)
+                          # Retain exact originals referenced by the capture manifest,
+                          # without downloading large XCTest screen recordings.
+                          shutil.copy(source, Path('compact') / source.name)
           for path in Path('original').rglob('*'):
               if path.suffix == '.json':
                   name = path.parent.name + '-' + path.name if path.name == 'manifest.json' else path.name

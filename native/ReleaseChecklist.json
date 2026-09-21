@@ -36,7 +36,10 @@
     },
     "voiceOverAndLargeText": "NOT_RUN",
     "storeScreenshotsFourteen": "NOT_RUN",
-    "privacyLegalAndRegionalDeclarations": "NOT_RUN",
+    "privacyLegalAndRegionalDeclarations": {
+      "status": "PASS",
+      "evidence": "2026-09-21: App Privacy published as no collected data; direct Apple StoreKit and local PhotoKit/AVFoundation retained without analytics or external purchase server. Paid agreement/bank/tax active, free download price configured, EU27 excluded (148 territories), Mac/Vision disabled, manual release. Content rights set to DOES_NOT_USE_THIRD_PARTY_CONTENT for the local-library utility with no third-party content distribution. Apple pre-review validation remaining issue is screenshots."
+    },
     "storeKitIntegration": {
       "status": "PASS",
       "evidence": "35607158206: testLifetimePurchaseRestoreAndRefund, testPendingApprovalDoesNotGrantPrematureAccess, testDeclinedPendingCanReturnToPlansAfterRecheck passed using real Billing methods and SKTestSession. Photo analysis diagnostic failed separately. Physical Sandbox still unverified."
