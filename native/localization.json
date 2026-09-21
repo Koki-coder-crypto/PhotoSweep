@@ -986,5 +986,13 @@
   "contact.email": [
     "メールで問い合わせ",
     "Email support"
+  ],
+  "home.previewEmpty": [
+    "この分類の写真・動画はありません",
+    "No items in this category"
+  ],
+  "home.silentPreview": [
+    "無音プレビュー",
+    "Muted preview"
   ]
 }

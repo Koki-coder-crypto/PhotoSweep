@@ -64,6 +64,10 @@ final class FlowTests: XCTestCase {
         }
         XCTAssertTrue(found, "Full photo access permission control must be present")
         (systemAllow.exists ? systemAllow : appAllow).tap()
+        let photoCategory = app.buttons["home.category.all"]
+        for _ in 0..<8 where !photoCategory.isHittable { app.swipeUp() }
+        XCTAssertTrue(photoCategory.waitForExistence(timeout: 10))
+        capture("en-home-real-category-thumbnails")
         app.tabBars.buttons["Swipe"].tap(); tap("Start swiping", app: app)
         let keep = app.buttons["swipe.keep"], undo = app.buttons["swipe.undo"], candidate = app.buttons["swipe.candidate"]
         XCTAssertTrue(keep.waitForExistence(timeout: 15)); XCTAssertTrue(keep.isHittable)

@@ -10,13 +10,14 @@ import OSLog
     @Published var busy = false
     @Published var error: String?
     @Published var fatal: String?
-    @Published var photos: [MediaItem] = []
+    @Published var photos: [MediaItem] = [] { didSet { rebuildHomePreviews() } }
     private(set) var mediaIndex = MediaIndex()
     private(set) var reviewedByMonth: [String: Int] = [:]
     @Published var loading = false
     @Published var analyzing = false
     @Published var analysisComplete = false
-    @Published var groups: [PhotoGroup] = []
+    @Published var groups: [PhotoGroup] = [] { didSet { rebuildHomePreviews() } }
+    private(set) var homePreviews: [Category: HomeMediaSummary] = [:]
     @Published var permission = PHAuthorizationStatus.notDetermined
     @Published var freeBytes: Double?
     @Published var totalBytes: Double?
@@ -121,6 +122,9 @@ import OSLog
             } catch { self.error = L("library.failed") }
         }
     }
+    private func rebuildHomePreviews() {
+        homePreviews = HomeMediaSummary.build(photos: photos, groups: groups, sizes: state.sizes)
+    }
     func storage() {
         let values = try? FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory())
         freeBytes = (values?[.systemFreeSize] as? NSNumber)?.doubleValue
@@ -167,6 +171,7 @@ import OSLog
             guard let size = await library.size(id) else { continue }
             while busy && !Task.isCancelled { try? await Task.sleep(nanoseconds: 50_000_000) }
             _ = await mutate { s in var next = s; next.sizes[id] = size; return next }
+            rebuildHomePreviews()
         }
     }
     func deleteCandidates(_ ids: [String]) async {

@@ -21,9 +21,23 @@ struct RootView: View {
 struct HomeView: View {
     @EnvironmentObject var app: AppModel
     @EnvironmentObject var billing: Billing
+    @StateObject private var preview = HomePreviewPlayer()
+    @Environment(\.scenePhase) private var phase
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var frames: [Category: CGRect] = [:]
+    @State private var viewportHeight: CGFloat = 0
+    @State private var visible = false
+    @State private var lowPower = ProcessInfo.processInfo.isLowPowerModeEnabled
+    @State private var memoryPaused = false
+    private func updatePreview() {
+        let allowed = visible && app.tab == 0 && phase == .active && !reduceMotion && !app.state.settings.reduceMotion
+            && !lowPower && !memoryPaused && !app.paywall && !app.showResult && !app.replay && !app.state.needsOnboarding
+        preview.show(allowed ? HomePreviewPlayer.visibleCategory(frames: frames, height: viewportHeight, summaries: app.homePreviews) : nil, summaries: app.homePreviews)
+    }
     var body: some View {
+        GeometryReader { viewport in
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
+            LazyVStack(alignment: .leading, spacing: 20) {
                 HStack(spacing: 12) { Image("BrandMark").resizable().frame(width: 48, height: 48); VStack(alignment: .leading) { Text("PhotoSweep").font(.title.bold()); Text(L("home.headline")).foregroundStyle(.secondary) }; Spacer() }
                 if app.state.onboarding?.homeHintSeen == false && app.state.onboarded {
                     Panel {
@@ -36,14 +50,13 @@ struct HomeView: View {
                 if let free = app.freeBytes, let total = app.totalBytes {
                     Panel { HStack { Label(L("storage.free"), systemImage: "internaldrive"); Spacer(); Text(bytesText(free)).fontWeight(.semibold) }; ProgressView(value: total - free, total: total); Text(String(format: L("storage.total"), bytesText(total))).font(.caption).foregroundStyle(.secondary) }
                 } else { Button(L("storage.retry")) { app.storage() } }
-                NavigationLink { CollectionView(category: .videos) } label: {
-                    Panel { Label(L("category.videos"), systemImage: "video.fill").font(.title2.bold()); Text(L("home.videosDetail")).foregroundStyle(.secondary); HStack { Text(String(format: L("count.videos"), app.photos.filter { $0.kind == .video }.count)); Spacer(); Image(systemName: "arrow.right.circle.fill").font(.title) } }
-                }.buttonStyle(.plain)
-                HStack { Text(L("home.compare")).font(.title2.bold()); Spacer(); if app.analyzing { ProgressView() } }
-                ForEach([Category.similar, .duplicate, .screenshots, .recordings, .all, .compression], id: \.self) { category in
-                    NavigationLink { CollectionView(category: category) } label: {
-                        HStack(spacing: 16) { Image(systemName: category.symbol).font(.title2).frame(width: 44, height: 44).background(Color.accentColor.opacity(0.1), in: RoundedRectangle(cornerRadius: 12)); VStack(alignment: .leading) { Text(L(category.title)).font(.headline); Text(L(category == .compression ? "pro.feature" : (app.analyzing && (category == .similar || category == .duplicate) ? "analysis.running" : "home.choose"))).font(.caption).foregroundStyle(.secondary) }; Spacer(); Image(systemName: "chevron.right").foregroundStyle(.secondary) }.padding(16).background(Color(uiColor: .secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 16))
-                    }.buttonStyle(.plain)
+                ForEach([Category.videos, .similar, .duplicate, .screenshots, .recordings, .all, .compression], id: \.self) { category in
+                    NavigationLink {
+                        CollectionView(category: category)
+                    } label: {
+                        HomeMediaCard(category: category, summary: app.homePreviews[category] ?? HomeMediaSummary(),
+                                      pending: app.loading || ((category == .similar || category == .duplicate) && app.analyzing), preview: preview)
+                    }.buttonStyle(.plain).accessibilityIdentifier("home.category." + category.rawValue)
                 }
                 Panel { Text(L("home.months")).font(.title2.bold()); Text(L("home.monthsDetail")); ActionButton(title: app.state.session == nil ? "swipe.start" : "swipe.resume", symbol: "rectangle.stack") { app.tab = 1 } }
                 QuotaLabel()
@@ -52,6 +65,27 @@ struct HomeView: View {
         }.background(Color(uiColor: .systemGroupedBackground)).navigationTitle(L("tab.organize")).navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .navigationBarTrailing) { NavigationLink { SettingsView() } label: { Image(systemName: "gearshape").accessibilityLabel(L("settings.title")) } } }
             .refreshable { app.reload() }
+            .coordinateSpace(name: "homeViewport")
+            .onPreferenceChange(HomeCardFrames.self) { frames = $0; viewportHeight = viewport.size.height; updatePreview() }
+            .onAppear { visible = true; memoryPaused = false; viewportHeight = viewport.size.height; updatePreview() }
+            .onDisappear { visible = false; preview.stop() }
+            .onChange(of: app.tab) { _ in updatePreview() }
+            .onChange(of: phase) { _ in updatePreview() }
+            .onChange(of: reduceMotion) { _ in updatePreview() }
+            .onChange(of: app.state.settings.reduceMotion) { _ in updatePreview() }
+            .onChange(of: app.paywall) { _ in updatePreview() }
+            .onChange(of: app.showResult) { _ in updatePreview() }
+            .onChange(of: app.replay) { _ in updatePreview() }
+            .onChange(of: app.state.needsOnboarding) { _ in updatePreview() }
+            .onChange(of: app.homePreviews[.videos]?.videoID) { _ in updatePreview() }
+            .onChange(of: app.homePreviews[.recordings]?.videoID) { _ in updatePreview() }
+            .onReceive(NotificationCenter.default.publisher(for: .NSProcessInfoPowerStateDidChange)) { _ in
+                lowPower = ProcessInfo.processInfo.isLowPowerModeEnabled; updatePreview()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didReceiveMemoryWarningNotification)) { _ in
+                memoryPaused = true; preview.stop()
+            }
+        }
     }
 }
 struct QuotaLabel: View {

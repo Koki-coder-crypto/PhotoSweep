@@ -243,3 +243,5 @@
 "compression.retrySettings" = "Convert with selected settings";
 "compression.retryNote" = "Replaces this unsaved preview. Your original remains unchanged.";
 "contact.email" = "メールで問い合わせ";
+"home.previewEmpty" = "この分類の写真・動画はありません";
+"home.silentPreview" = "無音プレビュー";

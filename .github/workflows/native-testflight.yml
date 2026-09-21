@@ -81,6 +81,15 @@ jobs:
           xcrun simctl bootstatus "$DEVICE" -b
           xcrun simctl addmedia "$DEVICE" "$RUNNER_TEMP/qa-media/"*.png
           xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweep -parallel-testing-enabled NO -destination "platform=iOS Simulator,id=$DEVICE" -resultBundlePath "$RUNNER_TEMP/DeliveryTests.xcresult" CURRENT_PROJECT_VERSION="$BUILD_NUMBER" CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/delivery-tests.log"
+      - name: Export simulator screenshots
+        if: always()
+        run: xcrun xcresulttool export attachments --path "$RUNNER_TEMP/DeliveryTests.xcresult" --output-path "$RUNNER_TEMP/native-captures" || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-ui-captures
+          path: ${{ runner.temp }}/native-captures
+          retention-days: 3
       - name: Archive native app
         run: |
           set -euo pipefail
