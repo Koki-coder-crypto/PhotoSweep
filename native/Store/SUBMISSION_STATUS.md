@@ -1,3 +1,15 @@
+# Current checkpoint — 2026-09-22 JST
+
+Not yet submitted. Build 20010 is VALID, in the existing TestFlight group and selected on the App Store version draft. Manual release remains enabled.
+
+- User explicitly confirmed purchase, restart, restore, record preservation, test deletion, and compressed video quality/audio/orientation on 20010.
+- Both paid products are READY_TO_SUBMIT. Their real paywall review images are uploaded and COMPLETE.
+- Fourteen marketing screenshots are still incomplete. Capture 35614996513 showed a missing app-side Pro entitlement despite a UI-runner test transaction, and a Japanese analysis button label change. Capture-only correction 753d442 is running in 35617069084; it does not change the distributed application.
+- Automatic 100+ sorting/undo actions, 30 home/swipe round trips and AccessibilityXXXL controls passed on 20010. Physical haptics/VoiceOver and remaining permission checks are not claimed as passed.
+- No additional features or duplicate signed build are being introduced. Finish actual screenshot evidence and remaining verification before review submission.
+
+Older checkpoints below are retained as history, not current status.
+
 # Submission checkpoint — 2026-09-21
 
 Not submitted. Manual release remains selected.

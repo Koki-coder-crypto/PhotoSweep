@@ -32,7 +32,9 @@ def package(source, output, font_path, revision):
                 if key in captures:
                     raise ValueError(f'Duplicate capture: {key}; choose one verified test run')
                 captures[key] = source / item['exportedFileName']
-    expected = {(lang, name) for lang in ('ja', 'en') for name in [*COPY, 'review-monthly', 'review-lifetime']}
+    # IAP review images have their own upload/evidence record; marketing requires
+    # all fourteen real screens, but must not require repurchasing for new copies.
+    expected = {(lang, name) for lang in ('ja', 'en') for name in COPY}
     missing = expected - captures.keys()
     if missing:
         raise ValueError(f'Incomplete capture set: {sorted(missing)}')

@@ -20,7 +20,10 @@
       "status": "PASS",
       "evidence": "2026-09-21 user confirmation on iPhone 15 / TestFlight 20010: sorting records preserved after update."
     },
-    "oneHundredGesturesAndHaptics": "NOT_RUN",
+    "oneHundredGesturesAndHaptics": {
+      "status": "PARTIAL",
+      "evidence": "20010 run 35609343455 passes 30 home/swipe round trips and 100+ sorting/undo button actions. Physical drag/haptic assessment is not confirmed; user asked the agent to perform it, which is not a device PASS."
+    },
     "limitedAccessAndRevocation": "NOT_RUN",
     "realDeletionAndUnknownResult": {
       "status": "PASS",
@@ -34,7 +37,10 @@
       "status": "PASS",
       "evidence": "2026-09-21: user explicitly confirmed TestFlight 20010 purchase, restart and Restore purchases all normal on their iPhone 15. Pending/approval/decline branches separately passed SKTestSession tests in 35607158206; no claim of real proceeds."
     },
-    "voiceOverAndLargeText": "NOT_RUN",
+    "voiceOverAndLargeText": {
+      "status": "PARTIAL",
+      "evidence": "20010 run 35609343455 passes resumed-session controls at AccessibilityXXXL. Physical VoiceOver output/interaction not observed."
+    },
     "storeScreenshotsFourteen": "NOT_RUN",
     "privacyLegalAndRegionalDeclarations": {
       "status": "PASS",
@@ -42,7 +48,7 @@
     },
     "storeKitIntegration": {
       "status": "PASS",
-      "evidence": "35607158206: testLifetimePurchaseRestoreAndRefund, testPendingApprovalDoesNotGrantPrematureAccess, testDeclinedPendingCanReturnToPlansAfterRecheck passed using real Billing methods and SKTestSession. Photo analysis diagnostic failed separately. Physical Sandbox still unverified."
+      "evidence": "35607158206: testLifetimePurchaseRestoreAndRefund, testPendingApprovalDoesNotGrantPrematureAccess, testDeclinedPendingCanReturnToPlansAfterRecheck passed using real Billing methods and SKTestSession. Photo analysis diagnostic failed separately. Physical Sandbox still unverified. Subsequent actual 20010 TestFlight purchase/restart/restore explicitly confirmed by user."
     },
     "photoAnalysisRegression": {
       "status": "PASS",

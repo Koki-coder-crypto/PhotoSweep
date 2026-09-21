@@ -1,11 +1,11 @@
 {
   "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
   "branch": "codex/swiftui-2",
-  "activeStep": "20010 user confirmed actual purchase/restart/restore all normal. Both IAPs READY_TO_SUBMIT. Finish 14 store captures; inspect evidence-enhanced UI run 35612896237 failure separately from successful device purchase. Do not claim remaining media/accessibility checks passed.",
+  "activeStep": "Finish fourteen real screenshots from unchanged 20010 app sources. Capture 35617069084 uses app-hosted verified StoreKit setup and handles the analysis Continue label. No new product features or duplicate signed build.",
   "lastFullPass": {
     "commit": "8e25d20",
     "run": 35609343455,
-    "scope": "29 unit + 3 UI tests passed; signed 20010 upload succeeded. Apple processing / device validation pending."
+    "scope": "29 unit + 3 UI tests passed; signed 20010 upload succeeded. Apple VALID / IN_BETA_TESTING; user confirmed purchase/restart/restore, records, deletion and compressed video quality/audio/orientation."
   },
   "currentFailure": {
     "build": 20004,
@@ -19,7 +19,7 @@
     "release": "manual",
     "jaEnVersionCopy": "drafts saved",
     "englishName": "PhotoSweep: Swipe & Compress (saved)",
-    "products": "Monthly 6813714786 and lifetime 6813716201 READY_TO_SUBMIT; real English paywall review PNGs uploaded from capture 35611307866, 20010 app sources. Japan 1500/6000 JPY; eligible one-week trial and legacy rights retained. Actual device purchase/restore pending.",
+    "products": "Monthly 6813714786 and lifetime 6813716201 READY_TO_SUBMIT; real review images COMPLETE. JPN monthly1500/lifetime6000, eligible one-week trial. Device purchase/restore confirmed.",
     "submitted": false,
     "delivery": {
       "build": "20010",
@@ -47,8 +47,7 @@
     "appStoreProfile": "S9ZHSZA67D, IOS_APP_STORE, installed in IOS_PROFILE_BASE64; matches existing certificate 553368FCYU; no existing certificate changed"
   },
   "userInputPending": [
-    "Physical iPhone revalidation of performance fix, then deletion/compression and Sandbox checks.",
-    "Legal/regional declarations requiring personal attestation, if applicable."
+    "Physical haptic feel and VoiceOver use are not verified by the agent; remaining automated accessibility/permission evidence is incomplete."
   ],
   "modelPreference": "User explicitly requested gpt-5.6-terra for continued implementation",
   "preserve": [
@@ -90,11 +89,11 @@
     "billingRevision": "b99596e",
     "deliveryRun": 35609343455,
     "candidateBuild": "20010",
-    "captureAndBillingRun": 35609289939,
+    "captureAndBillingRun": 35617069084,
     "freeDownloadPrice": "API readback JPN customerPrice 0 on 2026-09-21",
     "macVisionAvailability": "Unchecked and saved in App Store Connect",
     "integrationTests": "Three StoreKit tests PASS in 35607158206; photo diagnostic failed separately",
-    "devicePurchaseRestore": "NOT_RUN",
-    "deliveryResult": "20009 VALID / IN_BETA_TESTING; 20010 running"
+    "devicePurchaseRestore": "PASS: explicit user confirmation on TestFlight 20010",
+    "deliveryResult": "20010 VALID / IN_BETA_TESTING; selected on store draft"
   }
 }
