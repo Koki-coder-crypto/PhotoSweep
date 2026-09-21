@@ -1,17 +1,17 @@
 {
   "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
   "branch": "codex/swiftui-2",
-  "activeStep": "Build 20005: native performance fixes implemented; full regression and signed delivery pending. Device crash feedback received; Apple crashLog endpoint returned 404, root cause unconfirmed.",
+  "activeStep": "Build 20005 is VALID and assigned to the existing internal group. Await iPhone home-to-swipe revalidation before final media/Sandbox QA and storefront captures; public pages and private review contacts are configured.",
   "lastFullPass": {
-    "commit": "f7061b9",
-    "run": 35414805818,
-    "scope": "17 unit tests, 3 UI tests, signed iPhone-only archive verification, export and TestFlight upload; Apple processing VALID"
+    "commit": "040a81a",
+    "run": 35565793991,
+    "scope": "20 unit tests, 3 UI tests including repeated transitions and 100 actions, signed archive and TestFlight upload"
   },
   "currentFailure": {
     "build": 20004,
     "detail": "User reports slow home-to-swipe transition and crash with fewer than 1000 assets; feedback AB2mJnQlrAPe_IINV2fbit8 exists, detailed crash log unavailable (404)."
   },
-  "pendingVerification": null,
+  "pendingVerification": "iPhone revalidation required; automated tests and signed upload passed",
   "apple": {
     "appID": "6813565278",
     "bundleID": "com.kokicoder.photosweep",
@@ -22,18 +22,19 @@
     "products": "monthly/lifetime created, Japan 1500/6000 JPY, one-week monthly trial, JA/EN labels and world availability saved; review screenshots and Sandbox pending",
     "submitted": false,
     "delivery": {
-      "build": "20004",
-      "buildID": "042755b0-39a7-44ef-acb9-147befe4b77b",
+      "build": "20005",
+      "buildID": "21150c6a-f98c-4a5b-8064-a70afd6027f6",
       "processingState": "VALID",
-      "internalBuildState": "READY_FOR_BETA_TESTING",
+      "internalBuildState": "IN_BETA_TESTING",
       "externalBuildState": "READY_FOR_BETA_SUBMISSION",
       "betaGroups": 1,
-      "checkedDate": "2026-09-19",
+      "checkedDate": "2026-09-21",
       "internalGroupID": "9fed719d-dab9-4ba3-b6f9-7c6488f7628d",
       "testers": "User-confirmed Apple Account added through App Store Connect internal tester UI; invitation sent, acceptance/device verification pending.",
-      "storeDraftBuildSelected": true,
-      "testNotes": "ja and en-US saved"
-    }
+      "storeDraftBuildSelected": false,
+      "testNotes": "JA/EN performance revalidation notes saved"
+    },
+    "reviewContact": "User-confirmed contact saved and read back through Apple API on 2026-09-21; private phone is not stored in this repository."
   },
   "signing": {
     "environment": "apple-distribution",
@@ -46,8 +47,8 @@
     "appStoreProfile": "S9ZHSZA67D, IOS_APP_STORE, installed in IOS_PROFILE_BASE64; matches existing certificate 553368FCYU; no existing certificate changed"
   },
   "userInputPending": [
-    "Formal operator name and private Apple review contact details remain unconfirmed; public support email confirmed 2026-09-20.",
-    "Device crash reproduction and revalidation; user reports fewer than 1000 assets, home-to-swipe crash and general sluggishness."
+    "Physical iPhone revalidation of performance fix, then deletion/compression and Sandbox checks.",
+    "Legal/regional declarations requiring personal attestation, if applicable."
   ],
   "modelPreference": "User explicitly requested gpt-5.6-terra for continued implementation",
   "preserve": [
@@ -65,5 +66,15 @@
     "Unverified success claims"
   ],
   "publicSupportEmail": "photosweep.support@gmail.com",
-  "publicOperatorName": "Koki Egawa"
+  "publicOperatorName": "Koki Egawa",
+  "website": {
+    "published": true,
+    "baseURL": "https://koki-coder-crypto.github.io/PhotoSweep/",
+    "languages": [
+      "ja",
+      "en"
+    ],
+    "verified": "All eight localized pages HTTP 200, operator and email match; JA support page visually inspected",
+    "storeURLsSaved": true
+  }
 }

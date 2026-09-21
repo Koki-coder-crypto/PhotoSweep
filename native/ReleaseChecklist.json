@@ -5,13 +5,16 @@
   "releaseMode": "MANUAL",
   "operatorName": "Koki Egawa",
   "supportEmail": "photosweep.support@gmail.com",
-  "supportURL": "",
-  "privacyURL": "",
-  "termsURL": "",
+  "supportURL": "https://koki-coder-crypto.github.io/PhotoSweep/ja/support.html",
+  "privacyURL": "https://koki-coder-crypto.github.io/PhotoSweep/ja/privacy.html",
+  "termsURL": "https://koki-coder-crypto.github.io/PhotoSweep/ja/terms.html",
   "appStoreConnectAppID": "6813565278",
   "approvedBinaryBuild": "",
   "evidence": {
-    "nativeCI": "PENDING: performance fix requires a fresh distribution run",
+    "nativeCI": {
+      "status": "PASS",
+      "evidence": "040a81a / 20005: 20 unit tests + 3 UI tests, including 30 tab round trips and 100 undo/rejudge actions; signed iPhone archive and TestFlight upload. https://github.com/Koki-coder-crypto/PhotoSweep/actions/runs/35565793991"
+    },
     "simulatorJapaneseEnglish": "PENDING",
     "oldAppUpgradeOnIPhone": "NOT_RUN",
     "oneHundredGesturesAndHaptics": "NOT_RUN",
