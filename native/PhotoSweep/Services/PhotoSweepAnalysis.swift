@@ -15,8 +15,11 @@ enum PhotoSweepAnalysis {
     let options = PHImageRequestOptions()
     options.isSynchronous = true
     options.isNetworkAccessAllowed = false
-    options.deliveryMode = .fastFormat
-    options.resizeMode = .fast
+    // fastFormat can require a pre-existing thumbnail and return PhotoKit 3303
+    // even while a local original is readable (fresh imports). Request a bounded
+    // rendition generated from the local original; never fetch iCloud here.
+    options.deliveryMode = .highQualityFormat
+    options.resizeMode = .exact
     var result: [[String: Any]] = []
     assets.enumerateObjects { asset, _, _ in
       autoreleasepool {

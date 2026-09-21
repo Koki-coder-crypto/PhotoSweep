@@ -58,6 +58,20 @@ final class StoreCaptureTests: XCTestCase {
         capture("01-organize")
         category("videos", app); capture("04-large-videos")
         app.navigationBars.buttons.firstMatch.tap()
+        category("compression", app)
+        tap(text("Start compression", "圧縮を開始"), app)
+        tap(text("Compress with Pro", "Proで動画を圧縮する"), app)
+        let buy = app.buttons[text("Continue with selected plan", "選んだプランで続ける")]
+        XCTAssertTrue(buy.waitForExistence(timeout: 30)); capture("review-monthly")
+        let lifetime = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", text("Lifetime", "買い切り"))).firstMatch
+        XCTAssertTrue(lifetime.waitForExistence(timeout: 10)); lifetime.tap(); capture("review-lifetime")
+        tap(text("Continue with selected plan", "選んだプランで続ける"), app)
+        XCTAssertTrue(app.buttons[text("Start compression", "圧縮を開始")].waitForExistence(timeout: 30))
+        tap(text("Start compression", "圧縮を開始"), app)
+        let save = app.buttons[text("Save compressed video", "圧縮動画を保存する")]
+        XCTAssertTrue(save.waitForExistence(timeout: 150), "Real compression must produce a smaller output")
+        capture("05-compression")
+        app.navigationBars.buttons.firstMatch.tap()
         category("duplicate", app)
         let choose = app.buttons[text("Select for deletion", "削除候補に選ぶ")].firstMatch
         XCTAssertTrue(choose.waitForExistence(timeout: 60)); capture("02-comparison")
@@ -77,19 +91,6 @@ final class StoreCaptureTests: XCTestCase {
         XCTAssertTrue(app.staticTexts[text("1 items cleared", "1件を整理しました")].waitForExistence(timeout: 30))
         capture("07-result"); tap(text("Done", "完了"), app)
         app.tabBars.buttons[text("Organize", "整理")].tap()
-        category("compression", app)
-        tap(text("Start compression", "圧縮を開始"), app)
-        tap(text("Compress with Pro", "Proで動画を圧縮する"), app)
-        let buy = app.buttons[text("Continue with selected plan", "選んだプランで続ける")]
-        XCTAssertTrue(buy.waitForExistence(timeout: 30)); capture("review-monthly")
-        let lifetime = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", text("Lifetime", "買い切り"))).firstMatch
-        XCTAssertTrue(lifetime.waitForExistence(timeout: 10)); lifetime.tap(); capture("review-lifetime")
-        tap(text("Continue with selected plan", "選んだプランで続ける"), app)
-        XCTAssertTrue(app.buttons[text("Start compression", "圧縮を開始")].waitForExistence(timeout: 30))
-        tap(text("Start compression", "圧縮を開始"), app)
-        let save = app.buttons[text("Save compressed video", "圧縮動画を保存する")]
-        XCTAssertTrue(save.waitForExistence(timeout: 150), "Real compression must produce a smaller output")
-        capture("05-compression")
         app.terminate()
     }
 }
