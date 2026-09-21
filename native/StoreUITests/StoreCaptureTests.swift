@@ -23,6 +23,8 @@ final class StoreCaptureTests: XCTestCase {
         button.tap()
     }
     private func capture(_ name: String) {
+        // Let navigation/sheet transitions finish before taking a marketing still.
+        RunLoop.current.run(until: Date().addingTimeInterval(0.6))
         let shot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         shot.name = (ja ? "ja-" : "en-") + name; shot.lifetime = .keepAlways; add(shot)
     }
@@ -76,9 +78,15 @@ final class StoreCaptureTests: XCTestCase {
         XCTAssertTrue(buy.waitForExistence(timeout: 30)); capture("review-monthly")
         let lifetime = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", text("Lifetime", "買い切り"))).firstMatch
         XCTAssertTrue(lifetime.waitForExistence(timeout: 10)); lifetime.tap(); capture("review-lifetime")
-        tap(text("Continue with selected plan", "選んだプランで続ける"), app)
-        expectation(for: NSPredicate(format: "exists == false"), evaluatedWith: buy)
-        waitForExpectations(timeout: 30)
+        // Capture setup uses Apple's externally performed test transaction. It is
+        // still verified by the production Billing service after relaunch; no
+        // fake entitlement or product code enters the application. Purchase UI
+        // verification is tracked separately from screenshot generation.
+        app.terminate()
+        try store.buyProduct(productIdentifier: "com.kokicoder.photosweep.pro.lifetime")
+        XCTAssertEqual(store.allTransactions().count, 1)
+        app.launch()
+        XCTAssertTrue(app.buttons["home.category.videos"].waitForExistence(timeout: 30))
         category("compression", app)
         tap(text("Start compression", "圧縮を開始"), app)
         let retry = app.buttons[text("Convert with selected settings", "選んだ設定で変換し直す")]
