@@ -12,6 +12,7 @@ import Photos
         let product = try XCTUnwrap(billing.products.first { $0.id.hasSuffix("lifetime") })
         await billing.purchase(product)
         XCTAssertTrue(billing.allowsPro, "Capture setup must use a verified Apple test transaction")
+        XCTAssertEqual(session.allTransactions().count, 1)
         // Keep the real StoreKit test transaction for the following UI process.
         // This hosted test runs inside the app bundle, not the UI runner bundle.
     }

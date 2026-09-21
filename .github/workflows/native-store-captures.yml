@@ -38,11 +38,11 @@ jobs:
       - name: Prepare verified Pro transaction in the application host
         run: |
           set -o pipefail
-          xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweepStoreBilling -only-testing:PhotoSweepStoreTests/StoreBillingTests/testPrepareCaptureEntitlement -parallel-testing-enabled NO -destination "platform=iOS Simulator,id=$CAPTURE_DEVICE" -resultBundlePath "$RUNNER_TEMP/CaptureSetup.xcresult" CURRENT_PROJECT_VERSION=20010 CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/capture-setup.log"
+          xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweepStoreBilling -only-testing:PhotoSweepStoreTests/StoreBillingTests/testPrepareCaptureEntitlement -parallel-testing-enabled NO -test-timeouts-enabled YES -default-test-execution-time-allowance 180 -maximum-test-execution-time-allowance 240 -destination "platform=iOS Simulator,id=$CAPTURE_DEVICE" -resultBundlePath "$RUNNER_TEMP/CaptureSetup.xcresult" CURRENT_PROJECT_VERSION=20010 CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/capture-setup.log"
       - name: Capture actual flows in Japanese and English
         run: |
           set -o pipefail
-          xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweepStoreCapture -parallel-testing-enabled NO -destination "platform=iOS Simulator,id=$CAPTURE_DEVICE" -resultBundlePath "$RUNNER_TEMP/StoreCaptures.xcresult" CURRENT_PROJECT_VERSION=20010 CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/store-capture.log"
+          xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweepStoreCapture -parallel-testing-enabled NO -test-timeouts-enabled YES -default-test-execution-time-allowance 180 -maximum-test-execution-time-allowance 240 -destination "platform=iOS Simulator,id=$CAPTURE_DEVICE" -resultBundlePath "$RUNNER_TEMP/StoreCaptures.xcresult" CURRENT_PROJECT_VERSION=20010 CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/store-capture.log"
       - name: Export screenshots
         if: always()
         run: |

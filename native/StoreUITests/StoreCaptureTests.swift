@@ -72,17 +72,6 @@ final class StoreCaptureTests: XCTestCase {
         app.navigationBars.buttons.firstMatch.tap()
         // Paywall review images were already captured from the same app sources
         // and uploaded. Do not repurchase or overwrite that independent evidence.
-        category("compression", app)
-        tap(text("Start compression", "圧縮を開始"), app)
-        let retry = app.buttons[text("Convert with selected settings", "選んだ設定で変換し直す")]
-        if retry.waitForExistence(timeout: 2) { retry.tap() }
-        else { tap(text("Start compression", "圧縮を開始"), app) }
-        let save = app.buttons[text("Save compressed video", "圧縮動画を保存する")]
-        XCTAssertTrue(save.waitForExistence(timeout: 150), "Real compression must produce a smaller output")
-        for _ in 0..<4 where !save.isHittable { app.swipeUp() }
-        capture("05-compression")
-        app.navigationBars.buttons.firstMatch.tap()
-        app.navigationBars.buttons.firstMatch.tap()
         category("duplicate", app)
         let choose = app.buttons[text("Select for deletion", "削除候補に選ぶ")].firstMatch
         XCTAssertTrue(choose.waitForExistence(timeout: 60)); capture("02-comparison")
@@ -102,6 +91,17 @@ final class StoreCaptureTests: XCTestCase {
         XCTAssertTrue(app.staticTexts[text("1 items cleared", "1件を整理しました")].waitForExistence(timeout: 30))
         capture("07-result"); tap(text("Done", "完了"), app)
         app.tabBars.buttons[text("Organize", "整理")].tap()
+        category("compression", app)
+        tap(text("Start compression", "圧縮を開始"), app)
+        let retry = app.buttons[text("Convert with selected settings", "選んだ設定で変換し直す")]
+        if retry.waitForExistence(timeout: 2) { retry.tap() }
+        else { tap(text("Start compression", "圧縮を開始"), app) }
+        let save = app.buttons[text("Save compressed video", "圧縮動画を保存する")]
+        XCTAssertTrue(save.waitForExistence(timeout: 150), "Real compression must produce a smaller output")
+        for _ in 0..<4 where !save.isHittable { app.swipeUp() }
+        capture("05-compression")
+        app.navigationBars.buttons.firstMatch.tap()
+        app.navigationBars.buttons.firstMatch.tap()
         app.terminate()
     }
 }
