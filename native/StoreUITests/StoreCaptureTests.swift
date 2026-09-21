@@ -58,6 +58,9 @@ final class StoreCaptureTests: XCTestCase {
         capture("01-organize")
         category("videos", app); capture("04-large-videos")
         app.navigationBars.buttons.firstMatch.tap()
+        // The home LazyVStack does not expose the bottom Pro button until scrolled.
+        let pro = app.buttons[text("See PhotoSweep Pro", "Proの内容と料金を見る")]
+        for _ in 0..<8 where !pro.isHittable { app.swipeUp() }
         tap(text("See PhotoSweep Pro", "Proの内容と料金を見る"), app)
         let buy = app.buttons[text("Continue with selected plan", "選んだプランで続ける")]
         XCTAssertTrue(buy.waitForExistence(timeout: 30)); capture("review-monthly")
