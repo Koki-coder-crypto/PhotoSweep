@@ -1,0 +1,41 @@
+name: Compact capture diagnostics
+on:
+  push:
+    tags: ['capture-diagnostics-*']
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: read
+jobs:
+  compact:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Retrieve existing failure evidence without rebuilding
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh run download 35572299372 -n native-store-captures -D original
+          mkdir compact
+          python3 -m pip install Pillow
+          python3 - <<'PY'
+          from pathlib import Path
+          import shutil
+          from PIL import Image
+          for path in Path('original').rglob('*'):
+              if path.suffix == '.json':
+                  shutil.copy(path, Path('compact') / path.name)
+              if path.suffix.lower() in ('.png', '.jpg', '.jpeg'):
+                  image = Image.open(path).convert('RGB')
+                  image.thumbnail((540, 1170))
+                  image.save(Path('compact') / (path.stem + '.jpg'), quality=70)
+              if path.suffix in ('.txt', '.log') and path.stat().st_size < 150000:
+                  shutil.copy(path, Path('compact') / path.name)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compact-capture-evidence
+          path: compact
+          retention-days: 7
