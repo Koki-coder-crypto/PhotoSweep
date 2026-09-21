@@ -216,7 +216,7 @@
 "help.permission.title" = "Missing photos?";
 "help.permission.body" = "Check photo access in iPhone Settings. With limited access, only selected items appear. iCloud originals may require an internet connection when you open or compress them. Library analysis does not automatically download every original.";
 "help.privacy.title" = "Your photos stay yours.";
-"help.privacy.body" = "PhotoSweep analyzes your accessible library on your device. The app does not send your photos, filenames or photo identifiers to the developer and includes no third-party advertising or analytics SDK. Apple handles purchases and iCloud transfers. Review choices and settings are stored in the app's local database. Deleting the app removes those local records. Formal operator details and the public privacy policy must be completed before store release.";
+"help.privacy.body" = "PhotoSweep analyzes the photos and videos you allow on your device. Your photos, filenames and photo identifiers are not sent to the developer. There are no third-party advertising or analytics SDKs. Apple handles purchases and iCloud transfers. Sorting decisions and settings stay in the app’s local database; deleting the app removes those records.\n\nOperator: Koki Egawa\nSupport: photosweep.support@gmail.com";
 "help.terms.title" = "Using PhotoSweep";
 "help.terms.body" = "Free sorting includes 30 photos and 5 videos per day. Pro adds unlimited sorting, date filters and supported SDR video compression. Prices and any eligible trial are shown from the App Store before purchase. Subscriptions renew unless cancelled in Apple subscription settings; lifetime purchases do not renew. Compression may change quality. Check the output before deleting an original. Deleted data size does not guarantee an equal increase in free storage. Formal operator details must be completed before store release.";
 "compression.error1" = "Cancelled. Your original is unchanged.";
@@ -245,3 +245,4 @@
 "contact.email" = "Email support";
 "home.previewEmpty" = "No items in this category";
 "home.silentPreview" = "Muted preview";
+"legal.web" = "Read the full policy online";

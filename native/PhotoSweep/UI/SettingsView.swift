@@ -73,6 +73,10 @@ struct HelpDetailView: View {
     var body: some View { ScrollView { VStack(alignment: .leading, spacing: 24) {
         Text(L("help.\(kind).title")).font(.largeTitle.bold())
         Text(L("help.\(kind).body"))
+        if kind == "privacy" || kind == "terms" {
+            let language = Bundle.main.preferredLocalizations.first == "ja" ? "ja" : "en"
+            Link(L("legal.web"), destination: URL(string: "https://koki-coder-crypto.github.io/PhotoSweep/\(language)/\(kind).html")!)
+        }
         if kind == "terms" { Link(L("legal.apple"), destination: URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!) }
         if kind == "restore" { Link(L("restore.apple"), destination: URL(string: "https://support.apple.com/104967")!) }
     }.padding(24) }.navigationBarTitleDisplayMode(.inline) }

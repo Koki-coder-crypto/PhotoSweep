@@ -872,8 +872,8 @@
     "写真は、このiPhoneの中で。"
   ],
   "help.privacy.body": [
-    "PhotoSweep analyzes your accessible library on your device. The app does not send your photos, filenames or photo identifiers to the developer and includes no third-party advertising or analytics SDK. Apple handles purchases and iCloud transfers. Review choices and settings are stored in the app's local database. Deleting the app removes those local records. Formal operator details and the public privacy policy must be completed before store release.",
-    "PhotoSweepは、アクセスを許可された写真・動画を端末内で解析します。写真・ファイル名・写真IDを開発者へ送信せず、外部の広告・分析SDKも使用しません。購入やiCloudの通信はAppleが処理します。判断や設定はアプリ内のDBへ保存し、アプリを削除するとこの記録も失われます。正式な運営者情報と公開用ポリシーはストア公開前に確定します。"
+    "PhotoSweep analyzes the photos and videos you allow on your device. Your photos, filenames and photo identifiers are not sent to the developer. There are no third-party advertising or analytics SDKs. Apple handles purchases and iCloud transfers. Sorting decisions and settings stay in the app’s local database; deleting the app removes those records.\n\nOperator: Koki Egawa\nSupport: photosweep.support@gmail.com",
+    "PhotoSweepは、アクセスを許可された写真・動画を端末内で解析します。写真、ファイル名、写真IDを開発者へ送信しません。第三者の広告・解析SDKは使用していません。購入とiCloud転送はAppleが処理します。仕分けの記録と設定はアプリ内に保存され、アプリを削除すると消去されます。\n\n運営者：Koki Egawa\nお問い合わせ：photosweep.support@gmail.com"
   ],
   "help.terms.title": [
     "Using PhotoSweep",
@@ -994,5 +994,9 @@
   "home.silentPreview": [
     "Muted preview",
     "無音プレビュー"
+  ],
+  "legal.web": [
+    "Read the full policy online",
+    "公開ページで全文を見る"
   ]
 }
