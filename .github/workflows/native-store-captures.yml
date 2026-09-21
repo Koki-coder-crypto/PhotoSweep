@@ -1,0 +1,49 @@
+name: Native store captures
+on: workflow_dispatch
+permissions:
+  contents: read
+concurrency:
+  group: native-store-captures
+  cancel-in-progress: false
+jobs:
+  capture:
+    if: github.event.repository.private == false
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare exact native sources and licensed media
+        run: |
+          set -euo pipefail
+          sudo xcode-select -s /Applications/Xcode_26.3.app/Contents/Developer
+          brew install xcodegen
+          python3 native/generate_localizations.py
+          python3 native/verify_source.py
+          xcodegen generate --spec native/capture-project.yml
+          mkdir -p "$RUNNER_TEMP/store-media"
+          curl --fail --location --retry 2 'https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/thumbnails/image/P7120006e.jpg' -o "$RUNNER_TEMP/store-media/spring-a.jpg"
+          curl --fail --location --retry 2 'https://upload.wikimedia.org/wikipedia/commons/9/9f/GrandPrismaticSpring.jpg' -o "$RUNNER_TEMP/store-media/spring-b.jpg"
+          curl --fail --location --retry 2 'https://www.nps.gov/nps-audiovideo/legacy/yell/7E5FFF00-155D-451F-676262A83E6E19C7/yell-MGBasin00547MTS1_1280x720.mp4' -o "$RUNNER_TEMP/store-media/spring.mp4"
+          cp "$RUNNER_TEMP/store-media/spring-a.jpg" "$RUNNER_TEMP/store-media/spring-a-copy.jpg"
+          cp "$RUNNER_TEMP/store-media/spring-b.jpg" "$RUNNER_TEMP/store-media/spring-b-copy.jpg"
+          DEVICE=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin); print(next(x["udid"] for values in d["devices"].values() for x in values if x["name"] == "iPhone 16 Pro Max"))')
+          echo "CAPTURE_DEVICE=$DEVICE" >> "$GITHUB_ENV"
+          xcrun simctl boot "$DEVICE" || true
+          xcrun simctl bootstatus "$DEVICE" -b
+          xcrun simctl status_bar "$DEVICE" override --time 9:41 --batteryState charged --batteryLevel 100
+          xcrun simctl addmedia "$DEVICE" "$RUNNER_TEMP/store-media/"*.jpg "$RUNNER_TEMP/store-media/"*.mp4
+      - name: Capture actual flows in Japanese and English
+        run: |
+          set -o pipefail
+          xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweepStoreCapture -parallel-testing-enabled NO -destination "platform=iOS Simulator,id=$CAPTURE_DEVICE" -resultBundlePath "$RUNNER_TEMP/StoreCaptures.xcresult" CURRENT_PROJECT_VERSION=20008 CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/store-capture.log"
+      - name: Export screenshots
+        if: always()
+        run: xcrun xcresulttool export attachments --path "$RUNNER_TEMP/StoreCaptures.xcresult" --output-path "$RUNNER_TEMP/store-captures" || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-store-captures
+          path: |
+            ${{ runner.temp }}/store-captures
+            ${{ runner.temp }}/store-capture.log
+          retention-days: 7

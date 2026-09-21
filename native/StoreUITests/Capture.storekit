@@ -1,0 +1,74 @@
+{
+  "identifier": "7C97A07C-141A-4CC3-8F6A-B8FDC86ED501",
+  "nonRenewingSubscriptions": [],
+  "products": [
+    {
+      "displayPrice": "6000",
+      "familyShareable": false,
+      "internalID": "6813716201",
+      "localizations": [
+        {
+          "description": "Unlimited sorting and supported video compression.",
+          "displayName": "PhotoSweep Pro Lifetime",
+          "locale": "en_US"
+        },
+        {
+          "description": "仕分け上限の解除と対応動画の圧縮。",
+          "displayName": "PhotoSweep Pro",
+          "locale": "ja"
+        }
+      ],
+      "productID": "com.kokicoder.photosweep.pro.lifetime",
+      "referenceName": "PhotoSweep Pro Lifetime",
+      "type": "NonConsumable"
+    }
+  ],
+  "settings": {
+    "_applicationInternalID": "6813565278",
+    "_developerTeamID": "7LXRYTBS7L",
+    "_failTransactionsEnabled": false,
+    "_locale": "ja_JP",
+    "_storefront": "JPN",
+    "_storeKitErrors": []
+  },
+  "subscriptionGroups": [
+    {
+      "id": "22396441",
+      "localizations": [],
+      "name": "PhotoSweep Pro",
+      "subscriptions": [
+        {
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "1500",
+          "familyShareable": false,
+          "groupNumber": 1,
+          "internalID": "6813714786",
+          "introductoryOffer": null,
+          "localizations": [
+            {
+              "description": "Unlimited sorting and supported video compression.",
+              "displayName": "PhotoSweep Pro Monthly",
+              "locale": "en_US"
+            },
+            {
+              "description": "仕分け上限の解除と対応動画の圧縮。",
+              "displayName": "PhotoSweep Pro",
+              "locale": "ja"
+            }
+          ],
+          "productID": "com.kokicoder.photosweep.pro.monthly",
+          "recurringSubscriptionPeriod": "P1M",
+          "referenceName": "PhotoSweep Pro Monthly",
+          "subscriptionGroupID": "22396441",
+          "type": "RecurringSubscription",
+          "winBackOffers": []
+        }
+      ]
+    }
+  ],
+  "version": {
+    "major": 3,
+    "minor": 0
+  }
+}
