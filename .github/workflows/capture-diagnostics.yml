@@ -3,6 +3,12 @@ on:
   push:
     tags: ['capture-diagnostics-*']
   workflow_dispatch:
+    inputs:
+      source_run:
+        description: Existing capture workflow run to inspect
+        required: true
+        default: '35572299372'
+        type: string
 permissions:
   actions: read
   contents: read
@@ -16,8 +22,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
+          SOURCE_RUN: ${{ inputs.source_run || '35572299372' }}
         run: |
-          gh run download 35572299372 -n native-store-captures -D original
+          [[ "$SOURCE_RUN" =~ ^[0-9]+$ ]] || exit 1
+          gh run download "$SOURCE_RUN" -n native-store-captures -D original
           mkdir compact
           python3 -m pip install Pillow
           python3 - <<'PY'
