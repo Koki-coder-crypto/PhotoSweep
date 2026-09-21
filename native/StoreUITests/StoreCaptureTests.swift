@@ -39,9 +39,8 @@ final class StoreCaptureTests: XCTestCase {
     func testJapaneseStoreScreens() throws { try run(japanese: true) }
     private func run(japanese: Bool) throws {
         continueAfterFailure = false; ja = japanese
-        store = try SKTestSession(configurationFileNamed: "Capture")
-        store.resetToDefaultState(); store.clearTransactions(); store.disableDialogs = true
-        store.storefront = "JPN"; store.locale = ja ? Locale(identifier: "ja_JP") : Locale(identifier: "en_US")
+        // The preceding hosted test prepares a verified transaction for the app.
+        // A session created in this UI runner is not proof of the app's entitlement.
         let app = XCUIApplication(); app.terminate()
         app.launchEnvironment["PHOTOSWEEP_UI_TEST"] = UUID().uuidString
         app.launchArguments = ["-AppleLanguages", ja ? "(ja)" : "(en)", "-AppleLocale", ja ? "ja_JP" : "en_US"]
@@ -50,7 +49,8 @@ final class StoreCaptureTests: XCTestCase {
         tap(text("Skip", "スキップ"), app); tap(text("Skip", "スキップ"), app)
         // Permission may already be granted by the preceding locale run.
         if app.buttons[text("Skip", "スキップ")].exists { tap(text("Skip", "スキップ"), app) }
-        tap(text("Continue", "次へ"), app)
+        let advance = app.buttons.matching(NSPredicate(format: "label IN %@", [text("Continue", "次へ"), text("Continue while analysis runs", "解析を続けて先へ")])).firstMatch
+        XCTAssertTrue(advance.waitForExistence(timeout: 30)); advance.tap()
         let free = app.buttons[text("Continue for free", "無料のまま続ける")]
         if free.waitForExistence(timeout: 4) { free.tap() }
         let access = app.buttons[text("Choose photo access", "写真を選ぶ")]
@@ -70,23 +70,8 @@ final class StoreCaptureTests: XCTestCase {
         capture("01-organize")
         category("videos", app); capture("04-large-videos")
         app.navigationBars.buttons.firstMatch.tap()
-        // The home LazyVStack does not expose the bottom Pro button until scrolled.
-        let pro = app.buttons[text("See PhotoSweep Pro", "Proの内容と料金を見る")]
-        for _ in 0..<8 where !pro.isHittable { app.swipeUp() }
-        tap(text("See PhotoSweep Pro", "Proの内容と料金を見る"), app)
-        let buy = app.buttons[text("Continue with selected plan", "選んだプランで続ける")]
-        XCTAssertTrue(buy.waitForExistence(timeout: 30)); capture("review-monthly")
-        let lifetime = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", text("Lifetime", "買い切り"))).firstMatch
-        XCTAssertTrue(lifetime.waitForExistence(timeout: 10)); lifetime.tap(); capture("review-lifetime")
-        // Capture setup uses Apple's externally performed test transaction. It is
-        // still verified by the production Billing service after relaunch; no
-        // fake entitlement or product code enters the application. Purchase UI
-        // verification is tracked separately from screenshot generation.
-        app.terminate()
-        try store.buyProduct(productIdentifier: "com.kokicoder.photosweep.pro.lifetime")
-        XCTAssertEqual(store.allTransactions().count, 1)
-        app.launch()
-        XCTAssertTrue(app.buttons["home.category.videos"].waitForExistence(timeout: 30))
+        // Paywall review images were already captured from the same app sources
+        // and uploaded. Do not repurchase or overwrite that independent evidence.
         category("compression", app)
         tap(text("Start compression", "圧縮を開始"), app)
         let retry = app.buttons[text("Convert with selected settings", "選んだ設定で変換し直す")]

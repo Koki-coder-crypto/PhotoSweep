@@ -5,6 +5,16 @@ import Photos
 @testable import PhotoSweep
 
 @MainActor final class StoreBillingTests: XCTestCase {
+    func testPrepareCaptureEntitlement() async throws {
+        let session = try session()
+        let billing = Billing()
+        await billing.load()
+        let product = try XCTUnwrap(billing.products.first { $0.id.hasSuffix("lifetime") })
+        await billing.purchase(product)
+        XCTAssertTrue(billing.allowsPro, "Capture setup must use a verified Apple test transaction")
+        // Keep the real StoreKit test transaction for the following UI process.
+        // This hosted test runs inside the app bundle, not the UI runner bundle.
+    }
     private func session() throws -> SKTestSession {
         let session = try SKTestSession(configurationFileNamed: "Capture")
         session.resetToDefaultState(); session.clearTransactions(); session.disableDialogs = true

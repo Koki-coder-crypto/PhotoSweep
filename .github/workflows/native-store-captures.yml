@@ -35,6 +35,10 @@ jobs:
           xcrun simctl bootstatus "$DEVICE" -b
           xcrun simctl status_bar "$DEVICE" override --time 9:41 --batteryState charged --batteryLevel 100
           xcrun simctl addmedia "$DEVICE" "$RUNNER_TEMP/store-media/"*.jpg "$RUNNER_TEMP/store-media/"*.mp4
+      - name: Prepare verified Pro transaction in the application host
+        run: |
+          set -o pipefail
+          xcodebuild test -project native/PhotoSweep.xcodeproj -scheme PhotoSweepStoreBilling -only-testing:PhotoSweepStoreTests/StoreBillingTests/testPrepareCaptureEntitlement -parallel-testing-enabled NO -destination "platform=iOS Simulator,id=$CAPTURE_DEVICE" -resultBundlePath "$RUNNER_TEMP/CaptureSetup.xcresult" CURRENT_PROJECT_VERSION=20010 CODE_SIGNING_ALLOWED=NO | tee "$RUNNER_TEMP/capture-setup.log"
       - name: Capture actual flows in Japanese and English
         run: |
           set -o pipefail
@@ -43,6 +47,7 @@ jobs:
         if: always()
         run: |
           xcrun xcresulttool export attachments --path "$RUNNER_TEMP/StoreCaptures.xcresult" --output-path "$RUNNER_TEMP/store-captures" || true
+          xcrun xcresulttool export attachments --path "$RUNNER_TEMP/CaptureSetup.xcresult" --output-path "$RUNNER_TEMP/capture-setup" || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -50,4 +55,5 @@ jobs:
           path: |
             ${{ runner.temp }}/store-captures
             ${{ runner.temp }}/store-capture.log
+            ${{ runner.temp }}/capture-setup.log
           retention-days: 7
