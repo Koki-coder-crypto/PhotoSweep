@@ -58,19 +58,24 @@ final class StoreCaptureTests: XCTestCase {
         capture("01-organize")
         category("videos", app); capture("04-large-videos")
         app.navigationBars.buttons.firstMatch.tap()
-        category("compression", app)
-        tap(text("Start compression", "圧縮を開始"), app)
-        tap(text("Compress with Pro", "Proで動画を圧縮する"), app)
+        tap(text("See PhotoSweep Pro", "Proの内容と料金を見る"), app)
         let buy = app.buttons[text("Continue with selected plan", "選んだプランで続ける")]
         XCTAssertTrue(buy.waitForExistence(timeout: 30)); capture("review-monthly")
         let lifetime = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", text("Lifetime", "買い切り"))).firstMatch
         XCTAssertTrue(lifetime.waitForExistence(timeout: 10)); lifetime.tap(); capture("review-lifetime")
         tap(text("Continue with selected plan", "選んだプランで続ける"), app)
-        XCTAssertTrue(app.buttons[text("Start compression", "圧縮を開始")].waitForExistence(timeout: 30))
+        expectation(for: NSPredicate(format: "exists == false"), evaluatedWith: buy)
+        waitForExpectations(timeout: 30)
+        category("compression", app)
         tap(text("Start compression", "圧縮を開始"), app)
+        let retry = app.buttons[text("Convert with selected settings", "選んだ設定で変換し直す")]
+        if retry.waitForExistence(timeout: 2) { retry.tap() }
+        else { tap(text("Start compression", "圧縮を開始"), app) }
         let save = app.buttons[text("Save compressed video", "圧縮動画を保存する")]
         XCTAssertTrue(save.waitForExistence(timeout: 150), "Real compression must produce a smaller output")
+        for _ in 0..<4 where !save.isHittable { app.swipeUp() }
         capture("05-compression")
+        app.navigationBars.buttons.firstMatch.tap()
         app.navigationBars.buttons.firstMatch.tap()
         category("duplicate", app)
         let choose = app.buttons[text("Select for deletion", "削除候補に選ぶ")].firstMatch
