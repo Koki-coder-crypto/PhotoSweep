@@ -16,6 +16,7 @@ struct Step: Codable { var id: String; var previous: Decision?; var choice: Choi
 struct Session: Codable, Identifiable {
     var id: String; var ids: [String]; var cursor: Int; var target: Int; var scope: Scope
     var startedAt: Double; var status: String; var steps: [Step]
+    var activeSeconds: Double?; var timedReviewCount: Int?
 }
 struct AssetSize: Codable {
     var bytes: Double?; var quality: String; var basis: String; var modifiedAt: Double
@@ -29,7 +30,10 @@ struct Outcome: Codable, Identifiable {
     var id: String; var at: Double; var photoCount: Int; var videoCount: Int
     var knownBytes: Double; var unknownCount: Int; var estimated: Bool; var freeBefore: Double?; var freeAfter: Double?
 }
-struct HistoryItem: Codable, Identifiable { var id: String; var at: Double; var kept: Int; var candidates: Int }
+struct HistoryItem: Codable, Identifiable {
+    var id: String; var at: Double; var kept: Int; var candidates: Int
+    var activeSeconds: Double?; var timedReviewCount: Int?
+}
 struct Settings: Codable {
     var haptics = true; var sound = false; var reduceMotion = false; var weekly = false
     var trialReminder = false; var batch = 20
@@ -44,6 +48,7 @@ struct ReviewState: Codable {
     var mediaKinds: [String: MediaKind] = [:]; var monthSessions: [String: Session] = [:]
     var monthHintSeen = false; var sizes: [String: AssetSize] = [:]; var outcomes: [Outcome] = []
     var reviewPrompt: ReviewPrompt?; var onboarding: Onboarding?
+    var successOffer: SuccessOfferRecord?
     var onboarded = false; var guided = false; var decisions: [String: Decision] = [:]
     var day: String; var lastWallTime: Double; var timezoneOffset: Int; var blockResetThrough = ""
     var used: [String] = []; var quotaNoticeDay = ""; var session: Session?; var deletion: DeletionJob?

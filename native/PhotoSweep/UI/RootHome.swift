@@ -10,7 +10,7 @@ struct RootView: View {
                 NavigationStack { HomeView() }.tabItem { Label(L("tab.organize"), systemImage: "square.grid.2x2") }.tag(0)
                 NavigationStack { SwipeView() }.tabItem { Label(L("tab.swipe"), systemImage: "rectangle.stack") }.tag(1)
                 NavigationStack { CandidatesView() }.tabItem { Label(L("tab.candidates"), systemImage: "trash") }.tag(2)
-            } }
+            }.environment(\.previewPlaybackAllowed, !app.paywall && !app.showResult && !app.replay && !app.state.needsOnboarding) }
         }
         .sheet(isPresented: $app.paywall) { NavigationStack { PaywallView() } }
         .sheet(isPresented: $app.showResult) { NavigationStack { ResultView() } }
@@ -21,21 +21,7 @@ struct RootView: View {
 struct HomeView: View {
     @EnvironmentObject var app: AppModel
     @EnvironmentObject var billing: Billing
-    @StateObject private var preview = HomePreviewPlayer()
-    @Environment(\.scenePhase) private var phase
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var frames: [Category: CGRect] = [:]
-    @State private var viewportHeight: CGFloat = 0
-    @State private var visible = false
-    @State private var lowPower = ProcessInfo.processInfo.isLowPowerModeEnabled
-    @State private var memoryPaused = false
-    private func updatePreview() {
-        let allowed = visible && app.tab == 0 && phase == .active && !reduceMotion && !app.state.settings.reduceMotion
-            && !lowPower && !memoryPaused && !app.paywall && !app.showResult && !app.replay && !app.state.needsOnboarding
-        preview.show(allowed ? HomePreviewPlayer.visibleCategory(frames: frames, height: viewportHeight, summaries: app.homePreviews) : nil, summaries: app.homePreviews)
-    }
     var body: some View {
-        GeometryReader { viewport in
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 20) {
                 HStack(spacing: 12) { Image("BrandMark").resizable().frame(width: 48, height: 48); VStack(alignment: .leading) { Text("PhotoSweep").font(.title.bold()); Text(L("home.headline")).foregroundStyle(.secondary) }; Spacer() }
@@ -55,7 +41,7 @@ struct HomeView: View {
                         CollectionView(category: category)
                     } label: {
                         HomeMediaCard(category: category, summary: app.homePreviews[category] ?? HomeMediaSummary(),
-                                      pending: app.loading || ((category == .similar || category == .duplicate) && app.analyzing), preview: preview)
+                                      pending: app.loading || ((category == .similar || category == .duplicate) && app.analyzing))
                     }.buttonStyle(.plain).accessibilityIdentifier("home.category." + category.rawValue)
                 }
                 Panel { Text(L("home.months")).font(.title2.bold()); Text(L("home.monthsDetail")); ActionButton(title: app.state.session == nil ? "swipe.start" : "swipe.resume", symbol: "rectangle.stack") { app.tab = 1 } }
@@ -65,27 +51,7 @@ struct HomeView: View {
         }.background(Color(uiColor: .systemGroupedBackground)).navigationTitle(L("tab.organize")).navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .navigationBarTrailing) { NavigationLink { SettingsView() } label: { Image(systemName: "gearshape").accessibilityLabel(L("settings.title")) } } }
             .refreshable { app.reload() }
-            .coordinateSpace(name: "homeViewport")
-            .onPreferenceChange(HomeCardFrames.self) { frames = $0; viewportHeight = viewport.size.height; updatePreview() }
-            .onAppear { visible = true; memoryPaused = false; viewportHeight = viewport.size.height; updatePreview() }
-            .onDisappear { visible = false; preview.stop() }
-            .onChange(of: app.tab) { _ in updatePreview() }
-            .onChange(of: phase) { _ in updatePreview() }
-            .onChange(of: reduceMotion) { _ in updatePreview() }
-            .onChange(of: app.state.settings.reduceMotion) { _ in updatePreview() }
-            .onChange(of: app.paywall) { _ in updatePreview() }
-            .onChange(of: app.showResult) { _ in updatePreview() }
-            .onChange(of: app.replay) { _ in updatePreview() }
-            .onChange(of: app.state.needsOnboarding) { _ in updatePreview() }
-            .onChange(of: app.homePreviews[.videos]?.videoID) { _ in updatePreview() }
-            .onChange(of: app.homePreviews[.recordings]?.videoID) { _ in updatePreview() }
-            .onReceive(NotificationCenter.default.publisher(for: .NSProcessInfoPowerStateDidChange)) { _ in
-                lowPower = ProcessInfo.processInfo.isLowPowerModeEnabled; updatePreview()
-            }
-            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didReceiveMemoryWarningNotification)) { _ in
-                memoryPaused = true; preview.stop()
-            }
-        }
+
     }
 }
 struct QuotaLabel: View {

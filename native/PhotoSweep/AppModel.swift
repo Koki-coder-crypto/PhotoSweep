@@ -25,6 +25,7 @@ import OSLog
     @Published var paywall = false
     @Published var showResult = false
     @Published var replay = false
+    @Published var preparingSwipe = false
     let library = PhotoLibrary()
     let billing = Billing()
     let persistence: any ReviewPersistence
@@ -36,6 +37,7 @@ import OSLog
     private var generation = UUID()
     private var reloadPending = false
     private var changeTask: Task<Void, Never>?
+    private var reviewActivity = ReviewActivityClock()
     init(persistence: any ReviewPersistence = SQLitePersistence()) {
         #if DEBUG
         if let testID = ProcessInfo.processInfo.environment["PHOTOSWEEP_UI_TEST"] {
@@ -141,19 +143,33 @@ import OSLog
         return scope.order == "oldest" ? list.reversed() : list
     }
     func begin(_ scope: Scope) async {
+        guard !preparingSwipe else { return }
+        preparingSwipe = true; defer { preparingSwipe = false }
         let pro = billing.allowsPro
         let safeScope = pro ? scope : Scope(month: scope.month, screenshotsOnly: scope.screenshotsOnly, mediaKind: scope.mediaKind, recordingsOnly: scope.recordingsOnly)
         let items = matching(safeScope)
         if await mutate({ s in
             var next = s; for item in items { next.mediaKinds[item.id] = item.kind }
             return try ReviewEngine.start(next, ids: items.map(\.id), scope: safeScope, pro: pro)
-        }) { tab = 1 }
+        }) {
+            if let session = state.session {
+                let next = Array(session.ids.dropFirst(session.cursor).prefix(3))
+                library.prefetch(next)
+                if let first = next.first { await library.prepareFirstPreview(first) }
+            }
+            tab = 1
+        }
     }
     func decide(_ id: String, choice: Choice?) async -> Bool {
         let pro = billing.allowsPro
-        let ok = await mutate({ try ReviewEngine.decide($0, id: id, choice: choice, pro: pro) }, haptic: choice != nil)
+        let seconds = reviewActivity.seconds(now: ProcessInfo.processInfo.systemUptime)
+        let ok = await mutate({ try ReviewEngine.decide($0, id: id, choice: choice, pro: pro, activeSeconds: seconds) }, haptic: choice != nil)
+        if ok { reviewActivity.acknowledge(seconds, now: ProcessInfo.processInfo.systemUptime) }
         if let session = state.session { library.prefetch(Array(session.ids.dropFirst(session.cursor).prefix(3))) }
         return ok
+    }
+    func setReviewActivity(visible: Bool) {
+        reviewActivity.set(session: state.session?.id, active: visible, now: ProcessInfo.processInfo.systemUptime)
     }
     func stage(_ ids: [String]) async -> Bool {
         let pro = billing.allowsPro

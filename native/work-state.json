@@ -1,11 +1,11 @@
 {
   "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
   "branch": "codex/swiftui-2",
-  "activeStep": "Fix compression size display and truthful result presentation for TestFlight 20011. Live Int measurements were read as Double and replaced with zero. Full distribution tests and visual evidence pending; physical-device review recording must use corrected build.",
+  "activeStep": "Deliver combined 20012 experience update: compression actual metrics, automatic bounded previews, visible video autoplay, generated practice photos, measured deletion impact and foreground review pace, eligible seven-day Pro offer after confirmed value. Full native regression and visual QA pending.",
   "lastFullPass": {
-    "commit": "8e25d20",
-    "run": 35609343455,
-    "scope": "29 unit + 3 UI tests passed; signed 20010 upload succeeded. Apple VALID / IN_BETA_TESTING; user confirmed purchase/restart/restore, records, deletion and compressed video quality/audio/orientation."
+    "commit": "db1c155",
+    "run": 35691125004,
+    "scope": "20011: full native unit/UI suite, signed archive and upload PASS. Apple VALID. Compression fixture layouts visually inspected including large text. Not a physical-device pass."
   },
   "currentFailure": {
     "build": 20010,
@@ -139,8 +139,21 @@
   },
   "compressionResultFix": {
     "build": "20011",
-    "state": "Implementation and local checks complete; native tests pending",
+    "state": "20011 full native regression and upload passed; Apple VALID. Included in subsequent 20012 experience candidate.",
     "scope": "Measured input/output bytes, saved bytes, conservative percent, proportional bars, byte detail, unknown/no-reduction states, completion scroll and settings-aware haptic. Original preservation and save flow retained.",
     "deviceVerification": "NOT_RUN: user must confirm actual sizes and playback on updated TestFlight."
+  },
+  "experienceUpdate": {
+    "build": "20012",
+    "state": "Implementation/local checks; full native regression pending",
+    "scope": [
+      "current plus next two photo previews, automatic network retrieval and no manual iCloud button",
+      "all visible videos autoplay muted; requests/players stopped offscreen",
+      "bundled generated beach/cafe practice photos",
+      "confirmed deletion data and device free-space delta distinguished",
+      "monotonic foreground swipe time, no fabricated time-savings estimate",
+      "Pro offer after 5 confirmed deletions or 100MB deleted data; Apple-verified seven-day trial only for eligible users; seven-day plus 20-deletion cooldown"
+    ],
+    "deviceVerification": "NOT_RUN; iCloud-only assets, autoplay, actual deletion/storage and eligible trial must be checked on updated iPhone."
   }
 }

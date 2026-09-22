@@ -23,6 +23,16 @@ protocol BillingAdapter {
     @Published var trial = false
     @Published var entitlementName = "plan.free"
     var allowsPro: Bool { hasPro && (entitlementName == "plan.lifetime" || (expiry.map { $0 > Date() } ?? false)) }
+    func offersSevenDayTrial(_ product: Product) -> Bool {
+        guard trialEligible[product.id] == true, let offer = product.subscription?.introductoryOffer,
+              offer.paymentMode == .freeTrial else { return false }
+        switch offer.period.unit {
+        case .day: return offer.period.value * offer.periodCount == 7
+        case .week: return offer.period.value * offer.periodCount == 1
+        default: return false
+        }
+    }
+    var sevenDayTrialProduct: Product? { products.first(where: offersSevenDayTrial) }
     private let pendingFile = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("PhotoSweepPurchasePending.json")
     private var refreshTask: Task<Void, Never>?
     private var pendingRecord: PendingPurchase?
@@ -42,10 +52,13 @@ protocol BillingAdapter {
     func load() async {
         do {
             products = try await Product.products(for: Self.saleIDs).sorted { Self.saleIDs.firstIndex(of: $0.id)! < Self.saleIDs.firstIndex(of: $1.id)! }
-            for product in products { trialEligible[product.id] = await product.subscription?.isEligibleForIntroOffer ?? false }
+            await refreshTrialEligibility()
             message = products.isEmpty ? L("billing.unavailable") : nil
         } catch { products = []; message = L("billing.unavailable") }
         await refresh()
+    }
+    func refreshTrialEligibility() async {
+        for product in products { trialEligible[product.id] = await product.subscription?.isEligibleForIntroOffer ?? false }
     }
     func refresh() async { await refresh(force: false) }
     private func refresh(force: Bool) async {

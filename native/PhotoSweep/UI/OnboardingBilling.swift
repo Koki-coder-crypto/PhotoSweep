@@ -54,7 +54,12 @@ struct OnboardingView: View {
 struct SampleCard: View {
     var index: Int
     var body: some View {
-        ZStack { LinearGradient(colors: [Color.cyan.opacity(0.6), Color.blue.opacity(0.7)], startPoint: .top, endPoint: .bottom); Circle().fill(Color.yellow.opacity(0.9)).frame(width: 48, height: 48).offset(x: 25, y: -45); Image(systemName: index == 2 ? "mountain.2.fill" : "leaf.fill").resizable().scaledToFit().foregroundStyle(Color.white.opacity(0.85)).padding(28).offset(y: 28) }.clipShape(RoundedRectangle(cornerRadius: 20))
+        GeometryReader { geometry in
+            Image(index == 2 ? "PracticeCafe" : "PracticeBeach").resizable().scaledToFill()
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .scaleEffect(index == 1 ? 1.07 : 1)
+                .clipped()
+        }.clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }
 struct PaywallView: View {
@@ -69,7 +74,10 @@ struct PaywallContent: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Image(systemName: "sparkles").font(.system(size: 48)).foregroundStyle(.tint).frame(maxWidth: .infinity)
-            Text(L("pro.headline")).font(.largeTitle.bold())
+            if let product = billing.products.first(where: { $0.id == selected }), billing.offersSevenDayTrial(product), !billing.allowsPro {
+                Text(L("pro.sevenDayHeadline")).font(.largeTitle.bold()).foregroundStyle(coral)
+                Text(billing.disclosure(product)).font(.subheadline)
+            } else { Text(L("pro.headline")).font(.largeTitle.bold()) }
             Label(L("pro.unlimited"), systemImage: "checkmark.circle")
             Label(L("pro.compress"), systemImage: "checkmark.circle")
             Label(L("pro.filters"), systemImage: "checkmark.circle")
@@ -90,7 +98,7 @@ struct PaywallContent: View {
                 }
                 if let product = billing.products.first(where: { $0.id == selected }) {
                     Text(billing.disclosure(product)).font(.footnote)
-                    ActionButton(title: "billing.purchase") { Task { await billing.purchase(product); if billing.allowsPro { app.feedback(success: true); onFinish() } } }.disabled(billing.busy)
+                    ActionButton(title: billing.offersSevenDayTrial(product) ? "billing.startSevenDayTrial" : "billing.purchase") { Task { await billing.purchase(product); if billing.allowsPro { app.feedback(success: true); onFinish() } } }.disabled(billing.busy)
                 } else { Text(L("billing.unavailable")).font(.footnote); Button(L("retry")) { Task { await billing.load() } } }
             }
             if let message = billing.message { Text(message).font(.footnote) }
@@ -98,6 +106,6 @@ struct PaywallContent: View {
             Button(L("billing.restore")) { Task { await billing.restore(); if billing.allowsPro { onFinish() } } }.disabled(billing.busy)
             Text(L("quota.policy")).font(.caption).foregroundStyle(.secondary)
             HStack { NavigationLink(L("legal.terms")) { HelpDetailView(kind: "terms") }; Spacer(); NavigationLink(L("legal.privacy")) { HelpDetailView(kind: "privacy") } }.font(.footnote)
-        }.task { if billing.products.isEmpty { await billing.load() }; selected = billing.products.first?.id }
+        }.task { if billing.products.isEmpty { await billing.load() } else { await billing.refreshTrialEligibility() }; selected = billing.sevenDayTrialProduct?.id ?? billing.products.first?.id }
     }
 }

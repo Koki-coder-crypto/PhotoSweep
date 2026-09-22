@@ -4,6 +4,8 @@ struct SwipeView: View {
     @EnvironmentObject var app: AppModel
     @Environment(\.accessibilityReduceMotion) var reduceMotion
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
+    @Environment(\.scenePhase) private var phase
+    @State private var visible = false
     @State private var drag: CGFloat = 0
     @State private var committing = false
     @State private var outgoing: MediaItem?
@@ -17,6 +19,10 @@ struct SwipeView: View {
         return app.mediaIndex.byID[session.ids[session.cursor]]
     }
     private var reduced: Bool { reduceMotion || app.state.settings.reduceMotion }
+    private var activityVisible: Bool {
+        visible && phase == .active && app.tab == 1 && !app.paywall && !app.showResult && !app.replay
+            && !app.state.needsOnboarding && !app.preparingSwipe && app.state.session?.status == "active"
+    }
     var body: some View {
         GeometryReader { viewport in
         ScrollView {
@@ -27,7 +33,8 @@ struct SwipeView: View {
                         NavigationLink { MonthListView { choose($0) } } label: { VStack { Image(systemName: "calendar").font(.title).frame(width: 66, height: 66).background(Color(uiColor: .tertiarySystemFill), in: Circle()); Text(L("months.all")).font(.caption) } }.buttonStyle(.plain)
                     }.padding(.horizontal, 16)
                 }
-                if let session = app.state.session {
+                if app.preparingSwipe { ProgressView(L("media.preparing")).frame(height: 240) }
+                else if let session = app.state.session {
                     if session.status == "summary" && outgoing == nil { SummaryView() }
                     else if let current {
                         sessionHeader(session)
@@ -37,7 +44,6 @@ struct SwipeView: View {
                                   commit: { choice, width in commit(current.id, choice: choice, width: width) }).frame(height: dynamicTypeSize.isAccessibilitySize
                             ? max(150, min(240, viewport.size.height * 0.27))
                             : max(180, min(420, viewport.size.height * 0.53))).padding(.horizontal, 16)
-                        if current.kind == .video { MediaPlayerView(id: current.id).id(current.id).padding(.horizontal, 16) }
                         HStack {
                             Button(L("action.skip")) { Task { _ = await app.decide(current.id, choice: nil) } }.disabled(app.busy || committing)
                             Spacer()
@@ -61,7 +67,13 @@ struct SwipeView: View {
             }
         }
         }.navigationTitle(L("tab.swipe")).navigationBarTitleDisplayMode(.inline)
-            .onDisappear { stopHint(); app.library.clearPrefetch() }
+            .task(id: current?.id) {
+                if let session = app.state.session { app.library.prefetch(Array(session.ids.dropFirst(session.cursor).prefix(3))) }
+            }
+            .onAppear { visible = true; app.setReviewActivity(visible: activityVisible) }
+            .onChange(of: activityVisible) { app.setReviewActivity(visible: $0) }
+            .onChange(of: app.state.session?.id) { _ in app.setReviewActivity(visible: activityVisible) }
+            .onDisappear { visible = false; app.setReviewActivity(visible: false); stopHint(); app.library.clearPrefetch() }
     }
     private func sessionHeader(_ session: Session) -> some View {
         let layout = dynamicTypeSize.isAccessibilitySize
@@ -123,7 +135,7 @@ struct MonthCircle: View {
     private var reviewed: Int { app.reviewedByMonth[month] ?? 0 }
     var body: some View {
         Button(action: action) { VStack(spacing: 6) {
-            ZStack { if let first = items.first { AssetThumbnail(id: first.id).clipShape(Circle()).padding(5) }; Circle().stroke(Color(uiColor: .tertiarySystemFill), lineWidth: 3); Circle().trim(from: 0, to: CGFloat(reviewed) / CGFloat(max(1, items.count))).stroke(Color.accentColor, style: StrokeStyle(lineWidth: 3, lineCap: .round)).rotationEffect(.degrees(-90)); if reviewed == items.count { Image(systemName: "checkmark.circle.fill").foregroundStyle(.white, Color.accentColor).offset(x: 24, y: 24) } }.frame(width: 66, height: 66)
+            ZStack { if let first = items.first { MediaThumbnail(id: first.id).clipShape(Circle()).padding(5) }; Circle().stroke(Color(uiColor: .tertiarySystemFill), lineWidth: 3); Circle().trim(from: 0, to: CGFloat(reviewed) / CGFloat(max(1, items.count))).stroke(Color.accentColor, style: StrokeStyle(lineWidth: 3, lineCap: .round)).rotationEffect(.degrees(-90)); if reviewed == items.count { Image(systemName: "checkmark.circle.fill").foregroundStyle(.white, Color.accentColor).offset(x: 24, y: 24) } }.frame(width: 66, height: 66)
             Text(month).font(.caption.weight(.semibold)); Text(String(format: L("count.remaining"), items.count - reviewed)).font(.caption2).foregroundStyle(.secondary)
         } }.buttonStyle(.plain).accessibilityLabel(month + ", " + String(format: L("count.remaining"), items.count - reviewed)).disabled(app.busy)
     }
@@ -147,6 +159,10 @@ struct SummaryView: View {
         Image(systemName: "checkmark.circle.fill").font(.system(size: 60)).foregroundStyle(.tint).frame(maxWidth: .infinity)
         Text(L("summary.title")).font(.largeTitle.bold())
         if let session = app.state.session { Text(String(format: L("summary.counts"), session.steps.filter { $0.choice == .keep }.count, session.steps.filter { $0.choice == .candidate }.count)); ActionButton(title: "summary.continue") { Task { await app.begin(session.scope) } } }
+        if let session = app.state.session, let seconds = session.activeSeconds, let count = session.timedReviewCount, count > 0, seconds > 0 {
+            Text(String(format: L("result.reviewPace"), count, SuccessExperience.duration(seconds))).font(.title2.bold()).foregroundStyle(coral)
+            Text(L("result.activeTimeNote")).font(.caption).foregroundStyle(.secondary)
+        }
         Button(L("summary.done")) { app.tab = 0 }.frame(maxWidth: .infinity, minHeight: 44)
     }.padding(16) }
 }
@@ -182,7 +198,7 @@ GeometryReader { geo in
                                 if let nextID {
                                     AssetThumbnail(id: nextID, fit: true).clipShape(RoundedRectangle(cornerRadius: 24)).scaleEffect(reduced ? 1 : 0.95 + min(abs(drag) / max(1, geo.size.width), 1) * 0.05).offset(y: reduced ? 0 : 8)
                                 }
-                                AssetThumbnail(id: current.id, fit: true)
+                                MediaThumbnail(id: current.id, fit: true)
                                     .clipShape(RoundedRectangle(cornerRadius: 24))
                                     .overlay(alignment: drag < 0 ? .topLeading : .topTrailing) {
                                         if abs(drag) > 12 { Text(L(drag < 0 ? "action.candidate" : "action.keep")).font(SwiftUI.Font.title2.bold()).padding(12).background((drag < 0 ? coral : Color.accentColor).opacity(0.95), in: Capsule()).foregroundStyle(Color.white).padding(16).opacity(Double(min(abs(drag) / 90, 1))) }

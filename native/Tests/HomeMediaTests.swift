@@ -29,12 +29,12 @@ final class HomeMediaTests: XCTestCase {
         XCTAssertEqual(result[.similar]?.count, 2)
         XCTAssertTrue(result[.duplicate]?.ids.isEmpty == true)
     }
-    @MainActor func testOnlyOneMostlyVisibleVideoCanPlay() {
-        let summaries: [PhotoSweep.Category: HomeMediaSummary] = [.videos: .init(ids: ["v"], count: 1, videoID: "v"),
-                                                      .recordings: .init(ids: ["r"], count: 1, videoID: "r")]
-        XCTAssertNil(HomePreviewPlayer.visibleCategory(frames: [.videos: CGRect(x: 0, y: -100, width: 300, height: 200)], height: 600, summaries: summaries))
-        XCTAssertEqual(HomePreviewPlayer.visibleCategory(frames: [.videos: CGRect(x: 0, y: 0, width: 300, height: 200),
-                                                                  .recordings: CGRect(x: 0, y: 200, width: 300, height: 200)], height: 600, summaries: summaries), .recordings)
-        XCTAssertNil(HomePreviewPlayer.visibleCategory(frames: [:], height: 600, summaries: summaries))
+    func testEveryVisibleVideoCanPlayAndOffscreenVideosStop() {
+        let viewport = CGRect(x: 0, y: 0, width: 390, height: 700)
+        XCTAssertTrue(MediaVisibility.isVisible(CGRect(x: 0, y: 100, width: 110, height: 150), in: viewport))
+        XCTAssertTrue(MediaVisibility.isVisible(CGRect(x: 120, y: 100, width: 110, height: 150), in: viewport))
+        XCTAssertFalse(MediaVisibility.isVisible(CGRect(x: 0, y: 750, width: 110, height: 150), in: viewport))
+        XCTAssertFalse(MediaVisibility.isVisible(CGRect(x: -200, y: 100, width: 110, height: 150), in: viewport))
+        XCTAssertFalse(MediaVisibility.isVisible(.zero, in: viewport))
     }
 }

@@ -1,6 +1,8 @@
-# Review response — 2.0.0 (20010)
+# Review response — 2.0.0 (corrected candidate 20012)
 
 Draft only. Do not send or resubmit until a physical-device recording has been received, checked against the submitted build, and attached in App Store Connect. Record the actual model, OS version, filename and recording navigation timestamps at that point. The reviewer specifically requires the latest OS. Do not claim the video exists before receipt.
+
+Build 20012 includes measured compression results and the media preview/onboarding/success experience update. Verify delivery and record this corrected build before sending the response. The existing submitted build is still 20010 until explicitly replaced.
 
 The following six answers are ready to combine with item 1 (the verified recording reference) in both the review reply and App Review Notes. Keep the notes within Apple's length limit. Preserve the saved reviewer contact and manual release setting.
 
@@ -16,7 +18,7 @@ Organize opens photo/video categories and duplicate/similar comparisons. Swipe o
 
 ## 4. External services, tools and platforms
 
-Core features use Apple's on-device frameworks: PhotoKit for authorized media access, Core Graphics and CryptoKit for local image fingerprints and file hashes, AVFoundation for video conversion/playback, and StoreKit 2/App Store for purchases and verified entitlements. SQLite stores sorting records on the device. Apple iCloud Photos may download originals when the user requests them. GitHub Pages hosts the public support, privacy and terms pages. There is no developer-operated media server, third-party authentication, advertising/behavioral analytics SDK, external AI service, or third-party payment processor.
+Core features use Apple's on-device frameworks: PhotoKit for authorized media access, Core Graphics and CryptoKit for local image fingerprints and file hashes, AVFoundation for video conversion/playback, and StoreKit 2/App Store for purchases and verified entitlements. SQLite stores sorting records on the device. Apple iCloud Photos may fetch previews or videos automatically for visible media and the next two swipe cards; analysis does not bulk-download the library. GitHub Pages hosts the public support, privacy and terms pages. There is no developer-operated media server, third-party authentication, advertising/behavioral analytics SDK, external AI service, or third-party payment processor.
 
 ## 5. Regional differences
 

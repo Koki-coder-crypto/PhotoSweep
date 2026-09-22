@@ -17,7 +17,9 @@ final class PhotoLibrary: NSObject, PhotoRepository, PHPhotoLibraryChangeObserve
     private var recordingIDs = Set<String>()
     private var prefetched: [PHAsset] = []
     private let cacheSize = CGSize(width: 1000, height: 1400)
-    override init() { super.init() }
+    private let previews = NSCache<NSString, UIImage>()
+    private var previewRequests: [String: PHImageRequestID] = [:]
+    override init() { super.init(); previews.countLimit = 18; previews.totalCostLimit = 32 * 1024 * 1024 }
     deinit { if observing { PHPhotoLibrary.shared().unregisterChangeObserver(self) } }
     // PhotoKit observation starts only after access is granted, never during the
     // practice introduction. Refresh this when returning from Settings as well.
@@ -28,7 +30,7 @@ final class PhotoLibrary: NSObject, PhotoRepository, PHPhotoLibraryChangeObserve
             PHPhotoLibrary.shared().unregisterChangeObserver(self); observing = false
         }
     }
-    func photoLibraryDidChange(_ changeInstance: PHChange) { DispatchQueue.main.async { self.changed?() } }
+    func photoLibraryDidChange(_ changeInstance: PHChange) { DispatchQueue.main.async { self.previews.removeAllObjects(); self.changed?() } }
     var permission: PHAuthorizationStatus { PHPhotoLibrary.authorizationStatus(for: .readWrite) }
     var accessible: Bool { permission == .authorized || permission == .limited }
     func requestPermission() async -> PHAuthorizationStatus { await PHPhotoLibrary.requestAuthorization(for: .readWrite) }
@@ -72,17 +74,32 @@ final class PhotoLibrary: NSObject, PhotoRepository, PHPhotoLibraryChangeObserve
         PHAsset.fetchAssets(withLocalIdentifiers: ids, options: nil).enumerateObjects { asset, _, _ in found.insert(asset.localIdentifier) }
         guard permission == .authorized else { return nil }; return ids.filter { !found.contains($0) }
     }
-    func image(_ id: String, size: CGSize, network: Bool = false, completion: @escaping (UIImage?) -> Void) -> PHImageRequestID? {
+    func cachedPreview(_ id: String) -> UIImage? { previews.object(forKey: id as NSString) }
+    func image(_ id: String, size: CGSize, network: Bool = true, completion: @escaping (UIImage?) -> Void) -> PHImageRequestID? {
+        if let cached = cachedPreview(id) { completion(cached) }
         guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [id], options: nil).firstObject else { completion(nil); return nil }
-        let options = PHImageRequestOptions(); options.isNetworkAccessAllowed = network; options.deliveryMode = .highQualityFormat; options.resizeMode = .exact
-        return images.requestImage(for: asset, targetSize: size, contentMode: .aspectFit, options: options) { image, _ in DispatchQueue.main.async { completion(image) } }
+        let options = PHImageRequestOptions(); options.isNetworkAccessAllowed = network; options.deliveryMode = .opportunistic; options.resizeMode = .fast
+        return images.requestImage(for: asset, targetSize: size, contentMode: .aspectFit, options: options) { [weak self] image, info in
+            DispatchQueue.main.async {
+                guard info?[PHImageCancelledKey] as? Bool != true else { return }
+                if let image {
+                    if self?.cachedPreview(id).map({ $0.size.width * $0.scale <= image.size.width * image.scale }) ?? true {
+                        self?.previews.setObject(image, forKey: id as NSString, cost: Int(image.size.width * image.size.height * image.scale * image.scale * 4))
+                    }
+                    completion(image)
+                } else if info?[PHImageResultIsDegradedKey] as? Bool != true { completion(nil) }
+            }
+        }
     }
     @MainActor func clearPrefetch() {
         images.stopCachingImagesForAllAssets()
+        for request in previewRequests.values { images.cancelImageRequest(request) }
+        previewRequests = [:]; previews.removeAllObjects()
         prefetched = []
     }
     @MainActor func prefetch(_ ids: [String]) {
         let wanted = Set(ids.prefix(3))
+        for (id, request) in previewRequests where !wanted.contains(id) { images.cancelImageRequest(request); previewRequests.removeValue(forKey: id) }
         let removed = prefetched.filter { !wanted.contains($0.localIdentifier) }
         images.stopCachingImages(for: removed, targetSize: cacheSize, contentMode: .aspectFit, options: nil)
         let existing = Set(prefetched.map(\.localIdentifier))
@@ -90,6 +107,16 @@ final class PhotoLibrary: NSObject, PhotoRepository, PHPhotoLibraryChangeObserve
         PHAsset.fetchAssets(withLocalIdentifiers: Array(wanted.subtracting(existing)), options: nil).enumerateObjects { asset, _, _ in added.append(asset) }
         prefetched = prefetched.filter { wanted.contains($0.localIdentifier) } + added
         images.startCachingImages(for: added, targetSize: cacheSize, contentMode: .aspectFit, options: nil)
+        // Only the current card and two successors request network previews, never the whole library.
+        for id in wanted where cachedPreview(id) == nil && previewRequests[id] == nil {
+            previewRequests[id] = image(id, size: cacheSize) { _ in }
+        }
+    }
+    @MainActor func prepareFirstPreview(_ id: String) async {
+        let deadline = ProcessInfo.processInfo.systemUptime + 3
+        while cachedPreview(id) == nil && ProcessInfo.processInfo.systemUptime < deadline && !Task.isCancelled {
+            try? await Task.sleep(nanoseconds: 30_000_000)
+        }
     }
     func video(_ id: String) async -> AVPlayerItem? {
         guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [id], options: nil).firstObject else { return nil }

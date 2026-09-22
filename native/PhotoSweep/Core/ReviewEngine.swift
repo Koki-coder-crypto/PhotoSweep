@@ -39,7 +39,7 @@ enum ReviewEngine {
         next.session = Session(id: UUID().uuidString, ids: selected, cursor: 0, target: selected.count, scope: scope, startedAt: clock.now, status: "active", steps: [])
         next.rememberSession(); return next
     }
-    static func decide(_ state: ReviewState, id: String, choice: Choice?, pro: Bool, clock: WallClock = WallClock()) throws -> ReviewState {
+    static func decide(_ state: ReviewState, id: String, choice: Choice?, pro: Bool, activeSeconds: Double? = nil, clock: WallClock = WallClock()) throws -> ReviewState {
         var next = refresh(state, clock); guard !next.locked else { throw ReviewFailure.locked }
         guard var session = next.session, session.status != "summary", session.ids.indices.contains(session.cursor), session.ids[session.cursor] == id else { throw ReviewFailure.stale }
         let previous = next.decisions[id]
@@ -50,9 +50,14 @@ enum ReviewEngine {
             next.decisions[id] = Decision(choice: choice, at: clock.now, sessionId: session.id)
         }
         session.steps.append(Step(id: id, previous: previous, choice: choice, cursor: session.cursor)); session.cursor += 1
+        if let activeSeconds, activeSeconds.isFinite, activeSeconds >= 0 {
+            session.activeSeconds = (session.activeSeconds ?? 0) + activeSeconds
+            session.timedReviewCount = (session.timedReviewCount ?? 0) + (choice == nil ? 0 : 1)
+        }
         if session.cursor == session.ids.count {
             session.status = "summary"; next.history.removeAll { $0.id == session.id }
-            next.history.append(HistoryItem(id: session.id, at: session.startedAt, kept: session.steps.filter { $0.choice == .keep }.count, candidates: session.steps.filter { $0.choice == .candidate }.count))
+            next.history.append(HistoryItem(id: session.id, at: session.startedAt, kept: session.steps.filter { $0.choice == .keep }.count, candidates: session.steps.filter { $0.choice == .candidate }.count,
+                                            activeSeconds: session.activeSeconds, timedReviewCount: session.timedReviewCount))
         }
         next.session = session; next.rememberSession(); return next
     }
@@ -60,6 +65,7 @@ enum ReviewEngine {
         guard !state.locked else { throw ReviewFailure.locked }
         var next = state; guard var session = next.session, let step = session.steps.popLast() else { return next }
         next.decisions[step.id] = step.previous; session.cursor = step.cursor; session.status = "active"
+        if let count = session.timedReviewCount, step.choice != nil { session.timedReviewCount = max(0, count - 1) }
         next.history.removeAll { $0.id == session.id }; next.session = session; next.rememberSession(); return next
     }
     static func stage(_ state: ReviewState, ids: [String], pro: Bool, clock: WallClock = WallClock()) throws -> ReviewState {

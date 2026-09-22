@@ -23,7 +23,6 @@ struct AssetThumbnail: View {
     var id: String; var fit = false
     @State private var image: UIImage?
     @State private var request: PHImageRequestID?
-    @State private var network = false
     @State private var failed = false
     @State private var generation = UUID()
     @State private var targetSize = CGSize(width: 200, height: 200)
@@ -33,51 +32,27 @@ struct AssetThumbnail: View {
             ZStack {
                 Color(uiColor: .tertiarySystemFill)
                 if let image { Image(uiImage: image).resizable().aspectRatio(contentMode: fit ? .fit : .fill).frame(width: geometry.size.width, height: geometry.size.height).clipped() }
-                else if failed { VStack { Image(systemName: "icloud.and.arrow.down"); if fit { Button(L("media.download")) { network = true; load() }.buttonStyle(.bordered) } } }
+                else if failed { VStack { Image(systemName: "photo"); if fit { Text(L("media.previewUnavailable")).font(.footnote); Button(L("retry")) { load() }.buttonStyle(.bordered) } } }
                 else { ProgressView() }
             }.task(id: id) {
                     targetSize = CGSize(width: max(1, min(1200, geometry.size.width * displayScale)), height: max(1, min(1600, geometry.size.height * displayScale)))
-                    network = false; load()
+                    load()
                 }
                 .onDisappear { generation = UUID(); if let request { app.library.images.cancelImageRequest(request) }; request = nil; image = nil }
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.didReceiveMemoryWarningNotification)) { _ in app.library.clearPrefetch() }
         }.accessibilityLabel(L("media.preview"))
     }
     private func load() {
-        if let request { app.library.images.cancelImageRequest(request) }; image = nil; failed = false
+        if let request { app.library.images.cancelImageRequest(request) }; image = app.library.cachedPreview(id); failed = false
         generation = UUID(); let expected = generation
-        request = app.library.image(id, size: targetSize, network: network) { value in
-            guard expected == generation else { return }; image = value; failed = value == nil
+        request = app.library.image(id, size: targetSize) { value in
+            guard expected == generation else { return }; if let value { image = value }; failed = image == nil
         }
     }
 }
 struct MediaPlayerView: View {
-    @EnvironmentObject var app: AppModel
-    @Environment(\.scenePhase) var phase
     var id: String?; var url: URL? = nil
-    @State private var player: AVPlayer?
-    @State private var loading = false
-    @State private var failed = false
-    @State private var loadingTask: Task<Void, Never>?
-    var body: some View {
-        VStack {
-            if let player { VideoPlayer(player: player).frame(minHeight: 220) }
-            else { Button(action: load) { Label(L(loading ? "media.loading" : "media.play"), systemImage: "play.circle.fill").font(.title3).frame(maxWidth: .infinity, minHeight: 80) }.disabled(loading) }
-            if failed { Text(L("media.playFailed")).font(.footnote).foregroundStyle(.secondary) }
-            Text(L("media.network")).font(.caption).foregroundStyle(.secondary)
-        }.onDisappear { loadingTask?.cancel(); loading = false; player?.pause(); player = nil }.onChange(of: phase) { if $0 != .active { loadingTask?.cancel(); loading = false; player?.pause() } }
-    }
-    private func load() {
-        loadingTask?.cancel(); loading = true; failed = false
-        loadingTask = Task {
-            let result: AVPlayer?
-            if let url { result = AVPlayer(url: url) }
-            else if let id, let item = await app.library.video(id) { result = AVPlayer(playerItem: item) }
-            else { result = nil }
-            guard !Task.isCancelled else { return }
-            player = result; failed = result == nil; loading = false
-        }
-    }
+    var body: some View { AutoPlayingVideo(id: id, url: url, fit: true, controls: true).frame(minHeight: 220) }
 }
 struct ZoomView: View {
     var id: String; var kind: MediaKind

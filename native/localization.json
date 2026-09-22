@@ -640,8 +640,8 @@
     "使い方をもう一度体験"
   ],
   "practice.label": [
-    "Practice · No real photos",
-    "練習・実写真には影響しません"
+    "Practice · sample photos",
+    "練習用のサンプル写真"
   ],
   "practice.sample": [
     "Practice card %d",
@@ -1050,5 +1050,77 @@
   "compression.result.unavailableDetail": [
     "The measured sizes are unavailable, so no reduction is shown. Check playback and try compression again.",
     "実測サイズを取得できないため、削減量は表示できません。再生を確認し、もう一度圧縮してください。"
+  ],
+  "media.previewUnavailable": [
+    "Preview is unavailable right now",
+    "いまはプレビューを表示できません"
+  ],
+  "media.preparing": [
+    "Preparing your photos…",
+    "写真を準備しています…"
+  ],
+  "media.videoPreview": [
+    "Video preview",
+    "動画プレビュー"
+  ],
+  "media.unmute": [
+    "Turn sound on",
+    "音声をオンにする"
+  ],
+  "media.mute": [
+    "Mute video",
+    "音声をオフにする"
+  ],
+  "result.reviewPace": [
+    "%d items reviewed in %@",
+    "%d件を%@で整理"
+  ],
+  "result.activeTimeNote": [
+    "Measured time spent on the swipe screen. Time in the background is excluded.",
+    "スワイプ画面で整理していた時間の実測です。バックグラウンドの時間は含みません。"
+  ],
+  "result.reviewTotal": [
+    "Your completed swipe sessions",
+    "これまでに完了したスワイプ整理"
+  ],
+  "result.sizeUnavailable": [
+    "Size unavailable",
+    "容量は不明です"
+  ],
+  "result.deletedDataNote": [
+    "The size of the media you deleted. This is different from the increase in free device storage.",
+    "削除した写真・動画のデータ量です。端末の空き容量の増加量とは異なります。"
+  ],
+  "result.freeChange": [
+    "Change in free device storage",
+    "端末の空き容量の変化"
+  ],
+  "result.freeUnchanged": [
+    "No increase measured yet",
+    "増加はまだ確認できません"
+  ],
+  "pro.successHeadline": [
+    "Keep the momentum with Pro",
+    "この調子で、もっとすっきり"
+  ],
+  "pro.sevenDayHeadline": [
+    "Try Pro free for 7 days",
+    "7日間無料で\nもっとすっきり"
+  ],
+  "pro.successDetail": [
+    "Keep reviewing without daily limits, compress videos and find what matters with date filters.",
+    "毎日の枚数制限なしで、整理を続けられます。動画の圧縮や期間での絞り込みも使えます。"
+  ],
+  "pro.sevenDayExplore": [
+    "See the 7-day free trial",
+    "7日間無料体験を見る"
+  ],
+  "pro.noAutomaticPurchase": [
+    "View the plans first. Nothing starts until you confirm with Apple.",
+    "次の画面でプランを確認できます。Appleの確認画面で確定するまで、契約は始まりません。"
+  ],
+  "billing.startSevenDayTrial": [
+    "Start 7-day free trial",
+    "7日間無料で試す"
   ]
 }
