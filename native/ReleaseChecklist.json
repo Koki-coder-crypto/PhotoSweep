@@ -64,6 +64,10 @@
     "storefrontMarketingTwelve": {
       "status": "PASS",
       "evidence": "2026-09-22: JA/EN six reviewed marketing images each, 1284x2778. All 12 COMPLETE and ordered in existing APP_IPHONE_65 sets; original four storefront assets replaced. Actual app captures from 35619661636, source unchanged from 8e25d20/20010. Native full capture suite and compression comparison are NOT passed. See artifacts/storefront-2026-09-22/registered.json and provenance.json."
+    },
+    "compressionMeasuredResult": {
+      "status": "NOT_RUN",
+      "evidence": "2026-09-22 user reported 0KB to 0KB on 20010. Int/NSNumber reader and measured result UI implemented for 20011; full native and updated-device checks pending."
     }
   },
   "initialSubmission": {

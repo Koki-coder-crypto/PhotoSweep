@@ -250,3 +250,12 @@
 "billing.pendingRetryNotice" = "やり直しても前の購入申請は取り消されません。承認待ちの申請がある場合は、状況を確認してから購入してください。";
 "billing.pendingRetry" = "プラン選択に戻る";
 "billing.restricted" = "この端末では購入が制限されています。設定の購入制限をご確認ください。";
+"compression.result.success" = "動画が小さくなりました";
+"compression.result.reduction" = "小さくなりました（%@削減）";
+"compression.result.before" = "圧縮前の動画";
+"compression.result.after" = "圧縮後の動画";
+"compression.result.exact" = "実測値をバイト単位で見る";
+"compression.result.exactValues" = "圧縮前：%@バイト\n圧縮後：%@バイト\n削減量：%@バイト";
+"compression.result.unsaved" = "ファイルの実測サイズです。圧縮後の動画はまだ写真アプリに保存されていません。元の動画はそのまま残っています。";
+"compression.result.unavailable" = "容量を確認できませんでした";
+"compression.result.unavailableDetail" = "実測サイズを取得できないため、削減量は表示できません。再生を確認し、もう一度圧縮してください。";

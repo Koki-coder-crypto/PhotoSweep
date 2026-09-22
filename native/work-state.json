@@ -1,7 +1,7 @@
 {
   "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
   "branch": "codex/swiftui-2",
-  "activeStep": "2026-09-22: Guideline 2.1 Information Needed rejection confirmed. JA/EN six new marketing screenshots each uploaded and COMPLETE, ordered, replacing initial home/Pro pair. Physical-device recording is not yet taken; user received recording instructions. Prepare review reply/notes and resubmit only after video verification.",
+  "activeStep": "Fix compression size display and truthful result presentation for TestFlight 20011. Live Int measurements were read as Double and replaced with zero. Full distribution tests and visual evidence pending; physical-device review recording must use corrected build.",
   "lastFullPass": {
     "commit": "8e25d20",
     "run": 35609343455,
@@ -136,5 +136,11 @@
   "resolvedHistoricalFailure": {
     "build": 20004,
     "detail": "User reports slow home-to-swipe transition and crash with fewer than 1000 assets; feedback AB2mJnQlrAPe_IINV2fbit8 exists, detailed crash log unavailable (404)."
+  },
+  "compressionResultFix": {
+    "build": "20011",
+    "state": "Implementation and local checks complete; native tests pending",
+    "scope": "Measured input/output bytes, saved bytes, conservative percent, proportional bars, byte detail, unknown/no-reduction states, completion scroll and settings-aware haptic. Original preservation and save flow retained.",
+    "deviceVerification": "NOT_RUN: user must confirm actual sizes and playback on updated TestFlight."
   }
 }

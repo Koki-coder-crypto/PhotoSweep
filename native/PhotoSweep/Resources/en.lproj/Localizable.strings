@@ -250,3 +250,12 @@
 "billing.pendingRetryNotice" = "Retrying does not cancel your previous request. Check any outstanding approval request before purchasing again.";
 "billing.pendingRetry" = "Return to plans";
 "billing.restricted" = "Purchases are not allowed on this device. Check your purchase restrictions in Settings.";
+"compression.result.success" = "Your video is smaller";
+"compression.result.reduction" = "smaller · %@ reduction";
+"compression.result.before" = "Original video";
+"compression.result.after" = "Compressed video";
+"compression.result.exact" = "Measured file sizes (bytes)";
+"compression.result.exactValues" = "Before: %@ bytes\nAfter: %@ bytes\nReduction: %@ bytes";
+"compression.result.unsaved" = "These are measured file sizes. The compressed copy has not been saved to Photos. Your original is unchanged.";
+"compression.result.unavailable" = "File sizes could not be confirmed";
+"compression.result.unavailableDetail" = "The measured sizes are unavailable, so no reduction is shown. Check playback and try compression again.";

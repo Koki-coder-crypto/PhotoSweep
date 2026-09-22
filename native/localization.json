@@ -1014,5 +1014,41 @@
   "billing.restricted": [
     "Purchases are not allowed on this device. Check your purchase restrictions in Settings.",
     "この端末では購入が制限されています。設定の購入制限をご確認ください。"
+  ],
+  "compression.result.success": [
+    "Your video is smaller",
+    "動画が小さくなりました"
+  ],
+  "compression.result.reduction": [
+    "smaller · %@ reduction",
+    "小さくなりました（%@削減）"
+  ],
+  "compression.result.before": [
+    "Original video",
+    "圧縮前の動画"
+  ],
+  "compression.result.after": [
+    "Compressed video",
+    "圧縮後の動画"
+  ],
+  "compression.result.exact": [
+    "Measured file sizes (bytes)",
+    "実測値をバイト単位で見る"
+  ],
+  "compression.result.exactValues": [
+    "Before: %@ bytes\nAfter: %@ bytes\nReduction: %@ bytes",
+    "圧縮前：%@バイト\n圧縮後：%@バイト\n削減量：%@バイト"
+  ],
+  "compression.result.unsaved": [
+    "These are measured file sizes. The compressed copy has not been saved to Photos. Your original is unchanged.",
+    "ファイルの実測サイズです。圧縮後の動画はまだ写真アプリに保存されていません。元の動画はそのまま残っています。"
+  ],
+  "compression.result.unavailable": [
+    "File sizes could not be confirmed",
+    "容量を確認できませんでした"
+  ],
+  "compression.result.unavailableDetail": [
+    "The measured sizes are unavailable, so no reduction is shown. Check playback and try compression again.",
+    "実測サイズを取得できないため、削減量は表示できません。再生を確認し、もう一度圧縮してください。"
   ]
 }

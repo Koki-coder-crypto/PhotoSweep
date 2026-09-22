@@ -12,16 +12,25 @@ struct CompressionView: View {
     @EnvironmentObject var app: AppModel
     @EnvironmentObject var billing: Billing
     @Environment(\.dismiss) var dismiss
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     var assetId: String
     @State private var preset = "1080"
     @State private var job: [String: Any] = [:]
     private var phase: String { job["phase"] as? String ?? "idle" }
     private var active: Bool { ["preparing", "encoding", "saving"].contains(phase) }
     private var same: Bool { job["assetId"] as? String == assetId }
+    private var resultVisible: Bool { same && ["ready", "saved", "not-smaller"].contains(phase) }
     var body: some View {
+        ScrollViewReader { scroll in
         ScrollView { VStack(alignment: .leading, spacing: 20) {
             Text(L("pro.feature")).font(.caption.bold()).foregroundStyle(.tint)
             Text(L("compression.detail")).foregroundStyle(.secondary)
+            if resultVisible {
+                CompressionResultCard(metrics: CompressionMetrics(job: job), saved: phase == "saved")
+                    .id("compression-result")
+                if phase == "ready" { ActionButton(title: "compression.save") { perform { try app.compression.save(job["id"] as? String ?? "") } } }
+            }
+            Text(L("compression.result.before")).font(.headline)
             MediaPlayerView(id: assetId)
             Picker(L("compression.quality"), selection: $preset) { Text(L("compression.1080")).tag("1080"); Text(L("compression.720")).tag("720") }.pickerStyle(.segmented).disabled(active)
             Text(L("compression.supported")).font(.footnote)
@@ -35,10 +44,9 @@ struct CompressionView: View {
             else if same && ["ready", "saved", "not-smaller"].contains(phase) {
                 Panel {
                     Text(L("compression.compare")).font(.title2.bold())
-                    HStack { Text(bytesText(job["inputBytes"] as? Double ?? 0)); Image(systemName: "arrow.right"); Text(bytesText(job["outputBytes"] as? Double ?? 0)) }.font(.title3.bold())
+                    Text(L("compression.result.after")).font(.headline)
                     if let uri = job["outputUri"] as? String, let url = URL(string: uri) { MediaPlayerView(id: nil, url: url) }
                 }
-                if phase == "ready" { ActionButton(title: "compression.save") { perform { try app.compression.save(job["id"] as? String ?? "") } } }
                 if phase == "not-smaller" { Text(L("compression.not-smaller")) }
                 if phase == "ready" || phase == "not-smaller" {
                     Button(L("compression.retrySettings")) {
@@ -57,9 +65,21 @@ struct CompressionView: View {
                     if billing.allowsPro { perform { try app.compression.start(assetId, preset: preset) } } else { app.paywall = true }
                 }
             }
-        }.padding(20) }.navigationTitle(L("category.compression")).navigationBarTitleDisplayMode(.inline)
+        }.padding(20) }
+            .onChange(of: resultVisible) { visible in
+                guard visible else { return }
+                if reduceMotion || app.state.settings.reduceMotion { scroll.scrollTo("compression-result", anchor: .top) }
+                else { withAnimation(.easeOut(duration: 0.3)) { scroll.scrollTo("compression-result", anchor: .top) } }
+            }
+        }.navigationTitle(L("category.compression")).navigationBarTitleDisplayMode(.inline)
             .task { while !Task.isCancelled { refresh(); try? await Task.sleep(nanoseconds: 300_000_000) } }
     }
-    private func refresh() { job = app.compression.status() }
+    private func refresh() {
+        let wasEncoding = same && ["preparing", "encoding"].contains(phase)
+        job = app.compression.status()
+        if wasEncoding && same && phase == "ready", CompressionMetrics(job: job)?.isSmaller == true {
+            app.feedback(success: true)
+        }
+    }
     private func perform(_ work: () throws -> [String: Any]) { do { job = try work() } catch { app.error = error.localizedDescription } }
 }
