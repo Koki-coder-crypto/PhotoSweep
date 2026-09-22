@@ -62,7 +62,7 @@ struct SwipeView: View {
                 NavigationLink(L("filter.title")) { FilterView() }.padding()
             }.padding(.vertical, 16)
         }.safeAreaInset(edge: .bottom, spacing: 0) {
-            if let session = app.state.session, let current, session.status != "summary" || outgoing != nil {
+            if !app.preparingSwipe, let session = app.state.session, let current, session.status != "summary" || outgoing != nil {
                 decisionControls(current, session: session).padding(.vertical, 10).background(.bar)
             }
         }
@@ -104,7 +104,7 @@ struct SwipeView: View {
         stopHint(); Task { await app.begin(Scope(month: month)); if !app.state.monthHintSeen, app.state.session?.scope.month == month { showHint(); _ = await app.mutate { s in var n = s; n.monthHintSeen = true; return n } } }
     }
     private func commit(_ id: String, choice: Choice, width: CGFloat = 390) {
-        guard !committing, !app.busy else { return }; stopHint(); committing = true; outgoing = current
+        guard !committing, !app.busy, !app.preparingSwipe else { return }; stopHint(); committing = true; outgoing = current
         Task {
             if await app.decide(id, choice: choice) {
                 // The transaction has committed. Animate only presentation, never durability.
