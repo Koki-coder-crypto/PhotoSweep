@@ -60,6 +60,10 @@
     "initialStoreScreenshots": {
       "status": "PASS",
       "evidence": "2026-09-22: two 1284x2778 real screenshots per locale (home, Pro), from unchanged 20010 app sources, all four Apple assets COMPLETE. Sets ja 57af1e02-1bc3-4050-adfb-c71b28864e69 / en ac6030aa-9fc2-4e65-b5fb-002e2474aec2. Transition frames were excluded. Full fourteen-image plan is deferred, not passed."
+    },
+    "storefrontMarketingTwelve": {
+      "status": "PASS",
+      "evidence": "2026-09-22: JA/EN six reviewed marketing images each, 1284x2778. All 12 COMPLETE and ordered in existing APP_IPHONE_65 sets; original four storefront assets replaced. Actual app captures from 35619661636, source unchanged from 8e25d20/20010. Native full capture suite and compression comparison are NOT passed. See artifacts/storefront-2026-09-22/registered.json and provenance.json."
     }
   },
   "initialSubmission": {

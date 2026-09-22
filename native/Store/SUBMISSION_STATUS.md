@@ -1,3 +1,17 @@
+# Additional information required — 2026-09-22
+
+Apple rejected 2.0.0 (20010) under **Guideline 2.1 — Information Needed — New App Submission**, requesting a physical-device recording on the latest OS plus six written descriptions. The message does not identify a particular app crash or functional bug. The user confirmed that no PhotoSweep recording has been taken yet; recording instructions were provided.
+
+- New storefront artwork: **six images per locale, Japanese and English (12 total)**, 1284×2778, all Apple `COMPLETE`; display order verified. The original home/Pro storefront pair was replaced in each locale. Separate IAP review screenshots were not changed.
+- Real screens come from capture run 35619661636 and unchanged 20010 app sources (8e25d20). Artwork takes layout cues from the supplied Cleanup reference while retaining PhotoSweep branding and implemented features. Source hashes and final upload IDs are saved locally under `artifacts/storefront-2026-09-22`.
+- Screens: home, duplicate comparison, monthly swipe, large videos, deletion candidates and deletion result. Compression comparison is not included. The fourteen-image/full capture requirement remains incomplete; the failed capture run is not called a test pass.
+- Six textual answers are drafted in `REVIEW_RESPONSE_2_1_DRAFT.md`. Add the verified recording reference as item 1, then place the complete answers in the review reply and App Review Notes before resubmitting the existing four-item submission.
+- **Not resubmitted.** Awaiting user recording, device model and OS. Release mode remains MANUAL. Existing accessibility, permission and physical haptic verification gaps remain recorded for public release.
+
+Previous checkpoints follow as history.
+
+---
+
 # Submitted — 2026-09-22 00:48 JST
 
 Apple API confirms WAITING_FOR_REVIEW for version 2.0.0 (build 20010) and submission aa876e0b-9556-4677-9fc2-fc761c5080a5. Submitted timestamp: 2026-09-21T15:48:15.741Z. Release type remains MANUAL.

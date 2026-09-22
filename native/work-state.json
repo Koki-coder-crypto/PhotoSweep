@@ -1,17 +1,18 @@
 {
   "objective": "Full SwiftUI PhotoSweep 2.0 port, same app identity, verified device delivery, then App Store submission; manual release after approval",
   "branch": "codex/swiftui-2",
-  "activeStep": "Apple review submission completed for 2.0.0 (20010) at 2026-09-22 00:48 JST. WAITING_FOR_REVIEW verified via API for both version and submission. Keep MANUAL release; remaining optional/full-release checks are not passed.",
+  "activeStep": "2026-09-22: Guideline 2.1 Information Needed rejection confirmed. JA/EN six new marketing screenshots each uploaded and COMPLETE, ordered, replacing initial home/Pro pair. Physical-device recording is not yet taken; user received recording instructions. Prepare review reply/notes and resubmit only after video verification.",
   "lastFullPass": {
     "commit": "8e25d20",
     "run": 35609343455,
     "scope": "29 unit + 3 UI tests passed; signed 20010 upload succeeded. Apple VALID / IN_BETA_TESTING; user confirmed purchase/restart/restore, records, deletion and compressed video quality/audio/orientation."
   },
   "currentFailure": {
-    "build": 20004,
-    "detail": "User reports slow home-to-swipe transition and crash with fewer than 1000 assets; feedback AB2mJnQlrAPe_IINV2fbit8 exists, detailed crash log unavailable (404)."
+    "build": 20010,
+    "guideline": "2.1 Information Needed - New App Submission",
+    "detail": "Apple requested physical-device recording plus purpose/audience, setup, services, regional consistency, content/regulatory rights and IAP details. No specific crash/bug was identified in this message."
   },
-  "pendingVerification": "Apple review pending. Manual public release still needs final user review. Full-release physical haptics/VoiceOver/limited-permission checks remain incomplete. Capture-only run 35619661636 failed separately; no claim all extended tests pass.",
+  "pendingVerification": "Physical-device video on latest OS, starting at app launch and demonstrating main and paid flows, is REQUIRED by Apple. Six written responses drafted locally. No resubmission yet. Manual public release remains separate; outstanding accessibility/permission/haptic checks remain unpassed.",
   "apple": {
     "appID": "6813565278",
     "bundleID": "com.kokicoder.photosweep",
@@ -37,16 +38,40 @@
     "reviewContact": "User-confirmed contact saved and read back through Apple API on 2026-09-21; private phone is not stored in this repository.",
     "reviewDraft": {
       "id": "aa876e0b-9556-4677-9fc2-fc761c5080a5",
-      "state": "WAITING_FOR_REVIEW",
+      "state": "UNRESOLVED_ISSUES",
       "submittedDate": "2026-09-21T15:48:15.741Z",
       "items": [
         "lifetime 6813716201",
         "monthly 6813714786",
         "subscription group 22396441"
       ],
-      "appVersionIncluded": true
+      "appVersionIncluded": true,
+      "resubmitted": false
     },
-    "initialScreenshots": "JA/EN two real images each; all COMPLETE. Home and Pro. Fourteen-image expansion deferred on repeated user request to prioritize submission."
+    "initialScreenshots": "JA/EN two real images each; all COMPLETE. Home and Pro. Fourteen-image expansion deferred on repeated user request to prioritize submission.",
+    "versionState": "REJECTED",
+    "storefrontScreenshots": {
+      "date": "2026-09-22",
+      "countPerLocale": 6,
+      "locales": [
+        "ja",
+        "en-US"
+      ],
+      "dimensions": "1284x2778",
+      "state": "All 12 COMPLETE; ordering verified via API; initial 4 listing assets replaced",
+      "localArtifacts": "artifacts/storefront-2026-09-22",
+      "captureRun": "35619661636",
+      "appSourceRevision": "8e25d20",
+      "screens": [
+        "organize",
+        "comparison",
+        "monthly swipe",
+        "large videos",
+        "candidates",
+        "deletion result"
+      ],
+      "compressionComparison": "Not captured; not represented as complete. Decide additional artwork after device recording arrives."
+    }
   },
   "signing": {
     "environment": "apple-distribution",
@@ -59,7 +84,7 @@
     "appStoreProfile": "S9ZHSZA67D, IOS_APP_STORE, installed in IOS_PROFILE_BASE64; matches existing certificate 553368FCYU; no existing certificate changed"
   },
   "userInputPending": [
-    "Physical haptic feel and VoiceOver use are not verified by the agent; remaining automated accessibility/permission evidence is incomplete."
+    "User to record and provide PhotoSweep physical-device video with device model and current OS version; no recording has been taken yet."
   ],
   "modelPreference": "User explicitly requested gpt-5.6-terra for continued implementation",
   "preserve": [
@@ -107,5 +132,9 @@
     "integrationTests": "Three StoreKit tests PASS in 35607158206; photo diagnostic failed separately",
     "devicePurchaseRestore": "PASS: explicit user confirmation on TestFlight 20010",
     "deliveryResult": "20010 VALID / IN_BETA_TESTING; selected on store draft"
+  },
+  "resolvedHistoricalFailure": {
+    "build": 20004,
+    "detail": "User reports slow home-to-swipe transition and crash with fewer than 1000 assets; feedback AB2mJnQlrAPe_IINV2fbit8 exists, detailed crash log unavailable (404)."
   }
 }
