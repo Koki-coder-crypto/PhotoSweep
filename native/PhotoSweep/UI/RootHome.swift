@@ -63,10 +63,13 @@ struct QuotaLabel: View {
     }
 }
 struct PermissionPanel: View {
+    var showsAction = true
     @EnvironmentObject var app: AppModel
     var body: some View { Panel {
         Label(L("permission.title"), systemImage: "photo.badge.checkmark").font(.title2.bold())
         Text(L("permission.detail"))
-        ActionButton(title: "permission.choose") { Task { if app.permission == .notDetermined { await app.requestPhotos() } else { await UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!) } } }
+        if showsAction {
+            ActionButton(title: app.permission == .notDetermined ? "continue" : "permission.settings") { Task { if app.permission == .notDetermined { await app.requestPhotos() } else { await UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!) } } }
+        }
     } }
 }

@@ -41,7 +41,6 @@
 "library.failed" = "写真・動画を読み込めませんでした。下に引いて再読み込みしてください。";
 "permission.title" = "写真へのアクセス";
 "permission.detail" = "すべての写真、または選んだ写真だけ。解析はこのiPhoneの中で行い、写真を開発者へ送りません。";
-"permission.choose" = "写真を選ぶ";
 "permission.settings" = "iPhoneの設定を開く";
 "permission.more" = "アクセスできる写真を追加";
 "permission.limited" = "選択した写真だけにアクセスできます。";

@@ -41,7 +41,6 @@
 "library.failed" = "Could not load the library. Pull down to try again.";
 "permission.title" = "Photo access";
 "permission.detail" = "Allow all photos or select specific items. Analysis runs on this iPhone; your photos are not sent to the developer.";
-"permission.choose" = "Choose photo access";
 "permission.settings" = "Open iPhone settings";
 "permission.more" = "Select more photos";
 "permission.limited" = "Only selected photos are accessible.";

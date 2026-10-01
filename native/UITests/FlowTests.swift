@@ -15,6 +15,35 @@ final class FlowTests: XCTestCase {
         for _ in 0..<4 where !button.isHittable { app.swipeUp() }
         button.tap()
     }
+    private func respondToPhotos(_ labels: [String], app: XCUIApplication) {
+        let system = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let permissionLabel = NSPredicate(format: "label IN %@", labels)
+        let systemAllow = system.buttons.matching(permissionLabel).firstMatch
+        let appAllow = app.buttons.matching(permissionLabel).firstMatch
+        // OS versions expose the permission sheet under either the app or SpringBoard.
+        // Use XCTest's element wait so the OS accessibility snapshot is refreshed.
+        // CI can present the privacy sheet late; diagnostics showed the correct
+        // button just after the previous 15-second custom predicate timed out.
+        let found = systemAllow.waitForExistence(timeout: 30) || appAllow.waitForExistence(timeout: 5)
+        if !found {
+            capture("photo-permission-failure")
+            print("Permission sheet system buttons: \(system.buttons.allElementsBoundByIndex.map(\.label))")
+            print("Permission sheet app buttons: \(app.buttons.allElementsBoundByIndex.map(\.label))")
+            print("Permission sheet app text: \(app.staticTexts.allElementsBoundByIndex.map(\.label))")
+        }
+        XCTAssertTrue(found, "System photo permission control must be present")
+        (systemAllow.exists ? systemAllow : appAllow).tap()
+        XCTAssertTrue(app.staticTexts["Here's where to start."].waitForExistence(timeout: 20))
+    }
+    private func continueToPhotoPrompt(app: XCUIApplication) {
+        XCTAssertTrue(app.staticTexts["Photo access"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.buttons["Skip"].exists)
+        XCTAssertFalse(app.buttons["Back"].exists)
+        XCTAssertFalse(app.buttons["Choose photo access"].exists)
+        XCTAssertEqual(app.buttons.matching(identifier: "Continue").count, 1)
+        capture("permission-single-neutral-continue")
+        tap("Continue", app: app)
+    }
     func testEnglishIntroductionAndTabs() {
         let app = XCUIApplication(); app.launchEnvironment["PHOTOSWEEP_UI_TEST"] = UUID().uuidString
         app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]; app.launch()
@@ -24,8 +53,12 @@ final class FlowTests: XCTestCase {
         tap("Skip", app: app)
         XCTAssertTrue(app.staticTexts["One photo. One decision."].waitForExistence(timeout: 10)); capture("en-03-swipe-practice")
         tap("Skip", app: app)
-        tap("Skip", app: app)
+        XCTAssertTrue(app.staticTexts["Photo access"].waitForExistence(timeout: 10))
+        app.terminate(); app.launch()
+        continueToPhotoPrompt(app: app)
+        respondToPhotos(["Don’t Allow", "Don't Allow", "Don't allow", "Don’t allow"], app: app)
         tap("Continue", app: app)
+        XCTAssertTrue(app.buttons["Open iPhone settings"].waitForExistence(timeout: 10))
         XCTAssertTrue(app.tabBars.buttons["Organize"].waitForExistence(timeout: 10)); capture("en-04-home")
         app.tabBars.buttons["Swipe"].tap(); capture("en-05-swipe")
         app.tabBars.buttons["To delete"].tap(); XCTAssertTrue(app.staticTexts["No deletion candidates"].waitForExistence(timeout: 10)); capture("en-06-candidates")
@@ -40,30 +73,23 @@ final class FlowTests: XCTestCase {
         tap("次へ", app: app)
         XCTAssertTrue(app.staticTexts["見比べて、選んでみよう。"].waitForExistence(timeout: 10)); capture("ja-02-compare-practice")
         tap("スキップ", app: app); capture("ja-03-swipe-practice")
+        tap("スキップ", app: app)
+        XCTAssertTrue(app.staticTexts["写真へのアクセス"].waitForExistence(timeout: 10))
+        XCTAssertFalse(app.buttons["スキップ"].exists)
+        XCTAssertFalse(app.buttons["戻る"].exists)
+        XCTAssertEqual(app.buttons.matching(identifier: "次へ").count, 1)
+        capture("ja-permission-single-neutral-continue")
     }
     func testPhotoLibrarySortingUndoAndLargeTextResume() {
         let app = XCUIApplication(); app.launchEnvironment["PHOTOSWEEP_UI_TEST"] = UUID().uuidString
         app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]; app.launch()
         tap("Continue", app: app); tap("Skip", app: app); tap("Skip", app: app)
-        tap("Skip", app: app); tap("Continue", app: app)
-        tap("Choose photo access", app: app)
-        let system = XCUIApplication(bundleIdentifier: "com.apple.springboard")
-        let permissionLabel = NSPredicate(format: "label IN %@", ["Allow Full Access", "Allow Access to All Photos", "Allow All Photos"])
-        let systemAllow = system.buttons.matching(permissionLabel).firstMatch
-        let appAllow = app.buttons.matching(permissionLabel).firstMatch
-        // OS versions expose the permission sheet under either the app or SpringBoard.
-        // Use XCTest's element wait so the OS accessibility snapshot is refreshed.
-        // CI can present the privacy sheet late; diagnostics showed the correct
-        // button just after the previous 15-second custom predicate timed out.
-        let found = systemAllow.waitForExistence(timeout: 30) || appAllow.waitForExistence(timeout: 5)
-        if !found {
-            capture("photo-permission-failure")
-            print("Permission sheet system buttons: \(system.buttons.allElementsBoundByIndex.map(\.label))")
-            print("Permission sheet app buttons: \(app.buttons.allElementsBoundByIndex.map(\.label))")
-            print("Permission sheet app text: \(app.staticTexts.allElementsBoundByIndex.map(\.label))")
-        }
-        XCTAssertTrue(found, "Full photo access permission control must be present")
-        (systemAllow.exists ? systemAllow : appAllow).tap()
+        continueToPhotoPrompt(app: app)
+        respondToPhotos(["Allow Full Access", "Allow Access to All Photos", "Allow All Photos"], app: app)
+        let advance = app.buttons.matching(NSPredicate(format: "label IN %@", ["Continue", "Continue while analysis runs"])).firstMatch
+        XCTAssertTrue(advance.waitForExistence(timeout: 20)); advance.tap()
+        let free = app.buttons["Continue for free"]
+        if free.waitForExistence(timeout: 5) { free.tap() }
         let photoCategory = app.buttons["home.category.all"]
         for _ in 0..<8 where !photoCategory.isHittable { app.swipeUp() }
         XCTAssertTrue(photoCategory.waitForExistence(timeout: 10))

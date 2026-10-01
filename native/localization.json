@@ -171,10 +171,6 @@
     "Allow all photos or select specific items. Analysis runs on this iPhone; your photos are not sent to the developer.",
     "すべての写真、または選んだ写真だけ。解析はこのiPhoneの中で行い、写真を開発者へ送りません。"
   ],
-  "permission.choose": [
-    "Choose photo access",
-    "写真を選ぶ"
-  ],
   "permission.settings": [
     "Open iPhone settings",
     "iPhoneの設定を開く"
