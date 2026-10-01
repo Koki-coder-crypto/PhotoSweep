@@ -13,6 +13,19 @@ on:
       - 'native/make_qa_media.swift'
       - 'tools/native_harness.py'
       - '.github/workflows/native-ios.yml'
+  pull_request:
+    branches: ['codex/swiftui-2']
+    paths:
+      - 'native/PhotoSweep/**'
+      - 'native/Tests/**'
+      - 'native/UITests/**'
+      - 'native/project.yml'
+      - 'native/localization.json'
+      - 'native/generate_localizations.py'
+      - 'native/verify_source.py'
+      - 'native/make_qa_media.swift'
+      - 'tools/native_harness.py'
+      - '.github/workflows/native-ios.yml'
   workflow_dispatch:
 permissions:
   contents: read
@@ -33,7 +46,7 @@ jobs:
           NATIVE_BASE_REF: ${{ github.event.before }}
         run: |
           python3 tools/native_harness.py self-test
-          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+          if [ "$GITHUB_EVENT_NAME" != "push" ]; then
             python3 tools/native_harness.py ci --force
           else
             python3 tools/native_harness.py ci --base "$NATIVE_BASE_REF"

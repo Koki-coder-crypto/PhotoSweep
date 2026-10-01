@@ -6,12 +6,13 @@ struct OnboardingView: View {
     @EnvironmentObject var billing: Billing
     @Environment(\.accessibilityReduceMotion) var reduceMotion
     @State private var appeared = false
+    @State private var requestingPhotos = false
     @State private var offset: CGFloat = 0
     private var intro: Onboarding { app.state.onboarding ?? Onboarding() }
     private let steps = ["welcome", "compare", "swipe", "permission", "discover", "pro"]
     var body: some View {
         ScrollView { VStack(spacing: 24) {
-            HStack { Image("BrandMark").resizable().frame(width: 36, height: 36); Text("PhotoSweep").font(.headline); Spacer(); if intro.step != "welcome" { Button(L("back")) { move(-1) } } }
+            HStack { Image("BrandMark").resizable().frame(width: 36, height: 36); Text("PhotoSweep").font(.headline); Spacer(); if intro.step != "welcome" && intro.step != "permission" { Button(L("back")) { move(-1) } } }
             ProgressView(value: Double((steps.firstIndex(of: intro.step) ?? 0) + 1), total: 6)
             Text(L("intro.\(intro.step).title")).font(.largeTitle.bold()).multilineTextAlignment(.center)
             Text(L("intro.\(intro.step).detail")).foregroundStyle(.secondary).multilineTextAlignment(.center)
@@ -26,15 +27,15 @@ struct OnboardingView: View {
                 SampleCard(index: 1).frame(width: 240, height: 290).offset(x: reduceMotion ? 0 : offset).rotationEffect(.degrees(reduceMotion ? 0 : Double(offset / 25))).gesture(DragGesture().onChanged { offset = $0.translation.width }.onEnded { value in if abs(value.translation.width) > 65 && abs(value.translation.width) > abs(value.translation.height) { practice(value.translation.width > 0) }; withAnimation { offset = 0 } })
                 HStack { Button { practice(false) } label: { Label(L("action.candidate"), systemImage: intro.candidate ? "checkmark.circle.fill" : "arrow.left").frame(minHeight: 44) }; Spacer(); Button { practice(true) } label: { Label(L("action.keep"), systemImage: intro.kept ? "checkmark.circle.fill" : "arrow.right").frame(minHeight: 44) } }.buttonStyle(.bordered)
                 Text(L("delete.safe")).font(.footnote)
-            } else if intro.step == "permission" { PermissionPanel() }
+            } else if intro.step == "permission" { PermissionPanel(showsAction: false) }
             else if intro.step == "discover" {
                 if app.loading || app.analyzing { ProgressView(L("analysis.running")) }
                 Panel { Label(String(format: L("count.photos"), app.photos.filter { $0.kind == .photo }.count), systemImage: "photo"); Label(String(format: L("count.videos"), app.photos.filter { $0.kind == .video }.count), systemImage: "video"); Text(L(app.analysisComplete ? "analysis.complete" : "analysis.running")) }
                 if !app.library.accessible { PermissionPanel() }
             } else if intro.step == "pro" { PaywallContent(onFinish: { Task { await app.finishOnboarding() } }) }
             if intro.step != "pro" {
-                ActionButton(title: intro.step == "discover" && app.analyzing ? "analysis.continue" : "continue") { advance() }
-                if ["compare", "swipe", "permission"].contains(intro.step) { Button(L("action.skip")) { advance() }.frame(minHeight: 44) }
+                ActionButton(title: intro.step == "discover" && app.analyzing ? "analysis.continue" : "continue") { advance() }.disabled(requestingPhotos)
+                if ["compare", "swipe"].contains(intro.step) { Button(L("action.skip")) { advance() }.frame(minHeight: 44) }
             }
         }.padding(24) }
         .background(Color(uiColor: .systemGroupedBackground))
@@ -47,6 +48,21 @@ struct OnboardingView: View {
         Task { _ = await app.mutate { s in var n = s; var i = n.onboarding ?? Onboarding(); i.step = steps[index]; n.onboarding = i; return n } }
     }
     private func advance() {
+        guard !requestingPhotos else { return }
+        if intro.step == "permission" {
+            requestingPhotos = true
+            Task {
+                // The single neutral pre-permission action opens PhotoKit directly.
+                // A denial is a valid choice and must not block onboarding.
+                if app.library.permission == .notDetermined { await app.requestPhotos() }
+                _ = await app.mutate { s in
+                    var n = s; var i = n.onboarding ?? Onboarding()
+                    i.step = "discover"; n.onboarding = i; return n
+                }
+                requestingPhotos = false
+            }
+            return
+        }
         if intro.step == "discover" && (billing.allowsPro || app.photos.isEmpty || !app.library.accessible) { Task { await app.finishOnboarding() }; return }
         if intro.step == "swipe" && app.library.accessible { move(2) } else { move(1) }
     }
