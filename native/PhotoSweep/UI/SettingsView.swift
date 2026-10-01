@@ -20,9 +20,8 @@ struct SettingsView: View {
         }
         Section(L("settings.notifications")) { Toggle(L("settings.weekly"), isOn: binding(\.weekly)); Toggle(L("settings.trialReminder"), isOn: binding(\.trialReminder)) }
         Section(L("permission.title")) {
-            Text(L(app.permission == .limited ? "permission.limited" : app.library.accessible ? "permission.full" : "permission.denied"))
-            Button(L("permission.settings")) { UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!) }
-            if app.permission == .limited { LimitedLibraryButton().frame(minHeight: 44) }
+            Text(L(PhotoAccessPolicy(status: app.permission).messageKey))
+            PhotoPermissionActions()
         }
         Section {
             NavigationLink(L("help.title")) { HelpView() }
@@ -33,7 +32,8 @@ struct SettingsView: View {
         #if DEBUG
         Section { NavigationLink("Development catalog") { CatalogView() } }
         #endif
-    }.disabled(app.busy).navigationTitle(L("settings.title")) }
+    }.disabled(app.busy).navigationTitle(L("settings.title"))
+        .onAppear { app.refreshPhotoAuthorization() } }
     private func binding(_ path: WritableKeyPath<Settings, Bool>) -> Binding<Bool> { Binding(get: { app.state.settings[keyPath: path] }, set: { value in Task { await app.settings { $0[keyPath: path] = value } } }) }
 }
 struct PlanView: View {
@@ -82,16 +82,31 @@ struct HelpDetailView: View {
     }.padding(24) }.navigationBarTitleDisplayMode(.inline) }
 }
 struct LimitedLibraryButton: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIViewController { let controller = LimitedLibraryController(); return controller }
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+    var onSelection: () -> Void
+    func makeUIViewController(context: Context) -> LimitedLibraryController {
+        let controller = LimitedLibraryController(); controller.onSelection = onSelection; return controller
+    }
+    func updateUIViewController(_ uiViewController: LimitedLibraryController, context: Context) { uiViewController.onSelection = onSelection }
 }
 final class LimitedLibraryController: UIViewController {
+    var onSelection: (() -> Void)?
     override func viewDidLoad() {
         super.viewDidLoad(); let button = UIButton(type: .system); button.setTitle(L("permission.more"), for: .normal)
+        button.accessibilityIdentifier = "permission.selectPhotos"
+        button.titleLabel?.font = .preferredFont(forTextStyle: .headline)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        button.titleLabel?.numberOfLines = 0
         button.addTarget(self, action: #selector(choose), for: .touchUpInside); button.translatesAutoresizingMaskIntoConstraints = false; view.addSubview(button)
         NSLayoutConstraint.activate([button.leadingAnchor.constraint(equalTo: view.leadingAnchor), button.trailingAnchor.constraint(equalTo: view.trailingAnchor), button.topAnchor.constraint(equalTo: view.topAnchor), button.bottomAnchor.constraint(equalTo: view.bottomAnchor), button.heightAnchor.constraint(greaterThanOrEqualToConstant: 44)])
     }
-    @objc func choose() { PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self) }
+    @objc func choose() {
+        guard presentedViewController == nil else { return }
+        // Read the current OS status rather than trusting an earlier screen render.
+        guard PHPhotoLibrary.authorizationStatus(for: .readWrite) == .limited else { onSelection?(); return }
+        PHPhotoLibrary.shared().presentLimitedLibraryPicker(from: self) { [weak self] _ in
+            DispatchQueue.main.async { self?.onSelection?() }
+        }
+    }
 }
 #if DEBUG
 struct CatalogView: View {

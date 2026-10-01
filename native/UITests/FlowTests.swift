@@ -68,6 +68,14 @@ final class FlowTests: XCTestCase {
         app.terminate(); app.launch()
         XCTAssertTrue(app.tabBars.buttons["Organize"].waitForExistence(timeout: 10))
         XCTAssertFalse(app.staticTexts["Your photos. A little lighter."].exists)
+        tap("Settings", app: app)
+        let explanation = app.staticTexts["Photo access is turned off. iOS does not show the first permission request again; you can change access in iPhone settings."]
+        for _ in 0..<5 where !explanation.isHittable { app.swipeUp() }
+        XCTAssertTrue(explanation.exists)
+        XCTAssertTrue(app.buttons["permission.settings"].exists)
+        XCTAssertFalse(app.buttons["permission.request"].exists)
+        XCTAssertFalse(app.buttons["permission.selectPhotos"].exists)
+        capture("en-denied-photo-settings")
     }
     func testJapaneseIntroduction() {
         let app = XCUIApplication(); app.launchEnvironment["PHOTOSWEEP_UI_TEST"] = UUID().uuidString

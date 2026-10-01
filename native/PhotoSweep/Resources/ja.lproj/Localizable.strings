@@ -276,3 +276,6 @@
 "pro.sevenDayExplore" = "7日間無料体験を見る";
 "pro.noAutomaticPurchase" = "次の画面でプランを確認できます。Appleの確認画面で確定するまで、契約は始まりません。";
 "billing.startSevenDayTrial" = "7日間無料で試す";
+"permission.notDetermined" = "「次へ」でiOSの許可画面を開き、アクセスできる写真を選びます。解析はこのiPhoneの中で行います。";
+"permission.deniedDetail" = "写真へのアクセスがオフになっています。iOSの最初の許可画面は再表示されないため、iPhoneの設定から変更できます。";
+"permission.restricted" = "写真へのアクセスが保護者の制限や端末の管理設定で制限されています。PhotoSweepからこの制限は変更できません。";

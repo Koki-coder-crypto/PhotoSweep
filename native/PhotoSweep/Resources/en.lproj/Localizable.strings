@@ -276,3 +276,6 @@
 "pro.sevenDayExplore" = "See the 7-day free trial";
 "pro.noAutomaticPurchase" = "View the plans first. Nothing starts until you confirm with Apple.";
 "billing.startSevenDayTrial" = "Start 7-day free trial";
+"permission.notDetermined" = "Continue to choose which photos PhotoSweep can access in the iOS permission screen. Analysis stays on this iPhone.";
+"permission.deniedDetail" = "Photo access is turned off. iOS does not show the first permission request again; you can change access in iPhone settings.";
+"permission.restricted" = "Photo access is restricted by parental controls or device management. PhotoSweep cannot change this restriction.";

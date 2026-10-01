@@ -1118,5 +1118,17 @@
   "billing.startSevenDayTrial": [
     "Start 7-day free trial",
     "7日間無料で試す"
+  ],
+  "permission.notDetermined": [
+    "Continue to choose which photos PhotoSweep can access in the iOS permission screen. Analysis stays on this iPhone.",
+    "「次へ」でiOSの許可画面を開き、アクセスできる写真を選びます。解析はこのiPhoneの中で行います。"
+  ],
+  "permission.deniedDetail": [
+    "Photo access is turned off. iOS does not show the first permission request again; you can change access in iPhone settings.",
+    "写真へのアクセスがオフになっています。iOSの最初の許可画面は再表示されないため、iPhoneの設定から変更できます。"
+  ],
+  "permission.restricted": [
+    "Photo access is restricted by parental controls or device management. PhotoSweep cannot change this restriction.",
+    "写真へのアクセスが保護者の制限や端末の管理設定で制限されています。PhotoSweepからこの制限は変更できません。"
   ]
 }
