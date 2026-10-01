@@ -40,9 +40,12 @@ final class FlowTests: XCTestCase {
         XCTAssertFalse(app.buttons["Skip"].exists)
         XCTAssertFalse(app.buttons["Back"].exists)
         XCTAssertFalse(app.buttons["Choose photo access"].exists)
-        XCTAssertEqual(app.buttons.matching(identifier: "Continue").count, 1)
+        // XCTest also returns controls in the covered home view. Count only
+        // actionable controls on the visible permission screen.
+        let visible = app.buttons.matching(identifier: "Continue").allElementsBoundByIndex.filter { $0.isHittable }
+        XCTAssertEqual(visible.count, 1)
         capture("permission-single-neutral-continue")
-        tap("Continue", app: app)
+        visible.first?.tap()
     }
     func testEnglishIntroductionAndTabs() {
         let app = XCUIApplication(); app.launchEnvironment["PHOTOSWEEP_UI_TEST"] = UUID().uuidString
@@ -77,7 +80,7 @@ final class FlowTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["写真へのアクセス"].waitForExistence(timeout: 10))
         XCTAssertFalse(app.buttons["スキップ"].exists)
         XCTAssertFalse(app.buttons["戻る"].exists)
-        XCTAssertEqual(app.buttons.matching(identifier: "次へ").count, 1)
+        XCTAssertEqual(app.buttons.matching(identifier: "次へ").allElementsBoundByIndex.filter { $0.isHittable }.count, 1)
         capture("ja-permission-single-neutral-continue")
     }
     func testPhotoLibrarySortingUndoAndLargeTextResume() {
