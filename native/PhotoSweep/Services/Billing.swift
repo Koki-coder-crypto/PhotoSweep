@@ -1,17 +1,19 @@
 import StoreKit
 import UIKit
+import OSLog
 
 protocol BillingAdapter {
     func load() async
     func refresh() async
-    func purchase(_ product: Product) async
+    func purchase(_ product: Product, displayedOffer: BillingOffer) async
     func restore() async
 }
 @MainActor final class Billing: ObservableObject, BillingAdapter {
     static let prefix = BillingPolicy.prefix
     static let saleIDs = BillingPolicy.saleIDs
     static let supportedIDs = BillingPolicy.supportedIDs
-    @Published var products: [Product] = []
+    @Published private(set) var products: [Product] = []
+    @Published private(set) var loadingProducts = false
     @Published var hasPro = false
     @Published var pending = false
     @Published var pendingChecked = false
@@ -37,9 +39,17 @@ protocol BillingAdapter {
     private var refreshTask: Task<Void, Never>?
     private var pendingRecord: PendingPurchase?
     private var updates: Task<Void, Never>?
-    init() {
+    private var storefrontUpdates: Task<Void, Never>?
+    private var storefrontReload: Task<Void, Never>?
+    private var catalog = BillingCatalog<Product>()
+    private let productLoader: @MainActor () async throws -> [BillingCatalog<Product>.Entry]
+    private static let logger = Logger(subsystem: "com.kokicoder.photosweep", category: "BillingCatalog")
+    init(observeUpdates: Bool = true,
+         productLoader: @escaping @MainActor () async throws -> [BillingCatalog<Product>.Entry] = StoreKitBillingSource.catalog) {
+        self.productLoader = productLoader
         if let data = try? Data(contentsOf: pendingFile) { pendingRecord = try? JSONDecoder().decode(PendingPurchase.self, from: data) }
         pending = FileManager.default.fileExists(atPath: pendingFile.path)
+        guard observeUpdates else { return }
         updates = Task { [weak self] in
             for await result in Transaction.updates {
                 guard let self, case .verified(let transaction) = result, Self.supportedIDs.contains(transaction.productID) else { continue }
@@ -47,18 +57,52 @@ protocol BillingAdapter {
                 if self.pendingRecord?.productID == transaction.productID { self.clearPending() }
             }
         }
+        storefrontUpdates = Task { [weak self] in
+            for await _ in Storefront.updates {
+                guard let self else { return }
+                self.storefrontReload?.cancel()
+                _ = self.catalog.beginRefresh()
+                self.publishCatalog()
+                self.storefrontReload = Task { [weak self] in _ = await self?.reloadProducts() }
+            }
+        }
     }
-    deinit { updates?.cancel() }
+    deinit { updates?.cancel(); storefrontUpdates?.cancel(); storefrontReload?.cancel() }
     func load() async {
-        do {
-            products = try await Product.products(for: Self.saleIDs).sorted { Self.saleIDs.firstIndex(of: $0.id)! < Self.saleIDs.firstIndex(of: $1.id)! }
-            await refreshTrialEligibility()
-            message = products.isEmpty ? L("billing.unavailable") : nil
-        } catch { products = []; message = L("billing.unavailable") }
+        _ = await reloadProducts()
         await refresh()
     }
-    func refreshTrialEligibility() async {
-        for product in products { trialEligible[product.id] = await product.subscription?.isEligibleForIntroOffer ?? false }
+    // Always refresh the complete offer atomically; never mix eligibility from one request
+    // with products from another. No AppStore.sync or account prompts for price refreshes.
+    func refreshTrialEligibility() async { _ = await reloadProducts() }
+    func offer(for product: Product) -> BillingOffer? {
+        catalog.entries.first { $0.offer.productID == product.id }?.offer
+    }
+    @discardableResult func reloadProducts() async -> Bool {
+        let request = catalog.beginRefresh()
+        publishCatalog()
+        do {
+            let entries = try await BillingRequest<[BillingCatalog<Product>.Entry]>().run(operation: productLoader)
+            try Task.checkCancellation()
+            guard catalog.complete(entries, request: request) else { return false }
+            publishCatalog()
+            message = entries.isEmpty ? L("billing.unavailable") : nil
+            for entry in entries {
+                // Only public catalog identifiers; no account, receipt, transaction or error payloads.
+                Self.logger.debug("storefront=\(entry.offer.storefrontID ?? "unknown", privacy: .public) currency=\(entry.offer.currencyCode, privacy: .public) product=\(entry.offer.productID, privacy: .public)")
+            }
+            return !entries.isEmpty
+        } catch {
+            guard catalog.fail(request: request) else { return false }
+            publishCatalog()
+            message = L("billing.unavailable")
+            return false
+        }
+    }
+    private func publishCatalog() {
+        products = catalog.entries.map(\.item)
+        trialEligible = Dictionary(uniqueKeysWithValues: catalog.entries.map { ($0.offer.productID, $0.trialEligible) })
+        loadingProducts = catalog.isRefreshing
     }
     func refresh() async { await refresh(force: false) }
     private func refresh(force: Bool) async {
@@ -91,14 +135,34 @@ protocol BillingAdapter {
         guard pendingChecked, !busy else { return }
         clearPending(); message = L("billing.pendingRetryNotice")
     }
-    func purchase(_ product: Product) async {
+    func purchase(_ product: Product, displayedOffer: BillingOffer) async {
         guard !busy, !pending else { return }
         guard AppStore.canMakePayments else { message = L("billing.restricted"); return }
         busy = true; defer { busy = false }
-        await refresh()
+        do { try await BillingRequest<Void>().run { await self.refresh() } }
+        catch { message = L("billing.unavailable"); return }
         guard !allowsPro else { message = L("billing.active"); return }
+        guard Self.saleIDs.contains(product.id), product.id == displayedOffer.productID else { return }
+        // Refresh the displayed catalog before each attempted purchase, then use that newly
+        // fetched Product. Any changed price, storefront, period or eligible offer requires a new tap.
+        guard await reloadProducts() else { return }
+        guard !Task.isCancelled else { return }
+        guard let current = try? await BillingRequest<Storefront?>().run(operation: { await Storefront.current }) else {
+            message = L("billing.unavailable"); return
+        }
+        guard catalog.entries.first?.offer.storefrontID == current.id else {
+            // The storefront moved after the fetch. Remove old prices immediately, then
+            // show the new catalog if available; this tap still must not purchase anything.
+            if await reloadProducts() { message = L("billing.offerChanged") }
+            return
+        }
+        guard let freshProduct = catalog.item(matching: displayedOffer, storefrontID: current.id) else {
+            message = L("billing.offerChanged"); return
+        }
+        guard !allowsPro else { message = L("billing.active"); return }
+        guard !Task.isCancelled else { return }
         do {
-            switch try await product.purchase() {
+            switch try await freshProduct.purchase() {
             case .success(let result):
                 guard case .verified(let transaction) = result, Self.supportedIDs.contains(transaction.productID) else { message = L("billing.unverified"); return }
                 await refresh(force: true); await transaction.finish()
@@ -139,6 +203,31 @@ protocol BillingAdapter {
 
 // StoreKit is the source of truth; the policy itself is independently testable.
 @MainActor enum StoreKitBillingSource {
+    enum CatalogError: Error { case storefrontChanged, unavailable }
+    static func catalog() async throws -> [BillingCatalog<Product>.Entry] {
+        guard let storefront = await Storefront.current else { throw CatalogError.unavailable }
+        let products = try await Product.products(for: Billing.saleIDs)
+        var entries: [BillingCatalog<Product>.Entry] = []
+        for id in Billing.saleIDs {
+            guard let product = products.first(where: { $0.id == id }) else { continue }
+            let eligible = await product.subscription?.isEligibleForIntroOffer ?? false
+            let intro = eligible ? product.subscription?.introductoryOffer : nil
+            let offer = BillingOffer(productID: product.id, storefrontID: storefront.id,
+                currencyCode: product.priceFormatStyle.currencyCode, price: product.price, displayPrice: product.displayPrice,
+                subscriptionPeriod: product.subscription.map { period($0.subscriptionPeriod) },
+                introductoryOffer: intro.map {
+                    BillingOffer.IntroductoryOffer(price: $0.price, displayPrice: $0.displayPrice,
+                        paymentMode: String(describing: $0.paymentMode), period: period($0.period), periodCount: $0.periodCount)
+                })
+            entries.append(.init(item: product, offer: offer, trialEligible: eligible))
+        }
+        guard await Storefront.current?.id == storefront.id else { throw CatalogError.storefrontChanged }
+        try Task.checkCancellation()
+        return entries
+    }
+    private static func period(_ period: Product.SubscriptionPeriod) -> String {
+        "\(period.value):\(String(describing: period.unit))"
+    }
     static func entitlement() async -> BillingEntitlement {
         var records: [UInt64: BillingEvidence] = [:]
         for await result in Transaction.currentEntitlements {

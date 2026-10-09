@@ -1130,5 +1130,13 @@
   "permission.restricted": [
     "Photo access is restricted by parental controls or device management. PhotoSweep cannot change this restriction.",
     "写真へのアクセスが保護者の制限や端末の管理設定で制限されています。PhotoSweepからこの制限は変更できません。"
+  ],
+  "billing.loadingPrices": [
+    "Checking current App Store prices…",
+    "App Storeの最新価格を確認中…"
+  ],
+  "billing.offerChanged": [
+    "The price or offer has changed. Review the updated plan, then tap again to continue.",
+    "価格または特典が変更されました。更新されたプランを確認してから、もう一度ボタンを押してください。"
   ]
 }

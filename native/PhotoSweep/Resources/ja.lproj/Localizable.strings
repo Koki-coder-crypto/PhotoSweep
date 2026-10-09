@@ -279,3 +279,5 @@
 "permission.notDetermined" = "「次へ」でiOSの許可画面を開き、アクセスできる写真を選びます。解析はこのiPhoneの中で行います。";
 "permission.deniedDetail" = "写真へのアクセスがオフになっています。iOSの最初の許可画面は再表示されないため、iPhoneの設定から変更できます。";
 "permission.restricted" = "写真へのアクセスが保護者の制限や端末の管理設定で制限されています。PhotoSweepからこの制限は変更できません。";
+"billing.loadingPrices" = "App Storeの最新価格を確認中…";
+"billing.offerChanged" = "価格または特典が変更されました。更新されたプランを確認してから、もう一度ボタンを押してください。";

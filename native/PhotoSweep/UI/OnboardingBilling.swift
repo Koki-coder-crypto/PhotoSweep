@@ -85,7 +85,9 @@ struct PaywallView: View {
 struct PaywallContent: View {
     @EnvironmentObject var app: AppModel
     @EnvironmentObject var billing: Billing
+    @Environment(\.scenePhase) private var phase
     @State private var selected: String?
+    @State private var purchaseTask: Task<Void, Never>?
     var onFinish: () -> Void
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -107,21 +109,46 @@ struct PaywallContent: View {
                 }
             }
             else {
+                if billing.loadingProducts { ProgressView(L("billing.loadingPrices")) }
                 ForEach(billing.products, id: \.id) { product in
                     Button { selected = product.id; app.feedback() } label: {
                         HStack { Image(systemName: selected == product.id ? "checkmark.circle.fill" : "circle"); VStack(alignment: .leading, spacing: 6) { Text(L(product.id.hasSuffix("lifetime") ? "plan.lifetime" : "plan.monthly")).font(.headline); Text(product.displayPrice).font(.title2.bold()); Text(billing.disclosure(product)).font(.caption).multilineTextAlignment(.leading) }; Spacer() }.padding(16).background(Color.accentColor.opacity(selected == product.id ? 0.12 : 0.04), in: RoundedRectangle(cornerRadius: 16))
-                    }.buttonStyle(.plain).accessibilityAddTraits(selected == product.id ? .isSelected : [])
+                    }.buttonStyle(.plain).disabled(billing.busy || billing.loadingProducts).accessibilityAddTraits(selected == product.id ? .isSelected : [])
                 }
-                if let product = billing.products.first(where: { $0.id == selected }) {
+                if let product = billing.products.first(where: { $0.id == selected }), let displayedOffer = billing.offer(for: product) {
                     Text(billing.disclosure(product)).font(.footnote)
-                    ActionButton(title: billing.offersSevenDayTrial(product) ? "billing.startSevenDayTrial" : "billing.purchase") { Task { await billing.purchase(product); if billing.allowsPro { app.feedback(success: true); onFinish() } } }.disabled(billing.busy)
-                } else { Text(L("billing.unavailable")).font(.footnote); Button(L("retry")) { Task { await billing.load() } } }
+                    ActionButton(title: billing.offersSevenDayTrial(product) ? "billing.startSevenDayTrial" : "billing.purchase") {
+                        guard purchaseTask == nil else { return }
+                        purchaseTask = Task {
+                            defer { purchaseTask = nil }
+                            await billing.purchase(product, displayedOffer: displayedOffer)
+                            if !Task.isCancelled, billing.allowsPro { app.feedback(success: true); onFinish() }
+                        }
+                    }.disabled(billing.busy || billing.loadingProducts)
+                } else if !billing.loadingProducts {
+                    Text(L("billing.unavailable")).font(.footnote)
+                    Button(L("retry")) { Task { await billing.load() } }.disabled(billing.busy)
+                }
             }
             if let message = billing.message { Text(message).font(.footnote) }
             Button(L("billing.free"), action: onFinish).frame(maxWidth: .infinity, minHeight: 44)
             Button(L("billing.restore")) { Task { await billing.restore(); if billing.allowsPro { onFinish() } } }.disabled(billing.busy)
             Text(L("quota.policy")).font(.caption).foregroundStyle(.secondary)
             HStack { NavigationLink(L("legal.terms")) { HelpDetailView(kind: "terms") }; Spacer(); NavigationLink(L("legal.privacy")) { HelpDetailView(kind: "privacy") } }.font(.footnote)
-        }.task { if billing.products.isEmpty { await billing.load() } else { await billing.refreshTrialEligibility() }; selected = billing.sevenDayTrialProduct?.id ?? billing.products.first?.id }
+        }
+        .task(id: phase) {
+            guard phase == .active, !billing.busy else { return }
+            await billing.load()
+            updateSelection()
+        }
+        .onChange(of: billing.products.map(\.id)) { _ in updateSelection() }
+        .onDisappear { purchaseTask?.cancel(); purchaseTask = nil }
+    }
+    private func updateSelection() {
+        // Keep the chosen plan through refreshes, including the transient empty/loading state.
+        guard !billing.loadingProducts else { return }
+        if !billing.products.contains(where: { $0.id == selected }) {
+            selected = billing.sevenDayTrialProduct?.id ?? billing.products.first?.id
+        }
     }
 }
