@@ -28,7 +28,7 @@ import Photos
         let billing = Billing()
         await billing.load()
         let product = try XCTUnwrap(billing.products.first { $0.id.hasSuffix("lifetime") })
-        await billing.purchase(product)
+        await billing.purchase(product, displayedOffer: try XCTUnwrap(billing.offer(for: product)))
         XCTAssertTrue(billing.allowsPro)
         let relaunched = Billing()
         await relaunched.restore()
@@ -42,7 +42,7 @@ import Photos
         let session = try session(); session.askToBuyEnabled = true
         let billing = Billing(); await billing.load()
         let product = try XCTUnwrap(billing.products.first { $0.id.hasSuffix("monthly") })
-        await billing.purchase(product)
+        await billing.purchase(product, displayedOffer: try XCTUnwrap(billing.offer(for: product)))
         XCTAssertTrue(billing.pending); XCTAssertFalse(billing.allowsPro)
         let relaunched = Billing()
         XCTAssertTrue(relaunched.pending)
@@ -55,7 +55,7 @@ import Photos
         let session = try session(); session.askToBuyEnabled = true
         let billing = Billing(); await billing.load()
         let product = try XCTUnwrap(billing.products.first { $0.id.hasSuffix("monthly") })
-        await billing.purchase(product)
+        await billing.purchase(product, displayedOffer: try XCTUnwrap(billing.offer(for: product)))
         let transaction = try XCTUnwrap(session.allTransactions().first)
         try session.declineAskToBuyTransaction(identifier: transaction.identifier)
         await billing.recheckPending()

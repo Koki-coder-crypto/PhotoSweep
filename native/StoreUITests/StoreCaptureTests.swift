@@ -47,15 +47,14 @@ final class StoreCaptureTests: XCTestCase {
         app.launch()
         tap(text("Continue", "次へ"), app)
         tap(text("Skip", "スキップ"), app); tap(text("Skip", "スキップ"), app)
-        // Permission may already be granted by the preceding locale run.
-        if app.buttons[text("Skip", "スキップ")].exists { tap(text("Skip", "スキップ"), app) }
-        let advance = app.buttons.matching(NSPredicate(format: "label IN %@", [text("Continue", "次へ"), text("Continue while analysis runs", "解析を続けて先へ")])).firstMatch
-        XCTAssertTrue(advance.waitForExistence(timeout: 30)); advance.tap()
-        let free = app.buttons[text("Continue for free", "無料のまま続ける")]
-        if free.waitForExistence(timeout: 4) { free.tap() }
-        let access = app.buttons[text("Choose photo access", "写真を選ぶ")]
+        // Already-authorized users skip the permission step; first-run users
+        // must decide in the system prompt before advancing to discovery.
+        let nextScreen = app.staticTexts.matching(NSPredicate(format: "label IN %@", [text("Photo access", "写真へのアクセス"), text("Here's where to start.", "整理できるものが、見えてきた。")])).firstMatch
+        XCTAssertTrue(nextScreen.waitForExistence(timeout: 20))
+        let access = app.staticTexts[text("Photo access", "写真へのアクセス")].firstMatch
         if access.exists {
-            access.tap()
+            XCTAssertFalse(app.buttons[text("Skip", "スキップ")].exists)
+            tap(text("Continue", "次へ"), app)
             let names = ["Allow Full Access", "Allow Access to All Photos", "Allow All Photos", "すべての写真へのアクセスを許可", "フルアクセスを許可"]
             let predicate = NSPredicate(format: "label IN %@", names)
             let system = XCUIApplication(bundleIdentifier: "com.apple.springboard").buttons.matching(predicate).firstMatch
@@ -63,6 +62,11 @@ final class StoreCaptureTests: XCTestCase {
             XCTAssertTrue(system.waitForExistence(timeout: 30) || own.waitForExistence(timeout: 5))
             (system.exists ? system : own).tap()
         }
+        XCTAssertTrue(app.staticTexts[text("Here's where to start.", "整理できるものが、見えてきた。")].waitForExistence(timeout: 20))
+        let advance = app.buttons.matching(NSPredicate(format: "label IN %@", [text("Continue", "次へ"), text("Continue while analysis runs", "解析を続けて先へ")])).firstMatch
+        XCTAssertTrue(advance.waitForExistence(timeout: 30)); advance.tap()
+        let free = app.buttons[text("Continue for free", "無料のまま続ける")]
+        if free.waitForExistence(timeout: 4) { free.tap() }
         XCTAssertTrue(app.buttons["home.category.videos"].waitForExistence(timeout: 30))
         if app.buttons[text("OK", "わかった")].exists { app.buttons[text("OK", "わかった")].firstMatch.tap() }
         expectation(for: NSPredicate(format: "label CONTAINS '1'"), evaluatedWith: app.buttons["home.category.videos"])

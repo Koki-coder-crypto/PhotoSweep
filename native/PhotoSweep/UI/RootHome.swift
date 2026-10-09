@@ -31,7 +31,7 @@ struct HomeView: View {
                         ActionButton(title: "ok") { Task { _ = await app.mutate { s in var n = s; n.onboarding?.homeHintSeen = true; return n } } }
                     }
                 }
-                if !app.library.accessible { PermissionPanel() }
+                if !PhotoAccessPolicy(status: app.permission).accessible || app.permission == .limited { PermissionPanel() }
                 if app.loading { ProgressView(L("library.loading")) }
                 if let free = app.freeBytes, let total = app.totalBytes {
                     Panel { HStack { Label(L("storage.free"), systemImage: "internaldrive"); Spacer(); Text(bytesText(free)).fontWeight(.semibold) }; ProgressView(value: total - free, total: total); Text(String(format: L("storage.total"), bytesText(total))).font(.caption).foregroundStyle(.secondary) }
@@ -63,10 +63,32 @@ struct QuotaLabel: View {
     }
 }
 struct PermissionPanel: View {
+    var showsAction = true
     @EnvironmentObject var app: AppModel
     var body: some View { Panel {
         Label(L("permission.title"), systemImage: "photo.badge.checkmark").font(.title2.bold())
-        Text(L("permission.detail"))
-        ActionButton(title: "permission.choose") { Task { if app.permission == .notDetermined { await app.requestPhotos() } else { await UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!) } } }
+        Text(L(PhotoAccessPolicy(status: app.permission).messageKey))
+        if showsAction { PhotoPermissionActions() }
     } }
+}
+struct PhotoPermissionActions: View {
+    @EnvironmentObject var app: AppModel
+    private var policy: PhotoAccessPolicy { PhotoAccessPolicy(status: app.permission) }
+    var body: some View {
+        switch policy.action {
+        case .request:
+            ActionButton(title: "continue") { Task { await app.requestPhotos() } }
+                .disabled(app.requestingPhotoAuthorization)
+                .accessibilityIdentifier("permission.request")
+        case .selectPhotos:
+            LimitedLibraryButton(onSelection: { app.reload() }).frame(minHeight: 44)
+            Button(L("permission.settings")) { Task { await app.openPhotoSettings() } }
+                .accessibilityIdentifier("permission.settings")
+        case .settings:
+            Button(L("permission.settings")) { Task { await app.openPhotoSettings() } }
+                .accessibilityIdentifier("permission.settings")
+        case .unavailable:
+            EmptyView()
+        }
+    }
 }

@@ -6,12 +6,13 @@ struct OnboardingView: View {
     @EnvironmentObject var billing: Billing
     @Environment(\.accessibilityReduceMotion) var reduceMotion
     @State private var appeared = false
+    @State private var requestingPhotos = false
     @State private var offset: CGFloat = 0
     private var intro: Onboarding { app.state.onboarding ?? Onboarding() }
     private let steps = ["welcome", "compare", "swipe", "permission", "discover", "pro"]
     var body: some View {
         ScrollView { VStack(spacing: 24) {
-            HStack { Image("BrandMark").resizable().frame(width: 36, height: 36); Text("PhotoSweep").font(.headline); Spacer(); if intro.step != "welcome" { Button(L("back")) { move(-1) } } }
+            HStack { Image("BrandMark").resizable().frame(width: 36, height: 36); Text("PhotoSweep").font(.headline); Spacer(); if intro.step != "welcome" && intro.step != "permission" { Button(L("back")) { move(-1) } } }
             ProgressView(value: Double((steps.firstIndex(of: intro.step) ?? 0) + 1), total: 6)
             Text(L("intro.\(intro.step).title")).font(.largeTitle.bold()).multilineTextAlignment(.center)
             Text(L("intro.\(intro.step).detail")).foregroundStyle(.secondary).multilineTextAlignment(.center)
@@ -26,15 +27,15 @@ struct OnboardingView: View {
                 SampleCard(index: 1).frame(width: 240, height: 290).offset(x: reduceMotion ? 0 : offset).rotationEffect(.degrees(reduceMotion ? 0 : Double(offset / 25))).gesture(DragGesture().onChanged { offset = $0.translation.width }.onEnded { value in if abs(value.translation.width) > 65 && abs(value.translation.width) > abs(value.translation.height) { practice(value.translation.width > 0) }; withAnimation { offset = 0 } })
                 HStack { Button { practice(false) } label: { Label(L("action.candidate"), systemImage: intro.candidate ? "checkmark.circle.fill" : "arrow.left").frame(minHeight: 44) }; Spacer(); Button { practice(true) } label: { Label(L("action.keep"), systemImage: intro.kept ? "checkmark.circle.fill" : "arrow.right").frame(minHeight: 44) } }.buttonStyle(.bordered)
                 Text(L("delete.safe")).font(.footnote)
-            } else if intro.step == "permission" { PermissionPanel() }
+            } else if intro.step == "permission" { PermissionPanel(showsAction: false) }
             else if intro.step == "discover" {
                 if app.loading || app.analyzing { ProgressView(L("analysis.running")) }
                 Panel { Label(String(format: L("count.photos"), app.photos.filter { $0.kind == .photo }.count), systemImage: "photo"); Label(String(format: L("count.videos"), app.photos.filter { $0.kind == .video }.count), systemImage: "video"); Text(L(app.analysisComplete ? "analysis.complete" : "analysis.running")) }
                 if !app.library.accessible { PermissionPanel() }
             } else if intro.step == "pro" { PaywallContent(onFinish: { Task { await app.finishOnboarding() } }) }
             if intro.step != "pro" {
-                ActionButton(title: intro.step == "discover" && app.analyzing ? "analysis.continue" : "continue") { advance() }
-                if ["compare", "swipe", "permission"].contains(intro.step) { Button(L("action.skip")) { advance() }.frame(minHeight: 44) }
+                ActionButton(title: intro.step == "discover" && app.analyzing ? "analysis.continue" : "continue") { advance() }.disabled(requestingPhotos)
+                if ["compare", "swipe"].contains(intro.step) { Button(L("action.skip")) { advance() }.frame(minHeight: 44) }
             }
         }.padding(24) }
         .background(Color(uiColor: .systemGroupedBackground))
@@ -47,6 +48,21 @@ struct OnboardingView: View {
         Task { _ = await app.mutate { s in var n = s; var i = n.onboarding ?? Onboarding(); i.step = steps[index]; n.onboarding = i; return n } }
     }
     private func advance() {
+        guard !requestingPhotos else { return }
+        if intro.step == "permission" {
+            requestingPhotos = true
+            Task {
+                // The single neutral pre-permission action opens PhotoKit directly.
+                // A denial is a valid choice and must not block onboarding.
+                if app.library.permission == .notDetermined { await app.requestPhotos() }
+                _ = await app.mutate { s in
+                    var n = s; var i = n.onboarding ?? Onboarding()
+                    i.step = "discover"; n.onboarding = i; return n
+                }
+                requestingPhotos = false
+            }
+            return
+        }
         if intro.step == "discover" && (billing.allowsPro || app.photos.isEmpty || !app.library.accessible) { Task { await app.finishOnboarding() }; return }
         if intro.step == "swipe" && app.library.accessible { move(2) } else { move(1) }
     }
@@ -69,7 +85,9 @@ struct PaywallView: View {
 struct PaywallContent: View {
     @EnvironmentObject var app: AppModel
     @EnvironmentObject var billing: Billing
+    @Environment(\.scenePhase) private var phase
     @State private var selected: String?
+    @State private var purchaseTask: Task<Void, Never>?
     var onFinish: () -> Void
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -91,21 +109,46 @@ struct PaywallContent: View {
                 }
             }
             else {
+                if billing.loadingProducts { ProgressView(L("billing.loadingPrices")) }
                 ForEach(billing.products, id: \.id) { product in
                     Button { selected = product.id; app.feedback() } label: {
                         HStack { Image(systemName: selected == product.id ? "checkmark.circle.fill" : "circle"); VStack(alignment: .leading, spacing: 6) { Text(L(product.id.hasSuffix("lifetime") ? "plan.lifetime" : "plan.monthly")).font(.headline); Text(product.displayPrice).font(.title2.bold()); Text(billing.disclosure(product)).font(.caption).multilineTextAlignment(.leading) }; Spacer() }.padding(16).background(Color.accentColor.opacity(selected == product.id ? 0.12 : 0.04), in: RoundedRectangle(cornerRadius: 16))
-                    }.buttonStyle(.plain).accessibilityAddTraits(selected == product.id ? .isSelected : [])
+                    }.buttonStyle(.plain).disabled(billing.busy || billing.loadingProducts).accessibilityAddTraits(selected == product.id ? .isSelected : [])
                 }
-                if let product = billing.products.first(where: { $0.id == selected }) {
+                if let product = billing.products.first(where: { $0.id == selected }), let displayedOffer = billing.offer(for: product) {
                     Text(billing.disclosure(product)).font(.footnote)
-                    ActionButton(title: billing.offersSevenDayTrial(product) ? "billing.startSevenDayTrial" : "billing.purchase") { Task { await billing.purchase(product); if billing.allowsPro { app.feedback(success: true); onFinish() } } }.disabled(billing.busy)
-                } else { Text(L("billing.unavailable")).font(.footnote); Button(L("retry")) { Task { await billing.load() } } }
+                    ActionButton(title: billing.offersSevenDayTrial(product) ? "billing.startSevenDayTrial" : "billing.purchase") {
+                        guard purchaseTask == nil else { return }
+                        purchaseTask = Task {
+                            defer { purchaseTask = nil }
+                            await billing.purchase(product, displayedOffer: displayedOffer)
+                            if !Task.isCancelled, billing.allowsPro { app.feedback(success: true); onFinish() }
+                        }
+                    }.disabled(billing.busy || billing.loadingProducts)
+                } else if !billing.loadingProducts {
+                    Text(L("billing.unavailable")).font(.footnote)
+                    Button(L("retry")) { Task { await billing.load() } }.disabled(billing.busy)
+                }
             }
             if let message = billing.message { Text(message).font(.footnote) }
             Button(L("billing.free"), action: onFinish).frame(maxWidth: .infinity, minHeight: 44)
             Button(L("billing.restore")) { Task { await billing.restore(); if billing.allowsPro { onFinish() } } }.disabled(billing.busy)
             Text(L("quota.policy")).font(.caption).foregroundStyle(.secondary)
             HStack { NavigationLink(L("legal.terms")) { HelpDetailView(kind: "terms") }; Spacer(); NavigationLink(L("legal.privacy")) { HelpDetailView(kind: "privacy") } }.font(.footnote)
-        }.task { if billing.products.isEmpty { await billing.load() } else { await billing.refreshTrialEligibility() }; selected = billing.sevenDayTrialProduct?.id ?? billing.products.first?.id }
+        }
+        .task(id: phase) {
+            guard phase == .active, !billing.busy else { return }
+            await billing.load()
+            updateSelection()
+        }
+        .onChange(of: billing.products.map(\.id)) { _ in updateSelection() }
+        .onDisappear { purchaseTask?.cancel(); purchaseTask = nil }
+    }
+    private func updateSelection() {
+        // Keep the chosen plan through refreshes, including the transient empty/loading state.
+        guard !billing.loadingProducts else { return }
+        if !billing.products.contains(where: { $0.id == selected }) {
+            selected = billing.sevenDayTrialProduct?.id ?? billing.products.first?.id
+        }
     }
 }

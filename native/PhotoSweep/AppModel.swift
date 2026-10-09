@@ -19,6 +19,7 @@ import OSLog
     @Published var groups: [PhotoGroup] = [] { didSet { rebuildHomePreviews() } }
     private(set) var homePreviews: [Category: HomeMediaSummary] = [:]
     @Published var permission = PHAuthorizationStatus.notDetermined
+    @Published private(set) var requestingPhotoAuthorization = false
     @Published var freeBytes: Double?
     @Published var totalBytes: Double?
     @Published var tab = 0
@@ -78,9 +79,16 @@ import OSLog
     }
     func becameActive() {
         storage()
-        if library.permission != permission { loadTask?.cancel(); reload() }
+        let previous = permission
+        if refreshPhotoAuthorization() != previous { loadTask?.cancel(); reload() }
+    }
+    @discardableResult func refreshPhotoAuthorization() -> PHAuthorizationStatus {
+        permission = library.permission
+        library.updateObservation()
+        return permission
     }
     func reload() {
+        refreshPhotoAuthorization()
         // A change during enumeration gets one follow-up pass, not overlapping tasks.
         if loadTask != nil { reloadPending = true; return }
         generation = UUID(); let token = generation
@@ -132,7 +140,19 @@ import OSLog
         freeBytes = (values?[.systemFreeSize] as? NSNumber)?.doubleValue
         totalBytes = (values?[.systemSize] as? NSNumber)?.doubleValue
     }
-    func requestPhotos() async { permission = await library.requestPermission(); reload() }
+    func requestPhotos() async {
+        guard !requestingPhotoAuthorization else { return }
+        guard PhotoAccessPolicy(status: refreshPhotoAuthorization()).action == .request else { return }
+        requestingPhotoAuthorization = true
+        defer { requestingPhotoAuthorization = false }
+        permission = await library.requestPermission()
+        reload()
+    }
+    func openPhotoSettings() async {
+        guard PhotoAccessPolicy(status: refreshPhotoAuthorization()).allowsSettings,
+              let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        await UIApplication.shared.open(url)
+    }
     func matching(_ scope: Scope) -> [MediaItem] {
         let source = scope.month.flatMap { mediaIndex.byMonth[$0] } ?? (scope.month == nil ? photos : [])
         let list = source.filter { photo in
